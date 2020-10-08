@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-sm-7 col-md-7 col-lg-7 mx-auto mt-5">
+        <div class="card" *ngIf="user$ | async as user; else loading">
+            <div class="card-body">
+                <div class="text-center m-2">
+                    <a class="navbar-brand" routerLink="/" style="margin: 0px; padding: 0px;">
+                        <img src="../../../assets/logo5.PNG" id="logo" alt="nival">
+                    </a>
+                </div>
+                <h3 class="card-title text-center mt-5">
+                    Gracias Por Registrarte
+                </h3>
+                <div class="form-group mt-2">
+                    <p class="text-center">
+                        Te hemos enviado un correo a
+                        <strong>{{user?.email}}</strong>
+                        <br>
+                        Por favor revisa tu correo y haz click en verificar tu correo
+                    </p>
+                </div>
+                <div class="form-group text-center mt-3">
+                    <button class="btn btn-primary" (click)="onSendEmail()">Reenviar verificacion de correo</button>
+                </div>
+                
+                <!-- boton para salir  div class="form-group text-center mt-2">
+                    <button class="btn btn-primary" (click)="onSendEmail()">Reenviar verificacion de correo</button>
+                </div-->
+            </div>
+        </div>
+        <ng-template #loading>
+            Loading....
+        </ng-template>
+    </div>
+</div>

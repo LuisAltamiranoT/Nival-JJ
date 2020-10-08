@@ -1,0 +1,47 @@
+<div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="dimissModalLogin()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="text-center">
+    <img src="../../../assets/logo5.PNG" id="logo" alt="nival">
+    <div *ngIf="validate else login">
+    </div>
+</div>
+
+<div class="modal-body">
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <div class="form-group text-center">
+            <mat-form-field appearance="standard" class="input-modal">
+                <mat-label>Email</mat-label>
+                <input matInput [type]="'email'" spellcheck="false" formControlName="email">
+                <mat-icon matSuffix>email</mat-icon>
+            </mat-form-field>
+        </div>
+        <div class="form-group text-center">
+            <mat-form-field appearance="standard" class="input-modal">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" spellcheck="false" autocomplete="off">
+                <a mat-icon-button matSuffix (click)="hide = !hide" [attr.arial-label]="'Hide password'"
+                    [attr.arial-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </a>
+            </mat-form-field>
+        </div>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-info">Ingresar</button>
+        </div>
+    </form>
+    <div class="text-center">
+        <a class="text-info" (click)="openReset()">¿Olvidaste tú contraseña?</a>
+    </div>
+    <div class="text-center">
+        <a class="text-info" (click)=" openFormModalRegister()">Registrate</a>
+    </div>
+</div>
+
+<ng-template #login>
+    <div class="px-3 pt-2">
+        <mat-progress-bar class="input-modal" id="progreesbar" mode="indeterminate"></mat-progress-bar>
+    </div>
+</ng-template>

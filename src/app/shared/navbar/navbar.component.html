@@ -1,0 +1,68 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-white bg-white fixed-top" id="navbar"
+  *ngIf="user$ | async as user else login">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="../../../assets/logo6.PNG" alt="nival" id="logoNavbar">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+      aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto" id="nav-link-nival">
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-light text-left btn-nival" [routerLink]="['/admin']">
+            <i class="fas fa-house-user pr-1"></i>Inicio
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-light text-left btn-nival" [routerLink]="['/curso-group']">
+            <i class="fas fa-chalkboard-teacher pr-1"></i>Clases
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-light text-left btn-nival" [routerLink]="['/horario']">
+            <i class="fas fa-calendar-alt pr-1"></i>Horario
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-light text-left btn-nival" [routerLink]="['/perfil']">
+            <i class="fas fa-user-tie pr-1"></i>Perfil
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-outline-light text-left btn-nival" (click)="logOut()">
+            <i class="fas fa-sign-out-alt pr-1"></i>Salir
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<ng-template #login>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-white bg-white fixed-top" id="navbar">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <img src="../../../assets/logo5.PNG" alt="nival" id="logoNavbar">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto" id="nav-link-nival">
+          <li class="nav-item">
+            <a class="nav-link" (click)="openFormModalLogin()">Iniciar Sesion</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" (click)="openFormModalRegister()">Registrate</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</ng-template>

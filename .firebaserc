@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "easyacnival": {
+      "hosting": {
+        "easy-ac-nival": [
+          "easyacnival"
+        ]
+      }
+    }
+  }
+}

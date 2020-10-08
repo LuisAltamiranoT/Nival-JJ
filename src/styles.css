@@ -1,1 +1,218 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~ngx-toastr/toastr';
+
+a{
+    cursor: pointer;
+}
+
+.btn-nival{
+    font-weight: 500; 
+    color: #222;
+}
+
+#navbar a{
+    color: black;
+    border: 0px !important;
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+}
+
+#nav-link-nival a:hover{
+    color: #5D6D7E !important;
+    background-color:#F8F9F9;
+}
+
+#navbar{
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+#logoNavbar{
+    height: 40px;
+    padding: 0px;
+    margin: 0px;
+}
+
+/*iconos*/
+textarea, input {
+    padding:10px;
+      font-family: FontAwesome,"Helvetica Neue", Helvetica, Arial, sans-serif !important;
+      font-style: normal;
+      font-weight: normal;
+      text-decoration: inherit;
+  }
+  .form-control:focus {
+    border-color: #aaaaaa !important;
+    box-shadow: 0 0 0 0.2rem rgba(163, 163, 163, 0.25) !important;
+}
+
+.navbar-white .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+button:focus {
+    outline: none !important;
+}
+
+/*modal*/
+#logo{
+    height: 50px;
+    padding: 0px;
+    margin: 0px;
+}
+.modal-header {
+    padding: 0px !important;
+    border-bottom: 0px !important;
+}
+
+
+.close {
+    float: right !important;
+    margin-top: 0px !important;
+    margin-right: 0px !important;
+}
+
+.modal-holder{
+    animation-name: example;
+    animation-duration: 0.3s;
+}
+
+body.modal-open {
+    overflow: auto !important;
+    padding-right: 0 !important;
+}
+
+.modal-holder .modal-md{
+    max-width: 25rem;
+}
+.input-modal{
+    width: 100% !important;
+}
+#progreesbar{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 10px white inset;
+}
+  
+@keyframes example {
+    0%   {transform: scale(0.5)}
+    100% {transform: scale(1)}
+}
+@media screen and (min-width: 0px) and (max-width: 360px){
+    .modal-holder .modal-md{
+        max-width: 25rem;
+    }
+}
+@media screen and (min-width: 360px) and (max-width: 576px){
+    .modal-holder .modal-md{
+        max-width: 25rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+@media screen and (min-width: 576px) and (max-width: 768px){
+    .modal-holder .modal-md{
+        max-width: 25rem;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px){
+    .modal-holder .modal-md{
+        max-width: 25rem;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1200px){
+    .modal-holder .modal-md{
+        max-width: 25rem;
+    }
+}
+
+  /*callout*/
+.bd-callout {
+    padding: 1rem;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+    border: 1px solid #eee;
+    border-left-width: .25rem;
+    border-radius: .25rem;
+}
+.bd-callout-btn {
+    padding: 0rem;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+    border: 1px solid #eee;
+    border-left-width: .25rem;
+    border-radius: .25rem;
+}
+
+.bd-callout-image {
+    padding: .10rem;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+    border: 1px solid #eee;
+    border-left-width: .25rem;
+    border-radius: .25rem;
+}
+
+.bd-callout-info {
+    border-left-color: #5bc0de;
+}
+
+
+.bd-callout-default {
+    border-left-color: #333333;
+}
+
+
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+.mat-typography {
+    font: 400 16px/20px Roboto, "Helvetica Neue", sans-serif !important;
+}
+
+/*letras*/
+
+h2{
+    margin-bottom: .15rem  !important;
+}
+
+h3{
+    margin-bottom: .4rem  !important;
+}
+
+h4{
+    margin-bottom: .15rem  !important;
+}
+
+p{
+    font-size: .85rem !important;
+}
+
+#font-p{
+    margin: 0.5px;
+    padding: 0px !important;
+}
+
+
+#fontNival-p{
+    font: 200 16px/28px Roboto, "Helvetica Neue", sans-serif !important;
+}
+
+.fullNivalWidth {
+    width: 100%;
+}
+
+.fa-nival{
+    vertical-align: middle;
+}
+.hr-nival{
+    margin-top: 0.4rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
+}

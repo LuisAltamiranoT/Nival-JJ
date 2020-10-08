@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="dimissModalRegister()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+</div>
+<div class="text-center">
+    <img src="../../../assets/logo5.PNG" id="logo" alt="nival">
+</div>
+<div class="modal-body">
+    <form class="pl-2" [formGroup]="registerForm" (ngSubmit)="onRegister()">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="&#xf007;  Nombre" formControlName="nombre">
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="&#xf007;  Apellido"
+                formControlName="apellido">
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" spellcheck="false"
+                placeholder="&#xf0e0;  Correo Electrónico" formControlName="email">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="&#xf023;  Password"
+                formControlName="password">
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" placeholder="&#xf023;  Repetir Password"
+                formControlName="_password">
+        </div>
+        <div class="form-group text-center">
+            <button type="submit" class="btn btn-info">Enviar</button>
+        </div>
+    </form>
+    <div class="text-center">
+        <p class="text-center">¿Ya tienes una cuenta?<a class="text-info" (click)="openFormModalLogin()">Iniciar sesión</a></p>
+       
+    </div>
+</div>
