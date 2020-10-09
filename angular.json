@@ -132,5 +132,8 @@
       }
     }
   },
-  "defaultProject": "easy-ac-nival"
+  "defaultProject": "easy-ac-nival",
+  "cli": {
+    "analytics": "69c3b5be-a4f8-49c4-a14a-e5a77ecc093c"
+  }
 }
