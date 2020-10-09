@@ -53,6 +53,8 @@ import { EliminarDataComponent } from './admin/perfil/eliminar-data/eliminar-dat
 import { EditarMateriaComponent } from './admin/perfil/editar-materia/editar-materia.component';
 import { EditarAnioComponent } from './admin/perfil/editar-anio/editar-anio.component';
 import { FotoComponent } from './admin/perfil/foto/foto.component';
+import { AddCursoComponent } from './admin/add-curso/add-curso.component';
+import { VistaHorarioComponent } from './admin/add-curso/vista-horario/vista-horario.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +81,9 @@ import { FotoComponent } from './admin/perfil/foto/foto.component';
     EliminarDataComponent,
     EditarMateriaComponent,
     EditarAnioComponent,
-    FotoComponent
+    FotoComponent,
+    AddCursoComponent,
+    VistaHorarioComponent
   ],
   imports: [
     BrowserModule,

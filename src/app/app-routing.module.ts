@@ -12,6 +12,7 @@ import { CursoComponent } from './admin/curso/curso.component';
 import { GuardGuard } from './auth/guard.guard';
 import { CursoGroupComponent } from './admin/curso-group/curso-group.component';
 import { HorarioComponent } from './admin/horario/horario.component';
+import { AddCursoComponent } from './admin/add-curso/add-curso.component';
 
 
 const routes: Routes = [
@@ -44,7 +45,7 @@ const routes: Routes = [
   },
   {
     path:'curso',
-    component:CursoComponent,
+    component:AddCursoComponent,
     canActivate:[GuardGuard]
   },
   {

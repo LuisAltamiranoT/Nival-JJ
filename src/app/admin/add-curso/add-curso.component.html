@@ -1,0 +1,54 @@
+<div class="container  mt-5 container-nival">
+    <div class="row mt-5">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-6 mt-4 pt-1 pbn-1">
+            <h3 class="font-weight-normal">Nuevo Curso</h3>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col-6 mt-4 pt-1 pbn-1">
+            <a class="float-right btn-nival pt-1" (click)="openHorario()">
+                <i class="far fa-plus-square pr-1"></i>Horario
+            </a>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 col-12" style="margin: 0px !important; padding: 0px !important;">
+            <hr class="hr-nival">
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 mx-auto">
+            <div class="bd-callout bd-callout-default w-100">
+                <h2 id="dealing-with-specificity">
+                    <i class="far fa-image pb-1 fa-nival fa-xs"></i> Foto
+                    <a class="float-right" (click)="photoInput.click()">
+                        <i class="fas fa-cog text-info pb-1 fa-nival fa-xs"></i>
+                    </a>
+                </h2>
+                <img [src]="photoSelected || '../../../../assets/example.jpg'" fallimg class="img-fluid">
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 mx-auto">
+            <div class="bd-callout bd-callout-default w-100">
+                <h2 id="dealing-with-specificity">
+                    <i class="fas fa-list pr-1 pb-1 fa-nival fa-xs"></i>Información:
+                </h2>
+<!-- ***************************************** Formulario crear curso *************************-->
+                <form class=" p-1 mt-1" [formGroup]="cursoForm" (ngSubmit)="addCurso(cursoForm)">
+                    <input type="file" class="d-none" (change)="onPhotoSelected($event)" #photoInput formControlName="image">
+                    <div class="form-group">
+                        <mat-form-field class="fullNivalWidth">
+                            <mat-label>Materias</mat-label>
+                            <mat-select formControlName="materia">
+                                <mat-option *ngFor="let materia of materias" value="{{materia.id}}+//+{{materia.data.nombre}}">
+                                    {{materia.data.nombre}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    
+                   
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-sm btn-primary" [disabled]="!cursoForm.valid">Guardar</button>
+                    </div>
+                </form>
+ <!-- ****************** Fin de formulario crear curso *************************-->
+            </div>
+        </div>
+    </div>
+</div>
