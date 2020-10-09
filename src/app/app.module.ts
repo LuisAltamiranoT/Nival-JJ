@@ -52,6 +52,7 @@ import { OficinaComponent } from './admin/perfil/oficina/oficina.component';
 import { EliminarDataComponent } from './admin/perfil/eliminar-data/eliminar-data.component';
 import { EditarMateriaComponent } from './admin/perfil/editar-materia/editar-materia.component';
 import { EditarAnioComponent } from './admin/perfil/editar-anio/editar-anio.component';
+import { FotoComponent } from './admin/perfil/foto/foto.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { EditarAnioComponent } from './admin/perfil/editar-anio/editar-anio.comp
     OficinaComponent,
     EliminarDataComponent,
     EditarMateriaComponent,
-    EditarAnioComponent
+    EditarAnioComponent,
+    FotoComponent
   ],
   imports: [
     BrowserModule,
