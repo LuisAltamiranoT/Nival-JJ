@@ -14,6 +14,7 @@ import { OficinaComponent } from './oficina/oficina.component';
 import { EditarMateriaComponent } from './editar-materia/editar-materia.component';
 import { EliminarDataComponent } from './eliminar-data/eliminar-data.component';
 import { EditarAnioComponent } from './editar-anio/editar-anio.component';
+import { FotoComponent } from './foto/foto.component';
 
 import { MatDialog } from '@angular/material/dialog';
 
@@ -22,6 +23,7 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css']
 })
+
 export class PerfilComponent implements OnInit {
   image = "../../../assets/profe.jpg";
   perfil = "../../../assets/perfil.jpg";
@@ -63,16 +65,17 @@ export class PerfilComponent implements OnInit {
       this.oficina = data.oficina;
       this.AnioLectivoInicio = data.anioInicio;
       this.AnioLectivoFin = data.anioFin;
+      this.perfil = data.photoUrl;
       console.log(data);
     });
   }
 
   curso() {
     this.authService.getDataCurso().subscribe((data) => {
-      this.cursos=[];
-      data.forEach((dataCurso:any)=>{
+      this.cursos = [];
+      data.forEach((dataCurso: any) => {
         this.cursos.push({
-          id:dataCurso.payload.doc.id,
+          id: dataCurso.payload.doc.id,
           data: dataCurso.payload.doc.data()
         });
       })
@@ -120,18 +123,18 @@ export class PerfilComponent implements OnInit {
   }
 
   openEditMateriaModal(data: any, idData: any) {
-    let dataMateria={
-      nombre:data,
-      id:idData,
-      array:this.materias
+    let dataMateria = {
+      nombre: data,
+      id: idData,
+      array: this.materias
     }
     this.openMaterial1(EditarMateriaComponent, dataMateria);
   }
 
   openEliminarMateriaModal(data: any, idData: any) {
-    let dataMateria={
-      nombre:data,
-      id:idData
+    let dataMateria = {
+      nombre: data,
+      id: idData
     }
     this.openMaterial1(EliminarDataComponent, dataMateria);
   }
@@ -150,7 +153,7 @@ export class PerfilComponent implements OnInit {
       });
   }
 
-  openMaterial1(component: any, info:any) {
+  openMaterial1(component: any, info: any) {
     this.ventana.open(component,
       { width: ' 25rem', data: info }).afterClosed().subscribe(item => {
       });
@@ -158,11 +161,17 @@ export class PerfilComponent implements OnInit {
 
 
   openCurso() {
-    if(this.materias.length!=0){
+    if (this.materias.length != 0) {
       this.router.navigate(['curso']);
-    }else{
+    } else {
       this.authService.showInfo("Agregue una materia en su lista");
     }
+  }
+
+  openPhoto() {
+    this.ventana.open(FotoComponent,
+      { width: ' 25rem' }).afterClosed().subscribe(item => {
+      });
   }
 
 }
