@@ -17,6 +17,7 @@ export class UploadImageService extends ImageValidator {
   private filePath: any;
   private downloadURL: Observable<string>;
   private MEDIA_STORAGE_PATH = 'imageCurso';
+  private MEDIA_STORAGE_PATH_PERFIL = 'perfil';
 
   constructor(
     private afs: AngularFirestore,
@@ -27,26 +28,37 @@ export class UploadImageService extends ImageValidator {
   }
 
   public preAddAndUpdate(data: any, image: FileI) {
-    this.uploadImageService(data, image);
+    this.uploadImageService(data, image, this.MEDIA_STORAGE_PATH);
   }
 
-  private uploadImageService(data: any, image: FileI) {
-    this.filePath = this.generateFileName(image.name);
+  public preAddAndUpdatePerfil(image: FileI) {
+    let data = '';
+    this.uploadImageService(data, image, this.MEDIA_STORAGE_PATH_PERFIL);
+  }
+
+  private uploadImageService(data: any, image: FileI, filenameFs) {
+    this.filePath = this.generateFileName(image.name, filenameFs);
     const fileRef = this.storage.ref(this.filePath);
     const task = this.storage.upload(this.filePath, image);
     task.snapshotChanges().pipe(
       finalize(() => {
         fileRef.getDownloadURL().subscribe(urlImage => {
           this.downloadURL = urlImage;
-          //console.log('url', urlImage, data);
-          this.addCurso(data);
+          console.log('url', urlImage, data);
+          if (filenameFs === 'imageCurso') {
+            this.addCurso(data);
+          }
+          else {
+            this.addPhoto();
+          }
+
         });
       })
     ).subscribe();
   }
 
-  private generateFileName(name: string): string {
-    return `${this.MEDIA_STORAGE_PATH}/${new Date().getTime()}_${name}`;
+  private generateFileName(name: string, filenameFs: string): string {
+    return `${filenameFs}/${new Date().getTime()}_${name}`;
   }
 
   public addCurso(data: Curso) {
@@ -57,6 +69,9 @@ export class UploadImageService extends ImageValidator {
     this.authService.createCurso(data, '');
   }
 
+  public addPhoto() {
+    this.authService.updatePhoto(this.downloadURL);
+  }
 }
 
 

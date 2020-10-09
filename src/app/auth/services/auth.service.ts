@@ -138,7 +138,7 @@ export class AuthService extends RoleValidator {
     }
   }
 
- 
+
   public reauthenticate = (currentPassword) => {
     var user = firebase.auth().currentUser;
     var credential = firebase.auth.EmailAuthProvider.credential(
@@ -148,7 +148,7 @@ export class AuthService extends RoleValidator {
   }
 
 
-//password
+  //password
   public async updatePass(oldPass: string, newPass: string): Promise<Number> {
     //estado cero no se logro, estado 1 se ha logrado 
     const user = firebase.auth().currentUser;
@@ -165,7 +165,7 @@ export class AuthService extends RoleValidator {
     }
   }
 
-//descripcion
+  //descripcion
   public async updateDescripcion(valor: string) {
     try {
       const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.dataUser}`);
@@ -210,7 +210,22 @@ export class AuthService extends RoleValidator {
     }
   }
 
-//oficina
+  //imagen
+  public async updatePhoto(valor: any) {
+    try {
+      const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.dataUser}`);
+      const data: User = {
+        photoUrl: valor
+      };
+      const dataUpdate = await userRef.set(data, { merge: true });
+      return { dataUpdate };
+
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+  //oficina
   public async updateOficina(valor: string) {
     try {
       const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.dataUser}`);
@@ -224,11 +239,11 @@ export class AuthService extends RoleValidator {
       this.showError(error);
     }
   }
- 
-//anio
+
+  //anio
   public async updateAnioLectivo(valor: string, valor2: string) {
     try {
-      console.log(valor,valor2);
+      console.log(valor, valor2);
       const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.dataUser}`);
       const data: User = {
         anioInicio: valor,
@@ -301,12 +316,12 @@ export class AuthService extends RoleValidator {
     }
   }
 
-  public async createCurso(valor: any,valor2:any) {
+  public async createCurso(valor: any, valor2: any) {
     console.log(valor2, valor);
     try {
       const data: Curso = {
-        materia:valor,
-        image:valor2
+        materia: valor,
+        image: valor2
       }
       console.log(data);
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').add(data);
@@ -316,7 +331,7 @@ export class AuthService extends RoleValidator {
       console.log(error);
     }
   }
-  
+
 
   public async updateCurso(documentId: string, valor: any) {
     try {
@@ -347,13 +362,13 @@ export class AuthService extends RoleValidator {
   showUpdatedata() {
     this.showSuccess("Se ha actualizado su información");
   }
-  showWarning(mensaje: string){
-    this.toastr.warning(mensaje,'Warning',{
+  showWarning(mensaje: string) {
+    this.toastr.warning(mensaje, 'Warning', {
       timeOut: 4000,
     });
   }
-  showInfo(mensaje: string){
-    this.toastr.info(mensaje,'information',{
+  showInfo(mensaje: string) {
+    this.toastr.info(mensaje, 'information', {
       timeOut: 4000,
     });
   }
