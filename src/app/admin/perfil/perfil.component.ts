@@ -139,6 +139,17 @@ export class PerfilComponent implements OnInit {
     this.openMaterial1(EliminarDataComponent, dataMateria);
   }
 
+  openPhoto() {
+    if(this.perfil!="../../../assets/perfil.jpg"){
+      this.ventana.open(FotoComponent,
+        { width: ' 25rem', data: this.perfil }).afterClosed().subscribe(item => {
+        });
+    }else{
+      this.ventana.open(FotoComponent,
+        { width: ' 25rem', data: 'no-image' }).afterClosed().subscribe(item => {
+        });
+    }
+  }
 
   openDeleteModal() {
     console.log("hay que borar datos");
@@ -167,11 +178,4 @@ export class PerfilComponent implements OnInit {
       this.authService.showInfo("Agregue una materia en su lista");
     }
   }
-
-  openPhoto() {
-    this.ventana.open(FotoComponent,
-      { width: ' 25rem' }).afterClosed().subscribe(item => {
-      });
-  }
-
 }

@@ -1,9 +1,12 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../../auth/services/auth.service';
 import { UploadImageService } from 'src/app/auth/services/upload-image.service';
+
+//subscripcion a un observable
+import { Subscription } from "rxjs";
 
 interface HtmlInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
@@ -15,6 +18,9 @@ interface HtmlInputEvent extends Event {
   styleUrls: ['./foto.component.css']
 })
 export class FotoComponent implements OnInit {
+
+  
+  private stateImage: Subscription = null;
 
   placeholder = "Ingresa una nueva materia"
   validate = true;
@@ -38,9 +44,15 @@ export class FotoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //console.log("modal", this.infoUser);
     this.materia();
     this.photoSelected = '../../../assets/aqui.jpg';
+
+    this.stateImage = this.uploadImage.finalizoImage$.subscribe(()=>{
+      this.dimissModal();
+    })
+  }
+  ngOnDestroy(){
+    this.stateImage.unsubscribe();
   }
 
   onPhotoSelected(event: HtmlInputEvent): void {
@@ -104,8 +116,12 @@ export class FotoComponent implements OnInit {
   }
 
   addFoto() {
-    if (this.validImage) {
-      this.uploadImage.preAddAndUpdatePerfil(this.file);
+    this.validate=false;
+    if (this.validImage&&this.infoUser==='no-image') {
+      let data = this.uploadImage.preAddAndUpdatePerfil(this.file);
+    }else{
+      let data = this.uploadImage.preAddAndUpdatePerfil(this.file);
+      this.uploadImage.deleteImagePerfil(this.infoUser);
     }
   }
 
@@ -121,9 +137,9 @@ export class FotoComponent implements OnInit {
       })
     });
   }
-
-
   dimissModal() {
+    this.validate=true;
+    this.authService.showSuccess('La información se ha actualizado');
     this.dialogRef.close();
   }
 
