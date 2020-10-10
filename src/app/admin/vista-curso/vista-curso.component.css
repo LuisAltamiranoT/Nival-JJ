@@ -1,0 +1,15 @@
+table th td{
+    padding: .5rem;
+    text-align: center;
+    cursor: pointer !important;
+}
+
+tr { text-align: center; }
+
+table { width: 100%; 
+    font-size: 14px;
+}
+
+.mat-checkbox-disabled.mat-checkbox-checked .mat-checkbox-background, .mat-checkbox-disabled.mat-checkbox-indeterminate{
+    background-color: red !important;
+}

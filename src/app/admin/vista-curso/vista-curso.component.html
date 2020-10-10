@@ -1,0 +1,41 @@
+<div class="container mt-5 container-nival">
+    <div class="row mt-5">
+        <div class="col-sm-12 col-md-12 col-lg-12 mt-4 pt-1">
+            <h3 class="font-weight-normal">Asistencia</h3>
+            <hr class="hr-nival">
+        </div>
+        <div class="table-responsive">
+            <table class="table table-sm table-bordered">
+                <thead class="thead-light">
+                    <tr style="text-align: center;">
+                        <th scope="col" class="py-3" rowspan="2">N°</th>
+                        <th scope="col" class="py-3" rowspan="2">Código único</th>
+                        <th scope="col" class="py-3" rowspan="2">Estudiante</th>
+                        <th scope="col" colspan="3">{{nombreDay}} {{fechaActual}}</th>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <th scope="col">Asiste</th>
+                        <th scope="col">Atraso</th>
+                        <th scope="col">Falta</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let e of datosEstudiantes; let i=index">
+                        <td class="tdNival">{{i + 1}}</td>
+                        <td class="tdNival">{{e.codigo}}</td>
+                        <td class="tdNival">{{e.nombre}}</td>
+                        <td class="tdNival">
+                            <mat-checkbox  [checked]=e.presente [disabled]=e.presente (change)="showOptionsPresente($event, i)"></mat-checkbox>
+                        </td>
+                        <td class="tdNival">
+                            <mat-checkbox  [checked]=e.atraso [disabled]=e.atraso (change)="showOptionsAtraso($event, i)"></mat-checkbox>
+                        </td>
+                        <td class="tdNival">
+                            <mat-checkbox  [checked]=e.falta [disabled]=e.falta (change)="showOptionsFalta($event, i)"></mat-checkbox>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

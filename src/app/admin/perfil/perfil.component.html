@@ -2,8 +2,8 @@
     <div class="row mt-5">
         <div class="col-sm-12 col-md-12  col-lg-12 col-12 mx-auto mt-4">
             <div class="mx-auto rounded-circle" [ngStyle]="{'background-image':'url('+perfil+')'}" id="imagePerfil">
-                <a class="float-right">
-                    <i class="fa fa-image text-info pb-1 fa-nival fa-lg" (click)="openPhoto()"></i>
+                <a class="float-right text-info">
+                    <i class="fa fa-image pb-1 fa-nival fa-lg" (click)="openPhoto()"></i>
                 </a>
             </div>
         </div>
@@ -59,8 +59,8 @@
                 </div>
                 <div class="bg-light">
                     <h3 class="pl-1"> Eliminar Cuenta
-                        <a class="float-right text-info p-1" (click)="openDeleteModal()">
-                            <i class="fas fa-trash-alt mx-1 text-danger"></i>
+                        <a class="float-right text-danger p-1" (click)="openDeleteModal()">
+                            <i class="fas fa-trash-alt mx-1"></i>
                         </a>
                     </h3>
                 </div>
@@ -70,8 +70,8 @@
 
             <div class="bd-callout bd-callout-default w-100">
                 <h2><i class="fas fa-clock fa-xs fa-nival pb-1"></i> Periodo Lectivo:
-                    <a class="float-right" (click)="openAnioLectivoModal()">
-                        <i class="far fa-edit text-info"></i>
+                    <a class="float-right text-info" (click)="openAnioLectivoModal()">
+                        <i class="far fa-edit"></i>
                     </a>
                 </h2>
                 <div class="bg-light">
@@ -88,29 +88,29 @@
 
             <div class="bd-callout bd-callout-default w-100">
                 <h2><i class="fas fa-list fa-xs fa-nival pb-1 pr-1"></i>Materias:
-                    <a class="float-right" (click)="openMateriaModal()">
-                        <i class="far fa-plus-square text-info"></i>
+                    <a class="float-right text-info" (click)="openMateriaModal()">
+                        <i class="far fa-plus-square"></i>
                     </a>
                 </h2>
 
                 <div class="bg-light" *ngFor="let materia of materias; let i = index">
                     <p class="font-weight-light pl-1" id="fontNival-p"><strong>{{i+1+'.'}}</strong>
                         {{materia.data.nombre}}
-                        <a class="float-right" (click)="openEliminarMateriaModal(materia.data.nombre,materia.id)"
+                        <a class="float-right text-danger" (click)="openEliminarMateriaModal(materia.data.nombre,materia.id)"
                             *ngIf="val">
-                            <i class="fas fa-trash-alt text-danger"></i>
+                            <i class="fas fa-trash-alt"></i>
                         </a>
-                        <a class="float-right" (click)="openEditMateriaModal(materia.data.nombre,materia.id)"
+                        <a class="float-right text-info" (click)="openEditMateriaModal(materia.data.nombre,materia.id)"
                             *ngIf="val">
-                            <i class="far fa-edit text-info pr-2"></i>
+                            <i class="far fa-edit pr-2"></i>
                         </a>
                     </p>
                 </div>
             </div>
             <div class="bd-callout bd-callout-default w-100 my-2">
                 <h2><i class="fas fa-book pr-1 fa-xs fa-nival pb-1"></i>Cursos:
-                    <a class="float-right" (click)="openCurso()">
-                        <i class="far fa-plus-square text-info"></i>
+                    <a class="float-right text-info" (click)="openCurso()">
+                        <i class="far fa-plus-square"></i>
                     </a>
                 </h2>
                 <p class="font-weight-light" id="fontNival-p">Nombres de los cursos</p>

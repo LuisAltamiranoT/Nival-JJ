@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-horario',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HorarioComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public router: Router,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  openCurso() {
+    this.router.navigate(['vista-curso']);
   }
 
 }

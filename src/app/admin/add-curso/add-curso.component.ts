@@ -93,7 +93,7 @@ export class AddCursoComponent implements OnInit {
   }
   openHorario() {
     this.ventana.open(VistaHorarioComponent,
-      { width: ' 25rem' }).afterClosed().subscribe(item => {
+      { width: ' 45rem' }).afterClosed().subscribe(item => {
       });
   }
 
