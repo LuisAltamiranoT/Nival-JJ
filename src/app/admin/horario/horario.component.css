@@ -1,6 +1,19 @@
 table th td{
     padding: .5rem;
+    text-align: center;
+    cursor: pointer !important;
+    
 }
+
+tr { text-align: center; }
+
+.tdNival:hover {
+color: white !important;
+background-color: #5bc0de;
+cursor: pointer;
+}
+
+table { width: 100%; font-size: 14px;}
 
 .container-nival{
     min-height: 70vh;
@@ -13,3 +26,6 @@ table th td{
     border: 0;
     border-top: 1px solid rgba(0,0,0,.1);
 }
+
+
+

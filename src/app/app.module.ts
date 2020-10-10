@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -55,6 +56,7 @@ import { EditarAnioComponent } from './admin/perfil/editar-anio/editar-anio.comp
 import { FotoComponent } from './admin/perfil/foto/foto.component';
 import { AddCursoComponent } from './admin/add-curso/add-curso.component';
 import { VistaHorarioComponent } from './admin/add-curso/vista-horario/vista-horario.component';
+import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
 
 @NgModule({
   declarations: [
@@ -83,7 +85,8 @@ import { VistaHorarioComponent } from './admin/add-curso/vista-horario/vista-hor
     EditarAnioComponent,
     FotoComponent,
     AddCursoComponent,
-    VistaHorarioComponent
+    VistaHorarioComponent,
+    VistaCursoComponent
   ],
   imports: [
     BrowserModule,
@@ -107,7 +110,8 @@ import { VistaHorarioComponent } from './admin/add-curso/vista-horario/vista-hor
     MatSelectModule,
     MatDialogModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCheckboxModule
   ],
   providers: [
     AuthService,

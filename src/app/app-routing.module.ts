@@ -13,50 +13,55 @@ import { GuardGuard } from './auth/guard.guard';
 import { CursoGroupComponent } from './admin/curso-group/curso-group.component';
 import { HorarioComponent } from './admin/horario/horario.component';
 import { AddCursoComponent } from './admin/add-curso/add-curso.component';
-
+import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: '/home',
-    pathMatch:'full'
+    pathMatch: 'full'
   },
   {
-    path:'home',
-    component:HomeComponent
+    path: 'home',
+    component: HomeComponent
   },
   {
-    path:'verification-email',
-    component:SendEmailComponent
+    path: 'verification-email',
+    component: SendEmailComponent
   },
   {
-    path:'forgot-password',
-    component:ForgotPasswordComponent
+    path: 'forgot-password',
+    component: ForgotPasswordComponent
   },
   {
-    path:'admin',
-    component:AdminHomeComponent,
-    canActivate:[GuardGuard]
+    path: 'admin',
+    component: AdminHomeComponent,
+    canActivate: [GuardGuard]
   },
   {
-    path:'perfil',
-    component:PerfilComponent,
-    canActivate:[GuardGuard]
+    path: 'perfil',
+    component: PerfilComponent,
+    canActivate: [GuardGuard]
   },
   {
-    path:'curso',
-    component:AddCursoComponent,
-    canActivate:[GuardGuard]
+    path: 'curso',
+    component: AddCursoComponent,
+    canActivate: [GuardGuard]
   },
   {
-    path:'curso-group',
-    component:CursoGroupComponent,
-    canActivate:[GuardGuard]
+    path: 'curso-group',
+    component: CursoGroupComponent,
+    canActivate: [GuardGuard]
   },
   {
-    path:'horario',
-    component:HorarioComponent,
-    canActivate:[GuardGuard]
+    path: 'vista-curso',
+    component: VistaCursoComponent,
+    canActivate: [GuardGuard]
+  },
+  {
+    path: 'horario',
+    component: HorarioComponent,
+    canActivate: [GuardGuard]
   }
 ];
 
