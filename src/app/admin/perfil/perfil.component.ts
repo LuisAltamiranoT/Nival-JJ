@@ -5,6 +5,7 @@ import { NombreComponent } from './nombre/nombre.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 
 import { ApellidoComponent } from './apellido/apellido.component';
 import { PasswordComponent } from './password/password.component';
@@ -57,6 +58,7 @@ export class PerfilComponent implements OnInit {
   }
 
   dataUser() {
+
     this.authService.getDataUser().subscribe((data) => {
       this.nombre = data.nombre;
       this.apellido = data.apellido;
@@ -140,11 +142,11 @@ export class PerfilComponent implements OnInit {
   }
 
   openPhoto() {
-    if(this.perfil!="../../../assets/perfil.jpg"){
+    if (this.perfil != "../../../assets/perfil.jpg") {
       this.ventana.open(FotoComponent,
         { width: ' 25rem', data: this.perfil }).afterClosed().subscribe(item => {
         });
-    }else{
+    } else {
       this.ventana.open(FotoComponent,
         { width: ' 25rem', data: 'no-image' }).afterClosed().subscribe(item => {
         });

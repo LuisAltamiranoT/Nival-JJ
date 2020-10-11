@@ -12,7 +12,7 @@ import { AuthService } from '../../../auth/services/auth.service';
   styleUrls: ['./editar-anio.component.css']
 })
 export class EditarAnioComponent implements OnInit {
-  validate=true;
+  validate = true;
 
   anioForm = new FormGroup({
     inicio: new FormControl(''),
@@ -36,28 +36,34 @@ export class EditarAnioComponent implements OnInit {
 
   async onClick() {
     try {
-      this.validate=false;
+      this.validate = false;
       const { inicio } = this.anioForm.value;
       const { fin } = this.anioForm.value;
-      
-      const dat = await this.authService.updateAnioLectivo(inicio,fin);
-      if (dat) {
-        this.authService.showUpdatedata();
-        this.dialogRef.close();
+      console.log('inicio', inicio)
+      if (Date.parse(inicio) < Date.parse(fin)) {
+        const dat = await this.authService.updateAnioLectivo(inicio, fin);
+        if (dat) {
+          this.authService.showUpdatedata();
+          this.dialogRef.close();
+        }
+        if (!dat) {
+          this.validate = true;
+        }
       }
-      if(!dat){
-        this.validate=true;
+      else {
+        this.authService.showInfo('La fecha de inicio debe ser menor a la fecha de fin');
+        this.validate = true;
       }
     } catch (error) {
       this.authService.showError(error);
     }
   }
-  
+
   dimissModalInfo() {
     this.dialogRef.close();
   }
 
-  eraser(){
+  eraser() {
     this.anioForm.patchValue({ info: "" });
   }
 
