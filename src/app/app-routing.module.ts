@@ -14,6 +14,7 @@ import { CursoGroupComponent } from './admin/curso-group/curso-group.component';
 import { HorarioComponent } from './admin/horario/horario.component';
 import { AddCursoComponent } from './admin/add-curso/add-curso.component';
 import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
+import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,11 @@ const routes: Routes = [
   {
     path: 'horario',
     component: HorarioComponent,
+    canActivate: [GuardGuard]
+  },
+  {
+    path: 'codigo/:data',
+    component: CodigoQRComponent,
     canActivate: [GuardGuard]
   }
 ];

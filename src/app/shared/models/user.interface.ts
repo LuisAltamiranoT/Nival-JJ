@@ -14,8 +14,8 @@ export interface User {
     oficina?:string;
     photoUrl?: string;
     password?: string;
-    anioInicio?:string;
-    anioFin?:string;
+    anioInicio?:any;
+    anioFin?:any;
 }
 
 export interface Curso{

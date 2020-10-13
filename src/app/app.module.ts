@@ -5,6 +5,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgFallimgModule } from 'ng-fallimg';
 
+//codigo QR
+import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
+import { FormsModule } from '@angular/forms';
+
 //material 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -58,6 +62,7 @@ import { FotoComponent } from './admin/perfil/foto/foto.component';
 import { AddCursoComponent } from './admin/add-curso/add-curso.component';
 import { VistaHorarioComponent } from './admin/add-curso/vista-horario/vista-horario.component';
 import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
+import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +92,9 @@ import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
     FotoComponent,
     AddCursoComponent,
     VistaHorarioComponent,
-    VistaCursoComponent
+    VistaCursoComponent,
+    CodigoQRComponent
+
   ],
   imports: [
     BrowserModule,
@@ -113,7 +120,9 @@ import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
-    MatTableModule
+    MatTableModule,
+    NgxQRCodeModule,
+    FormsModule
   ],
   providers: [
     AuthService,

@@ -1,7 +1,12 @@
 import { Injectable, NgModuleDecorator } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import * as firebase from 'firebase/app';
-
+import * as moment from 'moment';
+import * as xlsx from 'xlsx';
+import { Request, Response } from 'express';
+//import {fs} from 'fs';
+//import * as fs from "fs";
+//const fs = require ('fs');
 
 import { RoleValidator } from '../../auth/helpers/rolValidator';
 
@@ -246,8 +251,8 @@ export class AuthService extends RoleValidator {
       console.log(valor, valor2);
       const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.dataUser}`);
       const data: User = {
-        anioInicio: valor,
-        anioFin: valor2
+        anioInicio: moment(valor).format('DD-MM-YYYY'),
+        anioFin: moment(valor2).format('DD-MM-YYYY')
       };
       const dataUpdate = await userRef.set(data, { merge: true });
       return { dataUpdate };
@@ -275,6 +280,19 @@ export class AuthService extends RoleValidator {
         nombre: valor
       }
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').add(data);
+      return create;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+  public async createNomina(valor: any, valor2: any) {
+    try {
+      const data = {
+        nombre: valor,
+        numeroUnico: valor2
+      }
+      const create = await this.afs.doc(`users/${this.dataUser}`).collection('nomina').add(data);
       return create;
     } catch (error) {
       this.showError(error);
@@ -346,7 +364,6 @@ export class AuthService extends RoleValidator {
     }
   }
 
-
   //mensajes
   showError(mensaje: string) {
     this.toastr.error(mensaje, 'Error', {
@@ -372,5 +389,8 @@ export class AuthService extends RoleValidator {
       timeOut: 4000,
     });
   }
+
+
+
 
 }

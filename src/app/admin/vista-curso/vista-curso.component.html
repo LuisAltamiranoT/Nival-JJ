@@ -1,9 +1,20 @@
 <div class="container mt-5 container-nival">
     <div class="row mt-5">
-        <div class="col-sm-12 col-md-12 col-lg-12 mt-4 pt-1">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-6 mt-4 pt-1 pbn-1">
             <h3 class="font-weight-normal">Asistencia</h3>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col-6 mt-4 pt-1 pbn-1">
+            <a class="float-right btn-nival pt-1" style="text-decoration: none;" [routerLink]="['/codigo','25465454hjgjhg']"
+                target="_blank">
+                <i class="fa fa-qrcode pr-1"></i>Generar QR
+            </a>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 col-12" style="margin: 0px !important; padding: 0px !important;">
             <hr class="hr-nival">
         </div>
+        <input type="file" (change)="onFileChange($event)" />
+
+        <div id="output"></div>
         <div class="table-responsive">
             <table class="table table-sm table-bordered">
                 <thead class="thead-light">
@@ -25,13 +36,16 @@
                         <td class="tdNival">{{e.codigo}}</td>
                         <td class="tdNival">{{e.nombre}}</td>
                         <td class="tdNival">
-                            <mat-checkbox  [checked]=e.presente [disabled]=e.presente (change)="showOptionsPresente($event, i)"></mat-checkbox>
+                            <mat-checkbox [checked]=e.presente [disabled]=e.presente
+                                (change)="showOptionsPresente($event, i)"></mat-checkbox>
                         </td>
                         <td class="tdNival">
-                            <mat-checkbox  [checked]=e.atraso [disabled]=e.atraso (change)="showOptionsAtraso($event, i)"></mat-checkbox>
+                            <mat-checkbox [checked]=e.atraso [disabled]=e.atraso (change)="showOptionsAtraso($event, i)"
+                                (click)="openQR()"></mat-checkbox>
                         </td>
                         <td class="tdNival">
-                            <mat-checkbox  [checked]=e.falta [disabled]=e.falta (change)="showOptionsFalta($event, i)"></mat-checkbox>
+                            <mat-checkbox [checked]=e.falta [disabled]=e.falta (change)="showOptionsFalta($event, i)">
+                            </mat-checkbox>
                         </td>
                     </tr>
                 </tbody>
