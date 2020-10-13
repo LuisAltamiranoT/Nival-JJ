@@ -16,11 +16,15 @@ interface HtmlInputEvent extends Event {
 })
 export class CursoComponent implements OnInit {
 
+  placeholder = "Ingresa información del aula";
 
-  
   cursoForm = new FormGroup({
     materia: new FormControl('', [Validators.required, Validators.minLength(1)]),
-    image: new FormControl('')
+    image: new FormControl(''),
+    aula:new FormControl('',[Validators.required, Validators.minLength(1)]),
+    dia: new FormControl('',[Validators.required, Validators.minLength(1)]),
+    horaInicio: new FormControl(''),
+    horaFin: new FormControl(''),
   })
 
   public materias = [];

@@ -1,0 +1,42 @@
+
+.example-container {
+  height: 250px;
+  max-width: 100%;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-header-cell, .mat-footer-cell, .mat-cell {
+  box-sizing: border-box;
+  text-align: center;
+  justify-content:center;
+}
+
+td.mat-column-hora {
+  width: 100px;
+  padding-right: 8px;
+}
+
+td.mat-column-lunes {
+  width: 200px;
+  padding-right: 8px;
+}
+td.mat-column-martes {
+  width:200px;
+  padding-right: 8px;
+}
+td.mat-column-miercoles {
+  width: 200px;
+  padding-right: 8px;
+}
+td.mat-column-jueves {
+  width: 200px;
+  padding-right: 8px;
+}
+td.mat-column-viernes {
+  width: 200px;
+  padding-right: 8px;
+}
