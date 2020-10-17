@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../../auth/login/login.component';
 
@@ -13,6 +13,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+
+
   public user$: Observable<any> = this.authService.afAuth.user;
 
   constructor(
@@ -22,7 +24,7 @@ export class NavbarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+
   }
 
   openFormModalLogin() {
