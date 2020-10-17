@@ -55,7 +55,7 @@ const routes: Routes = [
     canActivate: [GuardGuard]
   },
   {
-    path: 'vista-curso',
+    path: 'vista-curso/:data',
     component: VistaCursoComponent,
     canActivate: [GuardGuard]
   },

@@ -4,6 +4,8 @@ import * as firebase from 'firebase/app';
 import * as moment from 'moment';
 import * as xlsx from 'xlsx';
 import { Request, Response } from 'express';
+
+
 //import {fs} from 'fs';
 //import * as fs from "fs";
 //const fs = require ('fs');
@@ -12,7 +14,8 @@ import { RoleValidator } from '../../auth/helpers/rolValidator';
 
 import { ToastrService } from 'ngx-toastr';
 import { first, switchMap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+///observable y subject permite ejecutar una accion al cumplirse una condicion
+import { Observable, of, Subject } from 'rxjs';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 import { User, Curso, Materia } from '../../shared/models/user.interface';
@@ -23,6 +26,10 @@ import { User, Curso, Materia } from '../../shared/models/user.interface';
   providedIn: 'root'
 })
 export class AuthService extends RoleValidator {
+  //observable y subject
+  private estadoImgenUpdate = new Subject<void>();
+  public finalizoImage$ = this.estadoImgenUpdate.asObservable();
+
   private dataUser: any;
   public user$: Observable<User>;
 
@@ -215,21 +222,6 @@ export class AuthService extends RoleValidator {
     }
   }
 
-  //imagen
-  public async updatePhoto(valor: any) {
-    try {
-      const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.dataUser}`);
-      const data: User = {
-        photoUrl: valor
-      };
-      const dataUpdate = await userRef.set(data, { merge: true });
-      return { dataUpdate };
-
-    } catch (error) {
-      this.showError(error);
-    }
-  }
-
   //oficina
   public async updateOficina(valor: string) {
     try {
@@ -263,7 +255,7 @@ export class AuthService extends RoleValidator {
     }
   }
 
-  //materias
+  // obtener materias
 
   public getDataMateria() {
     try {
@@ -274,25 +266,26 @@ export class AuthService extends RoleValidator {
     }
   }
 
+  // obtener materias
+
+  public getMateriaHorario() {
+    try {
+      let db = this.afs.doc<Materia>(`users/${this.dataUser}`).collection('materias').snapshotChanges();
+      return db;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+  
+
+
+  //crear materia
   public async createMateria(valor: any) {
     try {
       const data: Materia = {
         nombre: valor
       }
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').add(data);
-      return create;
-    } catch (error) {
-      this.showError(error);
-    }
-  }
-
-  public async createNomina(valor: any, valor2: any) {
-    try {
-      const data = {
-        nombre: valor,
-        numeroUnico: valor2
-      }
-      const create = await this.afs.doc(`users/${this.dataUser}`).collection('nomina').add(data);
       return create;
     } catch (error) {
       this.showError(error);
@@ -324,6 +317,115 @@ export class AuthService extends RoleValidator {
     }
   }
 
+  //imagen
+  public async updatePhoto(valor: any) {
+    try {
+      const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.dataUser}`);
+      const data: User = {
+        photoUrl: valor
+      };
+      await userRef.set(data, { merge: true });
+      this.estadoImgenUpdate.next();
+
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+  // agregar un curso se obtiene la informacion de uploadImage
+
+  public async preparateCreateCurso(valor: any, image: any, nomina: any, horario: any) {
+    try {
+      let idcurso = await this.createCurso(valor, image);
+      let archivoExcel = nomina;
+      let horarioCurso = horario;
+
+      await Promise.all(archivoExcel.map(async (element) => {
+        const data = {
+          nombre: element.nombre,
+          numeroUnico: element.codigoUnico
+        }
+        await this.createNomina(data, idcurso);
+      }));
+
+
+      await Promise.all(horarioCurso.map(async (element) => {
+        const data = {
+          posicion: element.posicion,
+          dia: element.dia,
+          uidMateria: element.idMateria,
+          uidCurso: idcurso
+        }
+        await this.createHorario(data);
+      }));
+
+      console.log('termino el guardado');
+      this.estadoImgenUpdate.next();
+
+    } catch (error) {
+      this.showError(error);
+    }
+
+  }
+  //crear nomina de estudiantes
+  public async createNomina(valor: any, idCurso: any) {
+    try {
+      const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(`${idCurso}`).collection('nomina').add(valor);
+      return create;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+  //crear horario
+  public async createHorario(valor: any) {
+    try {
+      const create = await this.afs.doc(`users/${this.dataUser}`).collection('horario').add(valor);
+      return create;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+  //crear curso
+  public async createCurso(valor: any, image: any) {
+    try {
+      const data: Curso = {
+        uidMateria: valor.uidMateria,
+        aula: valor.aula,
+        image: image
+      }
+      const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').add(data);
+      console.log(create.id);
+      return create.id;
+    } catch (error) {
+      this.showError(error);
+      console.log(error);
+    }
+  }
+
+  //obtener cursos
+  public getCurso() {
+    try {
+      let db = this.afs.doc<Materia>(`users/${this.dataUser}`).collection('cursos').snapshotChanges();
+      return db;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+  //obtener 
+
+  //obtener el horario
+  public getHorario() {
+    try {
+      let db = this.afs.doc<Materia>(`users/${this.dataUser}`).collection('horario').snapshotChanges();
+      return db;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+
   //cursos
   public getDataCurso() {
     try {
@@ -334,31 +436,11 @@ export class AuthService extends RoleValidator {
     }
   }
 
-  public async createCurso(valor: any, valor2: any) {
-    console.log(valor2, valor);
+   //Obtener curso con el id
+   public getDataCursoId(id:any) {
     try {
-      const data: Curso = {
-        materia: valor,
-        image: valor2
-      }
-      console.log(data);
-      const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').add(data);
-      return create;
-    } catch (error) {
-      this.showError(error);
-      console.log(error);
-    }
-  }
-
-
-  public async updateCurso(documentId: string, valor: any) {
-    try {
-      const userRef: AngularFirestoreDocument<Curso> = this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(documentId);
-      const data: Curso = {
-        nombre: valor
-      };
-      const dataUpdate = await userRef.set(data, { merge: true });
-      return { dataUpdate };
+      let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(id).collection('nomina').snapshotChanges();
+      return db;
     } catch (error) {
       this.showError(error);
     }
@@ -371,9 +453,10 @@ export class AuthService extends RoleValidator {
     });
   }
 
+  //mensaje de error de archivo excel
   showSuccess(mensaje: string) {
     this.toastr.success(mensaje, 'Success', {
-      timeOut: 4000,
+      timeOut: 5000,
     });
   }
   showUpdatedata() {
@@ -381,9 +464,16 @@ export class AuthService extends RoleValidator {
   }
   showWarning(mensaje: string) {
     this.toastr.warning(mensaje, 'Warning', {
-      timeOut: 4000,
+      timeOut: 5000,
     });
   }
+
+  showInfoExcel(mensaje: string) {
+    this.toastr.info(mensaje, 'information', {
+      timeOut: 8000,
+    });
+  }
+
   showInfo(mensaje: string) {
     this.toastr.info(mensaje, 'information', {
       timeOut: 4000,

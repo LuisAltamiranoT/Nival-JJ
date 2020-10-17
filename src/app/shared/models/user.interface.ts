@@ -19,9 +19,8 @@ export interface User {
 }
 
 export interface Curso{
-    uidMateria?: string;
-    materia?:string;
-    nombre?:string;
+    uidMateria?: any;
+    aula?:any;
     image?:any;
 }
 
