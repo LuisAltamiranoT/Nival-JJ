@@ -139,7 +139,7 @@ private color=['DARKSLATEGRAY','CADETBLUE','CORAL','FIREBRICK','TEAL','INDIANRED
 
   
   openCurso(id:any) {
-    this.router.navigate(['vista-curso']);
+    this.router.navigate(['vista-curso',id]);
   }
  
 

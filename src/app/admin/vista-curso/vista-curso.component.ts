@@ -50,7 +50,9 @@ export class VistaCursoComponent implements OnInit {
   nombreDay: any;
 
   //dato que almacenara el id de la materia
-  dato: any;
+  public dataId: any;
+  //tomar la inforamcion de la nomina
+  public nomina=[];
 
   constructor(
     private authService: AuthService,
@@ -60,7 +62,13 @@ export class VistaCursoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.dato = this._route.snapshot.paramMap.get('data');
+    //obtener nomina estudiantes
+    this.obtenerNomina();
+    console.log('id de la materia seleccionada',this.dataId);
+
+    ////////////////////////////
+
+    this.dataId = this._route.snapshot.paramMap.get('data');
     var f = moment();
     this.fechaActual = f.format('DD-MM-YYYY');
     var day = moment(this.fechaActual).day();
@@ -173,6 +181,23 @@ export class VistaCursoComponent implements OnInit {
     else {
       this.authService.showError('Este no es un archivo de formato excel')
     }
+  }
+
+/////////////////////////////////////////////////////////////////////////////
+//funciones utuizadas en esta pagina
+  public obtenerNomina(){
+    this.authService.getDataCursoId(this.dataId).subscribe((data) => {
+      this.nomina = [];
+      data.forEach((dataMateria: any) => {
+        console.log('materia seleccionada', dataMateria.payload.doc.id);
+        console.log(' data materia seleccionada', dataMateria.payload.doc.data());
+        this.nomina.push({
+          id: dataMateria.payload.doc.id,
+          data: dataMateria.payload.doc.data()
+        })
+      });
+    });
+
   }
 
 }
