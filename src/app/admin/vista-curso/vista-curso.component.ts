@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import * as moment from 'moment';
 moment.locale('es');
 import * as xlsx from 'xlsx';
+import { ActivatedRoute } from '@angular/router';
 
 import { AuthService } from '../../auth/services/auth.service';
 import { UploadExcelService } from '../../auth/services/upload-excel.service'
@@ -48,13 +49,18 @@ export class VistaCursoComponent implements OnInit {
   fechaActual: any;
   nombreDay: any;
 
+  //dato que almacenara el id de la materia
+  dato: any;
+
   constructor(
     private authService: AuthService,
     private uploadExcel: UploadExcelService,
     public router: Router,
+    private _route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
+    this.dato = this._route.snapshot.paramMap.get('data');
     var f = moment();
     this.fechaActual = f.format('DD-MM-YYYY');
     var day = moment(this.fechaActual).day();
@@ -133,29 +139,6 @@ export class VistaCursoComponent implements OnInit {
       wscols.push({ wpx: 125 })
     }
     wse["!cols"] = wscols;
-
-    /* wse["!A1"] = {
-       fill: {
-         patternType: "none", // none / solid
-         fgColor: { rgb: "FFFFAA00" },
-         bgColor: { rgb: "FFFFFFFF" }
-       },
-       font: {
-         name: 'Times New Roman',
-         sz: 16,
-         color: { rgb: "#FF000000" },
-         bold: true,
-         italic: false,
-         underline: false
-       },
-       border: {
-         top: { style: "thin", color: { auto: 1 } },
-         right: { style: "thin", color: { auto: 1 } },
-         bottom: { style: "thin", color: { auto: 1 } },
-         left: { style: "thin", color: { auto: 1 } }
-       }
-     };*/
-
     const wb: xlsx.WorkBook = xlsx.utils.book_new();
     xlsx.utils.book_append_sheet(wb, wse, 'Hoja Asistencia');
 
@@ -164,7 +147,7 @@ export class VistaCursoComponent implements OnInit {
 
   }
 
-  onFileChange(ev) {
+  onFileChange(ev:any) {
     let workBook = null;
     let jsonData = null;
     const reader = new FileReader();
@@ -182,7 +165,7 @@ export class VistaCursoComponent implements OnInit {
         plantilla.forEach(async (data1: any) => {
           // lee los datos de la nomina
           const { nombre_horario, minutos_almuerzo } = data1;
-          this.authService.createNomina(nombre_horario, minutos_almuerzo);
+          //this.authService.createNomina(nombre_horario, minutos_almuerzo);
         })
       }
       reader.readAsBinaryString(file);

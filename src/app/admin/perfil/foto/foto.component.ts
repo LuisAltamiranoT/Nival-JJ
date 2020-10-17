@@ -47,7 +47,7 @@ export class FotoComponent implements OnInit {
 
     this.photoSelected = '../../../assets/aqui.jpg';
 
-    this.stateImage = this.uploadImage.finalizoImage$.subscribe(()=>{
+    this.stateImage = this.authService.finalizoImage$.subscribe(()=>{
       this.dimissModal();
     })
   }

@@ -3,7 +3,7 @@ import { FileI, Curso } from 'src/app/shared/models/user.interface';
 
 
 ///observable y subject permite ejecutar una accion al cumplirse una condicion
-import { Observable, Subject } from 'rxjs';
+import { Observable} from 'rxjs';
 
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -17,16 +17,12 @@ import { ImageValidator } from 'src/app/auth/helpers/imageValidators';
   providedIn: 'root'
 })
 export class UploadImageService extends ImageValidator {
-
-  //observable y subject
-  private estadoImgenUpdate = new Subject<void>();
-  public finalizoImage$ = this.estadoImgenUpdate.asObservable();
-
-
   private filePath: any;
   private downloadURL: Observable<string>;
   private MEDIA_STORAGE_PATH = 'imageCurso';
   private MEDIA_STORAGE_PATH_PERFIL = 'perfil';
+  public nominaDat:any;
+  public nominaHorario:any;
 
   constructor(
     private afs: AngularFirestore,
@@ -36,7 +32,10 @@ export class UploadImageService extends ImageValidator {
     super();
   }
 
-  public preAddAndUpdate(data: any, image: FileI) {
+  public preAddAndUpdate(data: any, image: FileI,dataNomina:any,dataHorario:any) {
+    this.nominaDat=dataNomina;
+    this.nominaHorario=dataHorario;
+    console.log('estamos en el service'+image.name);
     this.uploadImageService(data, image, this.MEDIA_STORAGE_PATH);
   }
 
@@ -55,13 +54,14 @@ export class UploadImageService extends ImageValidator {
         fileRef.getDownloadURL().subscribe(urlImage => {
           this.downloadURL = urlImage;
           if (filenameFs === 'imageCurso') {
-            this.addCurso(data);
+            //llega los valores de el curso
+            let info = this.addCurso(data);
+            if(info){
+              
+            }
           }
           else {
             let data = this.addPhoto();
-            if(data){
-              this.estadoImgenUpdate.next();
-            }
           }
 
         });
@@ -87,14 +87,64 @@ export class UploadImageService extends ImageValidator {
     return `${filenameFs}/${new Date().getTime()}_${name}`;
   }
 
-  public addCurso(data: Curso) {
-    this.authService.createCurso(data, this.downloadURL);
-  }
-
-  public addCurso2(data: Curso) {
-    this.authService.createCurso(data, '');
+  public async addCurso(data: Curso) {
+    let curso:Curso={
+      uidMateria:data.uidMateria,
+      aula:data.aula
+    }
+    let info = await this.authService.preparateCreateCurso(data,this.downloadURL,this.nominaDat,this.nominaHorario);
+    console.log('funcion add cuerso',info)
+    return info;
   }
 
 }
 
+
+/*
+ 
+
+ private stateImage: Subscription = null;
+  //Validar archivo
+  validFile = false;
+  //Array de codigo unico
+  archivoExcel: any = [];
+  //nombre del archivo excel
+  nombreFile = '';
+  //control de progressbar
+  validate = true;
+  //controla que se sea visible el horario
+  public validacionDeMateria: boolean = false;
+  //controla que sa seleccionada una materia
+  public materiaSeleccionada = '';
+  //esta almacena el id de la materia
+  public idMateriaSeleccionada = '';
+  //almacena el nombre del curso
+  public nombreAula='';
+  //carga la informacion de la base de datos
+  public materias = [];
+  //caraga la informacion del curso
+  public curso=[];
+  //carga horario guardado
+  public horarioGuardado=[];
+  //Es el horario que se agregar con el nuevo curso
+  public nuevoHorario: any = [];
+  //image="";
+  placeholder = 'Ingresa informacion sobre el aula';
+  private file: any;
+  public photoSelected: string | ArrayBuffer;
+  private validImage: boolean = false;
+
+
+  clearFile(){
+    this.archivoExcel=[];
+    this.cursoForm.patchValue({ file: '',image:'', aula:'',materiaSelect:''});
+    this.validFile=false;
+    this.validacionDeMateria=false,
+    this.idMateriaSeleccionada='',
+    this.nombreFile='';
+    this.nombreAula='';
+    this.materiaSeleccionada=''
+    this.nuevoHorario=[];
+    //console.log(this.archivoExcel);
+  } */
 

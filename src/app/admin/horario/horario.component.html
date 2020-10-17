@@ -4,29 +4,91 @@
             <h3 class="font-weight-normal">Horario</h3>
             <hr class="hr-nival">
         </div>
-        <div class="table-responsive">
-            <table class="table table-sm table-bordered ">
-                <thead class="thead-light">
-                    <tr style="text-align: center;">
-                        <th scope="col"><i class="fas fa-clock"></i></th>
-                        <th scope="col">LUNES</th>
-                        <th scope="col">MARTES</th>
-                        <th scope="col">MIÉRCOLES</th>
-                        <th scope="col">JUEVES</th>
-                        <th scope="col">VIERNES</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td scope="row">1</td>
-                        <td class="tdNival" (click)="openCurso()">Matemáticas</td>
-                        <td class="tdNival">Física</td>
-                        <td class="tdNival">1</td>
-                        <td class="tdNival">1</td>
-                        <td class="tdNival">1</td>
-                    </tr>
-                </tbody>
-            </table>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-12 mb-1">
+                <mat-label>
+                    <i class="fas fa-calendar-day pr-1 pb-1 fa-nival fa-xs"></i>Horario</mat-label>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-12 col-12 mb-1">
+                <div class="example-container mat-elevation-z2">
+                    <table mat-table [dataSource]="dataSource">
+
+                        <!-- Position Column -->
+                        <ng-container matColumnDef="hora">
+                            <th mat-header-cell *matHeaderCellDef> Hora. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.hora}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="lunes">
+                            <th mat-header-cell *matHeaderCellDef> Lunes </th>
+                            <td class="px-1" mat-cell *matCellDef="let element, let l = index;">
+
+                                <a class="text-center" (click)="openCurso(element.Lid)">
+                                    <p class=" rounded p-1 text-white mt-2 aNival" [style.background-color]="element.LC">
+                                        {{element.lunes}}
+                                    </p>
+                                </a>
+                            </td>
+                        </ng-container>
+
+                        <!-- Weight Column -->
+                        <ng-container matColumnDef="martes">
+                            <th mat-header-cell *matHeaderCellDef> Martes </th>
+                            <td class="px-1" mat-cell *matCellDef="let element, let m = index;">
+                                <a class="text-center" (click)="openCurso(element.Mid)">
+                                    <p class=" rounded p-1 text-white mt-2 aNival" [style.background-color]="element.MC">
+                                        {{element.martes}}
+                                    </p>
+                                </a>
+
+                            </td>
+                        </ng-container>
+
+                        <!-- Symbol Column -->
+                        <ng-container matColumnDef="miercoles">
+                            <th mat-header-cell *matHeaderCellDef> Miercoles </th>
+                            <td class="px-1" mat-cell *matCellDef="let element, let mi = index;">
+                                <a class="text-center" (click)="openCurso(element.Miid)">
+                                    <p class=" rounded p-1 text-white mt-2 aNival" [style.background-color]="element.MiC">
+                                        {{element.miercoles}}
+                                    </p>
+                                </a>
+
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="jueves">
+                            <th mat-header-cell *matHeaderCellDef> Jueves </th>
+                            <td class="px-1" mat-cell *matCellDef="let element, let j = index;">
+                                <a class="text-center" (click)="openCurso(element.Jid)">
+                                    <p class=" rounded p-1 text-white mt-2 aNival" [style.background-color]="element.JC">
+                                        {{element.jueves}}
+                                    </p>
+                                </a>
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="viernes">
+                            <th mat-header-cell *matHeaderCellDef> viernes </th>
+                            <td class="px-1" mat-cell *matCellDef="let element, let v = index;">
+                                    <a class="text-center" (click)="openCurso(element.Vid)">
+                                        <p class=" rounded p-1 text-white mt-2 aNival" [style.background-color]="element.VC">
+                                            {{element.viernes}}
+                                        </p>
+                                    </a>
+
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
