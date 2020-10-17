@@ -20,7 +20,16 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import {MatTableModule} from '@angular/material/table';
+import { MatTableModule } from '@angular/material/table';
+import { NgxSpinnerModule } from "ngx-spinner";
+
+//Verificar
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -122,7 +131,14 @@ import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
     MatCheckboxModule,
     MatTableModule,
     NgxQRCodeModule,
-    FormsModule
+    FormsModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatMenuModule,
+    NgxSpinnerModule
   ],
   providers: [
     AuthService,
@@ -136,6 +152,16 @@ import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
   entryComponents: [
     LoginComponent,
     RegisterComponent
-  ]
+  ],
+  exports: [
+    MatSidenavModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatMenuModule
+  ],
 })
 export class AppModule { }

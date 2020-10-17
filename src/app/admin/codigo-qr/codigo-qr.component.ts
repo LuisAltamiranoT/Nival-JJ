@@ -9,9 +9,12 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CodigoQRComponent implements OnInit {
 
-  //idEmpleado = cadena.split("/")[2];
+  elementType = NgxQrcodeElementTypes.IMG;
+  correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
+  value: any;
 
   dato: any;
+
   constructor(
     private _route: ActivatedRoute,
   ) { }
@@ -20,11 +23,8 @@ export class CodigoQRComponent implements OnInit {
     this.dato = this._route.snapshot.paramMap.get('data');
     console.log(this.dato);
     this.value = this.dato;
-   // this.value = "../../../assets/perfil.jpg"
+    // this.value = "../../../assets/perfil.jpg"
   }
 
-  elementType = NgxQrcodeElementTypes.IMG;
-  correctionLevel = NgxQrcodeErrorCorrectionLevels.HIGH;
-  value: any;
 
 }

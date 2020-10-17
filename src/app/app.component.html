@@ -1,3 +1,11 @@
 <app-navbar *ngIf="!remove()"></app-navbar>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
 <router-outlet (activate)="onActivate($event)"></router-outlet>
 <app-footer *ngIf="!remove()"></app-footer>
+
+<!--   <app-navbar *ngIf="!remove()"></app-navbar>
+
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<app-footer *ngIf="!remove()"></app-footer>-->
