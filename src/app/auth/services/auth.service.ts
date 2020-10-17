@@ -439,7 +439,7 @@ export class AuthService extends RoleValidator {
    //Obtener curso con el id
    public getDataCursoId(id:any) {
     try {
-      let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(`cursos/${id}`).collection('nomina').snapshotChanges();
+      let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(id).collection('nomina').snapshotChanges();
       return db;
     } catch (error) {
       this.showError(error);
