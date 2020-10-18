@@ -225,3 +225,6 @@ p{
    
   }
 
+  .mat-checkbox-disabled.mat-checkbox-checked .mat-checkbox-background, .mat-checkbox-disabled.mat-checkbox-indeterminate .mat-checkbox-background {
+    background-color: cornflowerblue;
+  }

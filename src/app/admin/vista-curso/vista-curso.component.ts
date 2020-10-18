@@ -1,11 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 moment.locale('es');
 import * as xlsx from 'xlsx';
-import { ActivatedRoute } from '@angular/router';
 
+
+import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth/services/auth.service';
+import { Nomina } from '../../shared/models/user.interface';
+import { MatTable } from '@angular/material/table';
+
+
+
+
 import { UploadExcelService } from '../../auth/services/upload-excel.service'
 @Component({
   selector: 'app-vista-curso',
@@ -13,37 +20,11 @@ import { UploadExcelService } from '../../auth/services/upload-excel.service'
   styleUrls: ['./vista-curso.component.css']
 })
 export class VistaCursoComponent implements OnInit {
+  //manejor de tablas 
+  @ViewChild(MatTable) tabla1: MatTable<Nomina>;
 
-  datosEstudiantes = [
-    {
-      codigo: '4548412',
-      nombre: 'Luis',
-      presente: true,
-      atraso: false,
-      falta: false
-    },
-    {
-      codigo: '4548413',
-      nombre: 'Jenny',
-      presente: false,
-      atraso: false,
-      falta: true
-    },
-    {
-      codigo: '4548414',
-      nombre: 'Mario',
-      presente: false,
-      atraso: true,
-      falta: false
-    },
-    {
-      codigo: '4548415',
-      nombre: 'Lucia',
-      presente: true,
-      atraso: false,
-      falta: false
-    },
-  ]
+//array de la nomina de los estudiantes 
+public nominaVista: Nomina[] = [];
 
   nombre: any;
   fechaActual: any;
@@ -53,71 +34,41 @@ export class VistaCursoComponent implements OnInit {
   public dataId: any;
   //tomar la inforamcion de la nomina
   public nomina=[];
+  //tomar la informacion de las asistencias
+  public asistencia=[];
 
   constructor(
     private authService: AuthService,
-    private uploadExcel: UploadExcelService,
     public router: Router,
     private _route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
+    this.dataId = this._route.snapshot.paramMap.get('data');
+
     //obtener nomina estudiantes
-    this.obtenerNomina();
     console.log('id de la materia seleccionada',this.dataId);
+    this.obtenerNomina(this.dataId);
+    
 
     ////////////////////////////
 
-    this.dataId = this._route.snapshot.paramMap.get('data');
+
     var f = moment();
-    this.fechaActual = f.format('DD-MM-YYYY');
+    this.fechaActual = f.format('DD-MM-YYYY'); //fecha actual en string
+
     var day = moment(this.fechaActual).day();
+
+  
     this.nombreDay = moment.weekdays(day).charAt(0).toUpperCase() + moment.weekdays(day).slice(1)
   }
 
-  presente(dato) {
-    console.log('dato', dato);
-    this.datosEstudiantes[dato].presente = true;
-    this.datosEstudiantes[dato].atraso = false;
-    this.datosEstudiantes[dato].falta = false;
-  }
-  atraso(dato) {
-    console.log('dato', dato);
-    this.datosEstudiantes[dato].presente = false;
-    this.datosEstudiantes[dato].atraso = true;
-    this.datosEstudiantes[dato].falta = false;
-  }
-  falta(dato) {
-    console.log('dato', dato);
-    this.datosEstudiantes[dato].presente = false;
-    this.datosEstudiantes[dato].atraso = false;
-    this.datosEstudiantes[dato].falta = true;
-  }
 
-  showOptionsPresente(event, dato) {
-    console.log(event.checked); //true or false
-    this.datosEstudiantes[dato].presente = true;
-    this.datosEstudiantes[dato].atraso = false;
-    this.datosEstudiantes[dato].falta = false;
-    console.log('array p', this.datosEstudiantes)
-  }
+//CODIGO NUEVO TABLA
+  displayedColumns = ['codigoUnico', 'nombre', 'presente', 'atraso', 'falta'];
+  dataSource = this.nominaVista;
 
-  showOptionsAtraso(event, dato) {
-    console.log(event.checked); //true or false
-    this.datosEstudiantes[dato].presente = false;
-    this.datosEstudiantes[dato].atraso = true;
-    this.datosEstudiantes[dato].falta = false;
-    console.log('array a', this.datosEstudiantes)
-  }
 
-  showOptionsFalta(event, dato) {
-    console.log(event.checked); //true or false
-    this.datosEstudiantes[dato].presente = false;
-    this.datosEstudiantes[dato].atraso = false;
-    this.datosEstudiantes[dato].falta = true;
-    console.log('array f', this.datosEstudiantes);
-    this.exportToExcel();
-  }
 
   /* ****************************************************************************************************
    *                               PARA LA EXPORTACIÓN DE ARCHIVOS EXCEL
@@ -151,53 +102,113 @@ export class VistaCursoComponent implements OnInit {
     xlsx.utils.book_append_sheet(wb, wse, 'Hoja Asistencia');
 
     xlsx.writeFile(wb, "Hoja Asistencia" + '.xlsx');
-
-
   }
 
-  onFileChange(ev:any) {
-    let workBook = null;
-    let jsonData = null;
-    const reader = new FileReader();
 
-    const file = ev.target.files[0];
-    const formato = file.name.split('.')[1];
-
-    if (this.uploadExcel.validateType(formato)) {
-
-      reader.onload = (event) => {
-        const data = reader.result;
-        workBook = xlsx.read(data, { type: 'binary' });
-        const sheet_name_list = workBook.SheetNames;
-        const plantilla = xlsx.utils.sheet_to_json(workBook.Sheets[sheet_name_list[0]]);
-        plantilla.forEach(async (data1: any) => {
-          // lee los datos de la nomina
-          const { nombre_horario, minutos_almuerzo } = data1;
-          //this.authService.createNomina(nombre_horario, minutos_almuerzo);
-        })
-      }
-      reader.readAsBinaryString(file);
-    }
-    else {
-      this.authService.showError('Este no es un archivo de formato excel')
-    }
-  }
 
 /////////////////////////////////////////////////////////////////////////////
 //funciones utuizadas en esta pagina
-  public obtenerNomina(){
-    this.authService.getDataCursoId(this.dataId).subscribe((data) => {
+  public obtenerNomina(id){
+    this.authService.getDataCursoId(id).subscribe((data) => {
       this.nomina = [];
       data.forEach((dataMateria: any) => {
-        console.log('materia seleccionada', dataMateria.payload.doc.id);
-        console.log(' data materia seleccionada', dataMateria.payload.doc.data());
         this.nomina.push({
           id: dataMateria.payload.doc.id,
           data: dataMateria.payload.doc.data()
         })
       });
+      this.generateTable();
     });
+  }
 
+  public generateTable(){
+    this.nomina.forEach(element => {
+      this.nominaVista.push({
+        codigoUnico:element.data.numeroUnico,
+        nombre:element.data.nombre,
+        id:element.id,
+        presente:false,
+        atraso:false,
+        falta:false
+      })
+      this.tabla1.renderRows();
+    });
+  }
+
+  public generarConsultaActualziacionTabla(){
+
+  }
+ 
+  showOptionsPresente(event, dato:any,idEstudiante:any) {
+    this.nominaVista[dato].presente = true;
+    this.nominaVista[dato].atraso = false;
+    this.nominaVista[dato].falta = false;
+    try{
+      let data={
+        estudiante:idEstudiante,
+        fecha:this.fechaActual,
+        presente:true
+      }
+      let consulta = this.authService.createAsistencia(this.dataId,data);
+      if(consulta){
+        this.authService.showSuccess('EL dato ha sido registrado');
+        this.getAsistencia();
+      }
+    }catch(error){
+      this.authService.showError(error);
+    }
+  }
+
+  showOptionsAtraso(event, dato:any,idEstudiante:any) {
+    this.nominaVista[dato].presente = false;
+    this.nominaVista[dato].atraso = true;
+    this.nominaVista[dato].falta = false;
+    try{
+      let data={
+        estudiante:idEstudiante,
+        fecha:this.fechaActual,
+        atraso:true
+      }
+      let consulta = this.authService.createAsistencia(this.dataId,data);
+      if(consulta){
+        this.authService.showSuccess('EL dato ha sido registrado');
+      }
+    }catch(error){
+      this.authService.showError(error);
+    }
+  }
+
+  showOptionsFalta(event, dato:any,idEstudiante:any) {
+    this.nominaVista[dato].presente = false;
+    this.nominaVista[dato].atraso = false;
+    this.nominaVista[dato].falta = true;
+    try{
+      let data={
+        estudiante:idEstudiante,
+        fecha:this.fechaActual,
+        falta:true
+      }
+      let consulta = this.authService.createAsistencia(this.dataId,data);
+      if(consulta){
+        this.authService.showSuccess('EL dato ha sido registrado');
+      }
+    }catch(error){
+      this.authService.showError(error);
+    }
+  }
+
+  async getAsistencia(){
+    this.asistencia = [];
+    console.log(this.dataId,this.fechaActual);
+    this.authService.getDataAsistencia(this.dataId,this.fechaActual).subscribe((data) => {
+      data.forEach((dataMateria: any) => {
+        this.asistencia.push({
+          id: dataMateria.payload.doc.id,
+          data: dataMateria.payload.doc.data()
+        })
+      });
+    });
+    console.log(this.asistencia);
   }
 
 }

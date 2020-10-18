@@ -395,11 +395,11 @@ export class AuthService extends RoleValidator {
         image: image
       }
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').add(data);
-      console.log(create.id);
+      //console.log(create.id);
       return create.id;
     } catch (error) {
       this.showError(error);
-      console.log(error);
+      //console.log(error);
     }
   }
 
@@ -439,12 +439,45 @@ export class AuthService extends RoleValidator {
    //Obtener curso con el id
    public getDataCursoId(id:any) {
     try {
-      let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(id).collection('nomina').snapshotChanges();
+      let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(id).collection('nomina',ref=>ref.orderBy('nombre')).snapshotChanges();
       return db;
     } catch (error) {
       this.showError(error);
     }
   }
+  
+
+  //guardar asistencia
+  //valor es un json con el valor presente atrasado o falta
+  public async createAsistencia(idCurso:any,valor:any) {
+   // console.log('data',valor);
+    try {
+      const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('asistencia').add(valor);
+      return create;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+  //Obtener asistencia de todos
+  public getDataAsistencia(idCurso:any,dataAsistencia:any) {
+    try {
+      let consulta = this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('asistencia',ref=> ref.where('fecha','==',dataAsistencia)).snapshotChanges();
+      return consulta;
+
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+    //Obtener asistencia de todos
+    public getDataNomina(id:any) {
+      try {
+        let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(id).collection('nomina',ref=>ref.orderBy('nombre')).snapshotChanges();
+        return db;
+      } catch (error) {
+        this.showError(error);
+      }
+    }
 
   //mensajes
   showError(mensaje: string) {

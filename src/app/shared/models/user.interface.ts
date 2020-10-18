@@ -34,3 +34,13 @@ export interface FileI {
     size: string;
     type: string;
   }
+
+
+export interface Nomina{
+    id?:any,
+    codigoUnico?: any,
+    nombre?:any,
+    presente?:any,
+    atraso?:any,
+    falta?:any
+}
