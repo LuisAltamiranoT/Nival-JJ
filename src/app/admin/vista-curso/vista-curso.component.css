@@ -13,3 +13,88 @@ table { width: 100%;
 .mat-checkbox-disabled.mat-checkbox-checked .mat-checkbox-background, .mat-checkbox-disabled.mat-checkbox-indeterminate{
     background-color: red !important;
 }
+
+
+
+
+/*nomina*/
+table th td{
+    padding: .5rem;
+    text-align: center;
+    cursor: pointer !important;
+    
+}
+
+tr { text-align: center; }
+
+.tdNival:hover {
+color: white !important;
+background-color: #5bc0de;
+cursor: pointer;
+}
+
+table { width: 100%; font-size: 14px;}
+
+.container-nival{
+    min-height: 70vh;
+
+}
+
+.hr-nival{
+    margin-top: 0.4rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
+}
+
+.aNival:hover{
+    opacity: 0.5 !important;
+}
+
+/*material*/
+.example-container {
+    max-width: 100%;
+    overflow: auto;
+    width: 100%;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  .mat-header-cell, .mat-footer-cell, .mat-cell {
+    box-sizing: border-box;
+    text-align: center;
+    justify-content:center;
+  }
+  
+  td.mat-column-codigoUnico {
+    width: 200px;
+    padding-right: 8px;
+  }
+  
+  td.mat-column-nombre {
+    width: 500px;
+    padding-right: 8px;
+  }
+  td.mat-column-presente {
+    width:120px;
+    padding-right: 8px;
+  }
+  td.mat-column-atraso {
+    width: 120px;
+    padding-right: 8px;
+  }
+  td.mat-column-falta {
+    width: 120px;
+    padding-right: 8px;
+  }
+
+
+  .col-center{
+  float: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+
