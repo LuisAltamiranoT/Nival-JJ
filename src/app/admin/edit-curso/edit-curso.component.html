@@ -1,0 +1,278 @@
+<div class="container  mt-5 container-nival">
+    <div class="row mt-5">
+        <div class="col-sm-12 col-md-12 col-lg-12 mt-4 pt-1">
+            <h3 class="font-weight-normal">Nuevo Curso</h3>
+            <hr class="hr-nival">
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-4 mx-auto col-12">
+            <div class="bd-callout bd-callout-default w-100">
+                <h2 id="dealing-with-specificity">
+                    <i class="far fa-image pb-1 fa-nival fa-xs"></i> Foto
+                    <a class="float-right text-info" (click)="photoInput.click()">
+                        <i class="fas fa-upload pb-1 fa-nival fa-xs"></i>
+                    </a>
+                    <a class="float-right text-danger" (click)="photoQuit()" *ngIf="validImage">
+                        <i class="fas fa-trash pb-1 pr-2 fa-nival fa-xs"></i>
+                    </a>
+                </h2>
+                <div class="text-center">
+                    <img [src]="photoSelected || '../../../assets/clase.jpg'" fallimg class="img-fluid">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-8 mx-auto col-12">
+            <div class="bd-callout bd-callout-default w-100">
+                <h2 id="dealing-with-specificity">
+                    <i class="fas fa-list pr-1 pb-1 fa-nival fa-xs"></i>Información:
+                </h2>
+                <!-- ***************************************** Formulario crear curso *************************-->
+                <form class=" p-1 mt-1" [formGroup]="cursoForm" (ngSubmit)="addCurso(cursoForm)">
+                    <input type="file" class="d-none" (change)="onPhotoSelected($event)" #photoInput
+                        formControlName="image">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
+                                <mat-form-field class="fullNivalWidth">
+                                    <mat-label>{{nombreMateria}}</mat-label>
+                                    <input matInput matInput disabled value="{{placeholderMateria}}">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
+                                <mat-form-field class="fullNivalWidth">
+                                    <mat-label>Aula</mat-label>
+                                    <input matInput [type]="'text'" autocomplete="off" placeholder="{{placeholder}}"
+                                        formControlName="aula">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-12 mb-1">
+                                <mat-label>
+                                    <i class="fas fa-calendar-day pr-1 pb-1 fa-nival fa-xs"></i>Horario</mat-label>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-12 mb-1">
+                                <div class="example-container mat-elevation-z2">
+                                    <table mat-table [dataSource]="dataSource">
+
+                                        <!-- Position Column -->
+                                        <ng-container matColumnDef="hora">
+                                            <th mat-header-cell *matHeaderCellDef> Hora. </th>
+                                            <td mat-cell *matCellDef="let element"> {{element.hora}}
+                                            </td>
+                                        </ng-container>
+
+                                        <!-- Name Column -->
+                                        <ng-container matColumnDef="lunes">
+                                            <th mat-header-cell *matHeaderCellDef> Lunes </th>
+                                            <td class="px-1" mat-cell *matCellDef="let element, let l = index;">
+                                                <!--Info para nuevas materias 
+                                                LS estado actual LD estado Almacenado-->
+                                                <p class=" rounded p-1 bg-info text-white mt-2" *ngIf="element.LS">
+                                                    {{element.lunes}}
+                                                    <a class="text-white pl-2" (click)="delHoraDiaLunes(l)">
+                                                        <i class="fas fa-times-circle"></i>
+                                                    </a>
+                                                </p>
+
+                                                <!--secundary para nuevas materias -->
+                                                <p class=" rounded p-1 bg-secondary text-white mt-2" *ngIf="element.LD">
+                                                    {{element.lunes}}
+                                                </p>
+
+                                                <a class="text-center text-muted" (click)="setHoraDiaLunes(l)"
+                                                    *ngIf="!element.LS && !element.LD">
+                                                    <i class="far fa-plus-square"></i>
+                                                </a>
+                                            </td>
+                                        </ng-container>
+
+                                        <!-- Weight Column -->
+                                        <ng-container matColumnDef="martes">
+                                            <th mat-header-cell *matHeaderCellDef> Martes </th>
+                                            <td class="px-1" mat-cell *matCellDef="let element, let m = index;">
+                                                <!--Info para nuevas materias 
+                                                LS estado actual LD estado Almacenado-->
+                                                <p class=" rounded p-1 bg-info text-white mt-2" *ngIf="element.MS">
+                                                    {{element.martes}}
+                                                    <a class="text-white pl-2" (click)="delHoraDiaMartes(m)">
+                                                        <i class="fas fa-times-circle"></i>
+                                                    </a>
+                                                </p>
+
+                                                <!--secundary para nuevas materias -->
+                                                <p class=" rounded p-1 bg-secondary text-white mt-2" *ngIf="element.MD">
+                                                    {{element.martes}}
+                                                </p>
+
+                                                <a class="text-center text-muted" (click)="setHoraDiaMartes(m)"
+                                                    *ngIf="!element.MS && !element.MD">
+                                                    <i class="far fa-plus-square"></i>
+                                                </a>
+
+                                            </td>
+                                        </ng-container>
+
+                                        <!-- Symbol Column -->
+                                        <ng-container matColumnDef="miercoles">
+                                            <th mat-header-cell *matHeaderCellDef> Miercoles </th>
+                                            <td class="px-1" mat-cell *matCellDef="let element, let mi = index;">
+                                                <!--Info para nuevas materias 
+                                                LS estado actual LD estado Almacenado-->
+                                                <p class=" rounded p-1 bg-info text-white mt-2" *ngIf="element.MiS">
+                                                    {{element.miercoles}}
+                                                    <a class="text-white pl-2" (click)="delHoraDiaMiercoles(mi)">
+                                                        <i class="fas fa-times-circle"></i>
+                                                    </a>
+                                                </p>
+
+                                                <!--secundary para nuevas materias -->
+                                                <p class=" rounded p-1 bg-secondary text-white mt-2"
+                                                    *ngIf="element.MiD">
+                                                    {{element.miercoles}}
+                                                </p>
+
+                                                <a class="text-center text-muted" (click)="setHoraDiaMiercoles(mi)"
+                                                    *ngIf="!element.MiS && !element.MiD">
+                                                    <i class="far fa-plus-square"></i>
+                                                </a>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="jueves">
+                                            <th mat-header-cell *matHeaderCellDef> Jueves </th>
+                                            <td class="px-1" mat-cell *matCellDef="let element, let j = index;">
+                                                <!--Info para nuevas materias 
+                                                LS estado actual LD estado Almacenado-->
+                                                <p class=" rounded p-1 bg-info text-white mt-2" *ngIf="element.JS">
+                                                    {{element.jueves}}
+                                                    <a class="text-white pl-2" (click)="delHoraDiaJueves(j)">
+                                                        <i class="fas fa-times-circle"></i>
+                                                    </a>
+                                                </p>
+
+                                                <!--secundary para nuevas materias -->
+                                                <p class=" rounded p-1 bg-secondary text-white mt-2" *ngIf="element.JD">
+                                                    {{element.jueves}}
+                                                </p>
+
+                                                <a class="text-center text-muted" (click)="setHoraDiaJueves(j)"
+                                                    *ngIf="!element.JS && !element.JD">
+                                                    <i class="far fa-plus-square"></i>
+                                                </a>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="viernes">
+                                            <th mat-header-cell *matHeaderCellDef> viernes </th>
+                                            <td class="px-1" mat-cell *matCellDef="let element, let v = index;">
+                                                <!--Info para nuevas materias 
+                                                LS estado actual LD estado Almacenado-->
+                                                <p class=" rounded p-1 bg-info text-white mt-2" *ngIf="element.VS">
+                                                    {{element.viernes}}
+                                                    <a class="text-white pl-2" (click)="delHoraDiaViernes(v)">
+                                                        <i class="fas fa-times-circle"></i>
+                                                    </a>
+                                                </p>
+
+                                                <!--secundary para nuevas materias -->
+                                                <p class=" rounded p-1 bg-secondary text-white mt-2" *ngIf="element.VD">
+                                                    {{element.viernes}}
+                                                </p>
+
+                                                <a class="text-center text-muted" (click)="setHoraDiaViernes(v)"
+                                                    *ngIf="!element.VS && !element.VD">
+                                                    <i class="far fa-plus-square"></i>
+                                                </a>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-12">
+                                <mat-label>
+                                    <a class="text-white bg-info rounded px-2 py-1 mr-2" (click)="fileInput.click()">
+                                        <i class="fas fa-file-excel pb-1 fa-nival fa-sm"></i>
+                                        Agregar Nomina
+                                    </a>
+                                    {{nombreFile}}
+                                    <a class="text-white bg-danger rounded px-2 py-1 mr-2" *ngIf="validFile" (click)="clearFile()">
+                                        <i class="fas fa-times fa-nival fa-sm"></i>
+                                    </a>
+                                </mat-label>
+                                <input type="file" class="d-none" (change)="onFileChange($event)" #fileInput
+                                    formControlName="file">
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12 col-12 my-2">
+                                <div class="text-center">
+                                    <div *ngIf="validate else barra">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-sm btn-primary"
+                            [disabled]="!cursoForm.valid">Guardar</button>
+                    </div>
+                </form>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-12 col-12">
+                            <div class="example-container mat-elevation-z2">
+                                <table mat-table [dataSource]="dataSource2" #tabla1>
+        
+                                    <!-- Numero de fila -->
+                                    <ng-container matColumnDef="fila">
+                                        <th mat-header-cell *matHeaderCellDef> N° </th>
+                                        <td mat-cell *matCellDef="let element ,let i = index;"> {{i+1}}
+                                        </td>
+                                    </ng-container>
+            
+                                    <!-- Position Column -->
+                                    <ng-container matColumnDef="codigoUnico">
+                                        <th mat-header-cell *matHeaderCellDef> Codigo único </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.codigoUnico}}
+                                        </td>
+                                    </ng-container>
+            
+                                    <!-- Name Column -->
+                                    <ng-container matColumnDef="nombre">
+                                        <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                        <td class="px-1" mat-cell *matCellDef="let element, let l = index;">
+            
+                                            <a class="text-left">
+                                                <p class=" rounded p-1 mt-2">
+                                                    {{element.nombre}}
+                                                </p>
+                                            </a>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns2; sticky: true"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ****************** Fin de formulario crear curso *************************-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #barra>
+    <div class="my-2">
+        <mat-progress-bar class="input-modal" id="progreesbar" mode="indeterminate"></mat-progress-bar>
+    </div>
+</ng-template>

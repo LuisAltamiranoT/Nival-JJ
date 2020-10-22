@@ -436,7 +436,27 @@ export class AuthService extends RoleValidator {
     }
   }
 
-   //Obtener curso con el id
+  
+   //Obtener el curso con el id
+   public getCursoId(id:any) {
+    try {
+      let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(id).snapshotChanges();
+      return db;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+  //Obtener la materia con el id
+  public getMateriaId(id:any) {
+    try {
+      let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('materias').doc(id).snapshotChanges();
+      return db;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+   //Obtener la nomina del curso
    public getDataCursoId(id:any) {
     try {
       let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(id).collection('nomina',ref=>ref.orderBy('nombre')).snapshotChanges();
@@ -445,6 +465,18 @@ export class AuthService extends RoleValidator {
       this.showError(error);
     }
   }
+
+
+    //Obtener horario por el curso
+    public getHorarioCursoId(idMateria:any) {
+      try {
+        let consulta = this.afs.doc(`users/${this.dataUser}`).collection('horario',ref=> ref.where('uidMateria','==',idMateria)).snapshotChanges();
+        return consulta;
+  
+      } catch (error) {
+        this.showError(error);
+      }
+    }
   
 
   //guardar asistencia
@@ -459,7 +491,7 @@ export class AuthService extends RoleValidator {
     }
   }
 
-  //Obtener asistencia de todos
+  //Obtener asistencia de todos por fecha
   public getDataAsistencia(idCurso:any,dataAsistencia:any) {
     try {
       let consulta = this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('asistencia',ref=> ref.where('fecha','==',dataAsistencia)).snapshotChanges();
@@ -469,15 +501,7 @@ export class AuthService extends RoleValidator {
       this.showError(error);
     }
   }
-    //Obtener asistencia de todos
-    public getDataNomina(id:any) {
-      try {
-        let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(id).collection('nomina',ref=>ref.orderBy('nombre')).snapshotChanges();
-        return db;
-      } catch (error) {
-        this.showError(error);
-      }
-    }
+
 
   //mensajes
   showError(mensaje: string) {

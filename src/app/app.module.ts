@@ -22,6 +22,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { NgxSpinnerModule } from "ngx-spinner";
+import {MatCardModule} from '@angular/material/card';
 
 //Verificar
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -58,7 +59,6 @@ import { NombreComponent } from './admin/perfil/nombre/nombre.component';
 import { ApellidoComponent } from './admin/perfil/apellido/apellido.component';
 import { PasswordComponent } from './admin/perfil/password/password.component';
 import { DeleteComponent } from './admin/perfil/delete/delete.component';
-import { CursoComponent } from './admin/curso/curso.component';
 import { MateriaComponent } from './admin/perfil/materia/materia.component';
 import { CursoGroupComponent } from './admin/curso-group/curso-group.component';
 import { FooterComponent } from './shared/footer/footer.component';
@@ -72,6 +72,8 @@ import { AddCursoComponent } from './admin/add-curso/add-curso.component';
 import { VistaHorarioComponent } from './admin/add-curso/vista-horario/vista-horario.component';
 import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
 import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
+import { EditCursoComponent } from './admin/edit-curso/edit-curso.component';
+import { ViewImageComponent } from './admin/curso-group/view-image/view-image.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +91,6 @@ import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
     ApellidoComponent,
     PasswordComponent,
     DeleteComponent,
-    CursoComponent,
     MateriaComponent,
     CursoGroupComponent,
     FooterComponent,
@@ -102,7 +103,9 @@ import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
     AddCursoComponent,
     VistaHorarioComponent,
     VistaCursoComponent,
-    CodigoQRComponent
+    CodigoQRComponent,
+    EditCursoComponent,
+    ViewImageComponent
 
   ],
   imports: [
@@ -138,7 +141,8 @@ import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
     MatExpansionModule,
     MatGridListModule,
     MatMenuModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MatCardModule
   ],
   providers: [
     AuthService,

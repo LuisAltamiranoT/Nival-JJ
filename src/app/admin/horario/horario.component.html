@@ -9,11 +9,16 @@
     <div class="form-group">
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12 col-12 mb-1">
-                <div class="example-container mat-elevation-z2">
+                <div class="example-container mat-elevation-z3">
+                    <mat-form-field class="busqueda1">
+                        <mat-label>Buscar</mat-label>
+                        <input matInput autocomplete="off" (keyup)="applyFilter($event)"
+                            placeholder="Ejemplo GR3 o Filosofía" #input>
+                    </mat-form-field>
                     <table mat-table [dataSource]="dataSource">
 
                         <!-- Position Column -->
-                        <ng-container matColumnDef="hora">
+                        <ng-container matColumnDef="hora" sticky>
                             <th mat-header-cell *matHeaderCellDef> Hora. </th>
                             <td mat-cell *matCellDef="let element"> {{element.hora}}
                             </td>
@@ -25,7 +30,8 @@
                             <td class="px-1" mat-cell *matCellDef="let element, let l = index;">
 
                                 <a class="text-center" (click)="openCurso(element.Lid)">
-                                    <p class=" rounded p-1 text-white mt-2 aNival" [style.background-color]="element.LC">
+                                    <p class=" rounded p-1 text-white mt-2 aNival"
+                                        [style.background-color]="element.LC">
                                         {{element.lunes}}
                                     </p>
                                 </a>
@@ -37,7 +43,8 @@
                             <th mat-header-cell *matHeaderCellDef> Martes </th>
                             <td class="px-1" mat-cell *matCellDef="let element, let m = index;">
                                 <a class="text-center" (click)="openCurso(element.Mid)">
-                                    <p class=" rounded p-1 text-white mt-2 aNival" [style.background-color]="element.MC">
+                                    <p class=" rounded p-1 text-white mt-2 aNival"
+                                        [style.background-color]="element.MC">
                                         {{element.martes}}
                                     </p>
                                 </a>
@@ -50,7 +57,8 @@
                             <th mat-header-cell *matHeaderCellDef> Miercoles </th>
                             <td class="px-1" mat-cell *matCellDef="let element, let mi = index;">
                                 <a class="text-center" (click)="openCurso(element.Miid)">
-                                    <p class=" rounded p-1 text-white mt-2 aNival" [style.background-color]="element.MiC">
+                                    <p class=" rounded p-1 text-white mt-2 aNival"
+                                        [style.background-color]="element.MiC">
                                         {{element.miercoles}}
                                     </p>
                                 </a>
@@ -61,7 +69,8 @@
                             <th mat-header-cell *matHeaderCellDef> Jueves </th>
                             <td class="px-1" mat-cell *matCellDef="let element, let j = index;">
                                 <a class="text-center" (click)="openCurso(element.Jid)">
-                                    <p class=" rounded p-1 text-white mt-2 aNival" [style.background-color]="element.JC">
+                                    <p class=" rounded p-1 text-white mt-2 aNival"
+                                        [style.background-color]="element.JC">
                                         {{element.jueves}}
                                     </p>
                                 </a>
@@ -72,17 +81,21 @@
                         <ng-container matColumnDef="viernes">
                             <th mat-header-cell *matHeaderCellDef> viernes </th>
                             <td class="px-1" mat-cell *matCellDef="let element, let v = index;">
-                                    <a class="text-center" (click)="openCurso(element.Vid)">
-                                        <p class=" rounded p-1 text-white mt-2 aNival" [style.background-color]="element.VC">
-                                            {{element.viernes}}
-                                        </p>
-                                    </a>
+                                <a class="text-center" (click)="openCurso(element.Vid)">
+                                    <p class=" rounded p-1 text-white mt-2 aNival"
+                                        [style.background-color]="element.VC">
+                                        {{element.viernes}}
+                                    </p>
+                                </a>
 
                             </td>
                         </ng-container>
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="5">No se ha encontrado: "{{input.value}}"</td>
+                        </tr>
                     </table>
                 </div>
             </div>

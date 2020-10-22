@@ -89,4 +89,9 @@ export class FotoComponent implements OnInit {
     this.dialogRef.close();
   }
 
+
+  closeModal(){
+    this.dialogRef.close();
+  }
+
 }

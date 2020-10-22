@@ -8,7 +8,7 @@ import * as xlsx from 'xlsx';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth/services/auth.service';
 import { Nomina } from '../../shared/models/user.interface';
-import { MatTable } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 
 
@@ -37,6 +37,10 @@ public nominaVista: Nomina[] = [];
   //tomar la informacion de las asistencias
   public asistencia=[];
 
+  //CODIGO NUEVO TABLA
+  displayedColumns: string[] = ['fila','codigoUnico', 'nombre', 'presente', 'atraso', 'falta'];
+  dataSource = new MatTableDataSource(this.nominaVista);
+
   constructor(
     private authService: AuthService,
     public router: Router,
@@ -64,9 +68,7 @@ public nominaVista: Nomina[] = [];
   }
 
 
-//CODIGO NUEVO TABLA
-  displayedColumns = ['codigoUnico', 'nombre', 'presente', 'atraso', 'falta'];
-  dataSource = this.nominaVista;
+
 
 
 
@@ -209,6 +211,11 @@ public nominaVista: Nomina[] = [];
       });
     });
     console.log(this.asistencia);
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
 }

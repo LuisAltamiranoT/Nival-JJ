@@ -11,36 +11,22 @@
         <div class="col-sm-12 col-md-12 col-lg-12 col-12" style="margin: 0px !important; padding: 0px !important;">
             <hr class="hr-nival">
         </div>
-        
-        <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-            <a [routerLink]="['/curso']">
-                <div class="card card-background-nival">
-                    <img class="card-img-top card-image-nival" src="../../../assets/books.jpg" fallimg alt="Card image cap">
-                    <div class="card-body card-title-nival">
-                        <h3 class="card-title text-center">Nueva Clase</h3>
-                    </div>
+
+        <div class="col-12 col-sm-6 col-md-6 col-lg-4 my-3" *ngFor="let curso of cursoVista">
+            <div class="card">
+                <a (click)="openPhoto(curso.image)">
+                    <img class="card-img-top card-image-nival" [src]="curso.image" fallimg alt="Imagen curso">
+                </a>
+                <div class="card-body card-title-nival m-2">
+                    <button type="button" class="btn btn-light btn-sm" (click)="openCurso(curso.idCurso)">{{curso.nombre}}</button>
+                    <a class="float-right text-info p-1">
+                        <i class="far fa-edit"></i>
+                    </a>
+                    <a class="float-right text-danger p-1">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
                 </div>
-            </a>
-        </div>
-        <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-            <a>
-                <div class="card">
-                    <img class="card-img-top card-image-nival" src="../../../assets/clase.jpg" fallimg alt="Card image cap">
-                    <div class="card-body card-title-nival">
-                        <h3 class="card-title text-center">Special title treatment</h3>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-12 col-sm-6 col-md-6 col-lg-4">
-            <a>
-                <div class="card">
-                    <img class="card-img-top card-image-nival" src="" fallimg alt="Card image cap">
-                    <div class="card-body card-title-nival">
-                        <h3 class="card-title text-center">Special title treatment</h3>
-                    </div>
-                </div>
-            </a>
+            </div>
         </div>
     </div>
 </div>

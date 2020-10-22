@@ -1,29 +1,7 @@
-.container-nival{
-    min-height: 100vh;
 
-}
-.busqueda1{
-  font-size: 14px;
-  width: 60%;
-  padding-left: 1rem;
-  padding-top: 1rem;
-}
-
-.hr-nival{
-    margin-top: 0.4rem;
-    margin-bottom: 1rem;
-    border: 0;
-    border-top: 1px solid rgba(0,0,0,.1);
-}
-
-.aNival:hover{
-    opacity: 0.5 !important;
-}
-
-/*material*/
 .example-container {
+    height: 200px;
     max-width: 100%;
-    max-height: 79vh;
     overflow: auto;
   }
   
@@ -63,4 +41,3 @@
     padding-right: 8px;
   }
   
-

@@ -35,6 +35,7 @@ export class PerfilComponent implements OnInit {
   informacion = "";
   cursos = [];
   materias = [];
+  cursoCompleto=[];
   password = "";
   materiaSeleccionada = "";
   nombreMateria = "";
@@ -53,8 +54,8 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataUser();
-    this.curso();
     this.materia();
+    this.curso();
   }
 
   dataUser() {
@@ -81,6 +82,20 @@ export class PerfilComponent implements OnInit {
           data: dataCurso.payload.doc.data()
         });
       })
+      this.cargarData();
+    });
+  }
+
+  cargarData(){
+    this.materias.forEach(elementMateria => {
+      this.cursos.forEach(elementCurso => {
+        if(elementMateria.id===elementCurso.data.uidMateria){
+          this.cursoCompleto.push({
+            idCurso:elementCurso.id,
+            nombre:elementMateria.data.nombre+' '+elementCurso.data.aula
+          })
+        }
+      });
     });
   }
 
@@ -94,6 +109,15 @@ export class PerfilComponent implements OnInit {
         });
       })
     });
+  }
+
+  //eliminar curso
+  eliminarCurso(idCurso:any){
+
+  }
+  //editar curso
+  editarCurso(idCurso:any){
+    this.router.navigate(['edit-curso',idCurso]);
   }
 
   openAnioLectivoModal() {

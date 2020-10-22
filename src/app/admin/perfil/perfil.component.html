@@ -113,7 +113,19 @@
                         <i class="far fa-plus-square"></i>
                     </a>
                 </h2>
-                <p class="font-weight-light" id="fontNival-p">Nombres de los cursos</p>
+                <div class="bg-light" *ngFor="let curso of cursoCompleto; let i = index">
+                    <p class="font-weight-light pl-1" id="fontNival-p"><strong>{{i+1+'.'}}</strong>
+                        {{curso.nombre}}
+                        <a class="float-right text-danger" (click)="eliminarCurso(curso.id)"
+                            *ngIf="val">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                        <a class="float-right text-info" (click)="editarCurso(curso.idCurso)"
+                            *ngIf="val">
+                            <i class="far fa-edit pr-2"></i>
+                        </a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>

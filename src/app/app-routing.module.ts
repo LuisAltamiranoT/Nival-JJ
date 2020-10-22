@@ -7,7 +7,6 @@ import { HomeComponent } from './home/home.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { PerfilComponent } from './admin/perfil/perfil.component';
-import { CursoComponent } from './admin/curso/curso.component';
 
 import { GuardGuard } from './auth/guard.guard';
 import { CursoGroupComponent } from './admin/curso-group/curso-group.component';
@@ -15,6 +14,7 @@ import { HorarioComponent } from './admin/horario/horario.component';
 import { AddCursoComponent } from './admin/add-curso/add-curso.component';
 import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
 import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
+import { EditCursoComponent } from './admin/edit-curso/edit-curso.component';
 
 const routes: Routes = [
   {
@@ -67,6 +67,11 @@ const routes: Routes = [
   {
     path: 'codigo/:data',
     component: CodigoQRComponent,
+    canActivate: [GuardGuard]
+  },
+  {
+    path: 'edit-curso/:data',
+    component: EditCursoComponent,
     canActivate: [GuardGuard]
   }
 ];

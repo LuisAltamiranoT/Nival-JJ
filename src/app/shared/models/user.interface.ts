@@ -37,6 +37,7 @@ export interface FileI {
 
 
 export interface Nomina{
+    fila?:any,
     id?:any,
     codigoUnico?: any,
     nombre?:any,

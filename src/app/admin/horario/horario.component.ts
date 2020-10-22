@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/services/auth.service';
 import { Horario } from "../../shared/models/horario.interface";
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -59,8 +60,8 @@ private color=['DARKSLATEGRAY','CADETBLUE','CORAL','FIREBRICK','TEAL','INDIANRED
     this.getMateria();
   }
 
-  displayedColumns = ['hora', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
-  dataSource = this.horarioVista;
+  displayedColumns:string[] = ['hora', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
+  dataSource = new MatTableDataSource(this.horarioVista);
 
 
   getMateria() {
@@ -135,6 +136,11 @@ private color=['DARKSLATEGRAY','CADETBLUE','CORAL','FIREBRICK','TEAL','INDIANRED
         }
       });
     });
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   
