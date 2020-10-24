@@ -18,13 +18,10 @@ interface HtmlInputEvent extends Event {
   styleUrls: ['./foto.component.css']
 })
 export class FotoComponent implements OnInit {
-
-  
   private stateImage: Subscription = null;
 
-  
-
   validate = true;
+
 
   photoForm = new FormGroup({
     image: new FormControl('')
@@ -34,7 +31,9 @@ export class FotoComponent implements OnInit {
   perfil = '';
   private file: any;
   public photoSelected: string | ArrayBuffer;
+  //validar tamaño y tipo de imagen
   private validImage: boolean = false;
+  private validateSize: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<FotoComponent>,
@@ -47,23 +46,31 @@ export class FotoComponent implements OnInit {
 
     this.photoSelected = '../../../assets/aqui.jpg';
 
-    this.stateImage = this.authService.finalizoImage$.subscribe(()=>{
+    this.stateImage = this.authService.finalizoImage$.subscribe(() => {
       this.dimissModal();
     })
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.stateImage.unsubscribe();
   }
-
+  
+  
   onPhotoSelected(event: HtmlInputEvent): void {
     if (event.target.files && event.target.files[0]) {
       this.file = <File>event.target.files[0];
       this.validImage = this.uploadImage.validateType(this.file.type);
+      this.validateSize = this.uploadImage.validateSize(this.file.size);
+      //console.log('esto es a imagen',this.file.size);
+      //console.log('esto es el tamaño',this.validateSize);
       if (this.validImage) {
-        const reader = new FileReader();
-        reader.onload = e => this.photoSelected = reader.result;
-        reader.readAsDataURL(this.file);
-      } else {
+        if (this.validateSize) {
+          const reader = new FileReader();
+          reader.onload = e => this.photoSelected = reader.result;
+          reader.readAsDataURL(this.file);
+        } else {
+          this.authService.showError('El tamaño de la imagen no puede exceder los 2MB');
+        }
+      }else{
         this.authService.showError('El archivo seleccionado no es una imagen');
       }
     } else {
@@ -72,10 +79,10 @@ export class FotoComponent implements OnInit {
   }
 
   addFoto() {
-    this.validate=false;
-    if (this.validImage&&this.infoUser==='no-image') {
+    this.validate = false;
+    if (this.validImage && this.infoUser === 'no-image') {
       let data = this.uploadImage.preAddAndUpdatePerfil(this.file);
-    }else{
+    } else {
       let data = this.uploadImage.preAddAndUpdatePerfil(this.file);
       this.uploadImage.deleteImagePerfil(this.infoUser);
     }
@@ -84,13 +91,13 @@ export class FotoComponent implements OnInit {
 
 
   dimissModal() {
-    this.validate=true;
+    this.validate = true;
     this.authService.showSuccess('La información se ha actualizado');
     this.dialogRef.close();
   }
 
 
-  closeModal(){
+  closeModal() {
     this.dialogRef.close();
   }
 

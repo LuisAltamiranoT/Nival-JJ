@@ -63,6 +63,7 @@ export class AddCursoComponent implements OnInit {
   public photoSelected: string | ArrayBuffer;
   //valida la imagen
   public validImage: boolean = false;
+  private validateSize: boolean = false;
 
   //control de suscripciones
   private suscripcion1: Subscription;
@@ -261,17 +262,25 @@ export class AddCursoComponent implements OnInit {
     if (event.target.files && event.target.files[0]) {
       this.file = <File>event.target.files[0];
       this.validImage = this.uploadImage.validateType(this.file.type);
+      this.validateSize = this.uploadImage.validateSize(this.file.size);
       if (this.validImage) {
-        const reader = new FileReader();
-        reader.onload = e => this.photoSelected = reader.result;
-        reader.readAsDataURL(this.file);
-      } else {
+        if (this.validateSize) {
+          const reader = new FileReader();
+          reader.onload = e => this.photoSelected = reader.result;
+          reader.readAsDataURL(this.file);
+        } else {
+          this.authService.showError('El tamaño de la imagen no puede exceder los 2MB');
+        }
+      }else{
         this.authService.showError('El archivo seleccionado no es una imagen');
       }
     } else {
       this.validImage = false;
     }
   }
+
+ 
+  
 
   materia() {
     this.suscripcion1=this.authService.getDataMateria().subscribe((data) => {

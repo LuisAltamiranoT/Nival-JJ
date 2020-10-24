@@ -18,6 +18,7 @@ import { EditarAnioComponent } from './editar-anio/editar-anio.component';
 import { FotoComponent } from './foto/foto.component';
 
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-perfil',
@@ -45,6 +46,10 @@ export class PerfilComponent implements OnInit {
 
   val = true;
 
+  private suscripcion1: Subscription;
+  private suscripcion2: Subscription;
+  private suscripcion3: Subscription;
+
   constructor(
     public ventana: MatDialog,
     private modalService: NgbModal,
@@ -58,9 +63,14 @@ export class PerfilComponent implements OnInit {
     this.curso();
   }
 
-  dataUser() {
+  ngOnDestroy() {
+    this.suscripcion1.unsubscribe();
+    this.suscripcion2.unsubscribe();
+    this.suscripcion3.unsubscribe();
+  }
 
-    this.authService.getDataUser().subscribe((data) => {
+  dataUser() {
+    this.suscripcion1=this.authService.getDataUser().subscribe((data) => {
       this.nombre = data.nombre;
       this.apellido = data.apellido;
       this.correo = data.email;
@@ -74,8 +84,8 @@ export class PerfilComponent implements OnInit {
   }
 
   curso() {
-    this.authService.getDataCurso().subscribe((data) => {
-      this.cursos = [];
+    this.suscripcion2=this.authService.getDataCurso().subscribe((data) => {
+      this.cursos.length=0;
       data.forEach((dataCurso: any) => {
         this.cursos.push({
           id: dataCurso.payload.doc.id,
@@ -100,8 +110,8 @@ export class PerfilComponent implements OnInit {
   }
 
   materia() {
-    this.authService.getDataMateria().subscribe((data) => {
-      this.materias = [];
+    this.suscripcion3=this.authService.getDataMateria().subscribe((data) => {
+      this.materias.length=0;
       data.forEach((dataMateria: any) => {
         this.materias.push({
           id: dataMateria.payload.doc.id,
