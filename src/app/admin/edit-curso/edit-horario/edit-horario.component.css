@@ -1,12 +1,6 @@
 
-.busqueda1{
-  font-size: 14px;
-  width: 60%;
-  padding-left: 1rem;
-  padding-top: 1rem;
-}
 .example-container {
-    max-height: 46vh;
+    height: 55vh;
     max-width: 100%;
     overflow: auto;
   }

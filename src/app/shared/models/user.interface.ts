@@ -44,4 +44,10 @@ export interface Nomina{
     presente?:any,
     atraso?:any,
     falta?:any
+    opciones?:any
+}
+
+export interface NominaObligatoria{
+    codigoUnico: any,
+    nombre: any,
 }

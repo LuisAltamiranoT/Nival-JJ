@@ -4,6 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgFallimgModule } from 'ng-fallimg';
+import { CommonModule } from '@angular/common';
 
 //codigo QR
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
@@ -74,6 +75,12 @@ import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
 import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
 import { EditCursoComponent } from './admin/edit-curso/edit-curso.component';
 import { ViewImageComponent } from './admin/curso-group/view-image/view-image.component';
+import { EditAulaComponent } from './admin/edit-curso/edit-aula/edit-aula.component';
+import { EditEstudianteComponent } from './admin/edit-curso/edit-estudiante/edit-estudiante.component';
+import { EditImageComponent } from './admin/edit-curso/edit-image/edit-image.component';
+import { AddEstudianteComponent } from './admin/edit-curso/add-estudiante/add-estudiante.component';
+import { EditHorarioComponent } from './admin/edit-curso/edit-horario/edit-horario.component';
+import { DeleteEstudianteComponent } from './admin/edit-curso/delete-estudiante/delete-estudiante.component';
 
 @NgModule({
   declarations: [
@@ -105,11 +112,18 @@ import { ViewImageComponent } from './admin/curso-group/view-image/view-image.co
     VistaCursoComponent,
     CodigoQRComponent,
     EditCursoComponent,
-    ViewImageComponent
+    ViewImageComponent,
+    EditAulaComponent,
+    EditEstudianteComponent,
+    EditImageComponent,
+    AddEstudianteComponent,
+    EditHorarioComponent,
+    DeleteEstudianteComponent
 
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
     AppRoutingModule,

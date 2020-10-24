@@ -1,0 +1,27 @@
+<form [formGroup]="photoForm" (ngSubmit)="addFoto()">
+    <h2 mat-dialog-title class="pb-1">Foto Perfil:</h2>
+    <div class="text-center">
+        <div *ngIf="validate else barra">
+        </div>
+    </div>
+    <div class="col-sm-12 col-md-12  col-lg-12 col-12 mx-auto my-4 rounded border border-light">
+        <div class="mx-auto" [ngStyle]="{'background-image':'url('+photoSelected+')'}" id="imagePerfil"
+            (click)="photoInput.click()"></div>
+    </div>
+    <input type="file" class="d-none" (change)="onPhotoSelected($event)" #photoInput formControlName="image">
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
+            <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="closeModal()">Cancelar</a>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
+            <button type="submit" class="btn btn-sm btn-primary fullNivalWidth"
+                [disabled]="!photoForm.valid">Guardar</button>
+        </div>
+    </div>
+</form>
+
+<ng-template #barra>
+    <div class="pb-2">
+        <mat-progress-bar class="input-modal" id="progreesbar" mode="indeterminate"></mat-progress-bar>
+    </div>
+</ng-template>

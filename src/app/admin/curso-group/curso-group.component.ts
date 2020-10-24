@@ -35,8 +35,8 @@ private color=['DARKSLATEGRAY','CADETBLUE','CORAL','FIREBRICK','TEAL','INDIANRED
   }
 
   getMateria() {
-    this.materias = [];
     this.authService.getDataMateria().subscribe((data) => {
+      this.materias.length=0;
       data.forEach((dataMateria: any) => {
         this.materias.push({
           id: dataMateria.payload.doc.id,
@@ -46,7 +46,7 @@ private color=['DARKSLATEGRAY','CADETBLUE','CORAL','FIREBRICK','TEAL','INDIANRED
     });
 
     this.authService.getDataCurso().subscribe((data) => {
-      this.curso = [];
+      this.curso.length=0;
       data.forEach((dataMateria: any) => {
         this.curso.push({
           id: dataMateria.payload.doc.id,
@@ -59,6 +59,7 @@ private color=['DARKSLATEGRAY','CADETBLUE','CORAL','FIREBRICK','TEAL','INDIANRED
 
   
   replaceCursos() {
+    this.cursoVista.length=0;
     console.log('Se ejecuta el replace');
     let cont =0;
     this.materias.forEach(element => {
@@ -83,6 +84,10 @@ private color=['DARKSLATEGRAY','CADETBLUE','CORAL','FIREBRICK','TEAL','INDIANRED
 
   openCurso(id:any) {
     this.router.navigate(['vista-curso',id]);
+  }
+
+  openEditCurso(idCurso:any) {
+    this.router.navigate(['edit-curso',idCurso]);
   }
 
   openPhoto(image:any) {

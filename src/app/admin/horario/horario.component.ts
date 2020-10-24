@@ -65,8 +65,8 @@ private color=['DARKSLATEGRAY','CADETBLUE','CORAL','FIREBRICK','TEAL','INDIANRED
 
 
   getMateria() {
-    this.materias = [];
     this.authService.getDataMateria().subscribe((data) => {
+      this.materias.length=0;
       data.forEach((dataMateria: any) => {
         this.materias.push({
           id: dataMateria.payload.doc.id,
@@ -76,7 +76,7 @@ private color=['DARKSLATEGRAY','CADETBLUE','CORAL','FIREBRICK','TEAL','INDIANRED
     });
 
     this.authService.getDataCurso().subscribe((data) => {
-      this.curso = [];
+      this.curso.length=0;
       data.forEach((dataMateria: any) => {
         this.curso.push({
           id: dataMateria.payload.doc.id,
@@ -85,8 +85,8 @@ private color=['DARKSLATEGRAY','CADETBLUE','CORAL','FIREBRICK','TEAL','INDIANRED
       });
     });
 
-    this.horarioGuardado = [];
     this.authService.getHorario().subscribe((data) => {
+      this.horarioGuardado.length=0;
       data.forEach((dataMateria: any) => {
         this.horarioGuardado.push({
           id: dataMateria.payload.doc.id,

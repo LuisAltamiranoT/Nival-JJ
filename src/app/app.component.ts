@@ -35,11 +35,11 @@ export class AppComponent implements OnInit {
       return false;
     }
   }
-
+ 
   removeFooter() {
     let title = this.location.prepareExternalUrl(this.location.path());
     title = title.slice(1).split("/")[0];
-    if (title === "verification-email" || title === "forgot-password" || title === "vista-curso") {
+    if (title === "verification-email" || title === "forgot-password" || title === "vista-curso"|| title === "edit-curso") {
       return true;
     } else {
       return false;

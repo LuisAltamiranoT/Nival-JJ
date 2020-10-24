@@ -56,7 +56,6 @@ export class AddCursoComponent implements OnInit {
   public horarioProfesor = [];
   //Es el horario que se agregar con el nuevo curso
   public nuevoHorario: any = [];
-  //image="";
   placeholder = 'Ejemplo GR1';
   //se almacena la informacion de la imagen
   private file: any;
@@ -64,6 +63,11 @@ export class AddCursoComponent implements OnInit {
   public photoSelected: string | ArrayBuffer;
   //valida la imagen
   public validImage: boolean = false;
+
+  //control de suscripciones
+  private suscripcion1: Subscription;
+  private suscripcion2: Subscription;
+  private suscripcion3: Subscription;
 
   cursoForm = new FormGroup({
     materiaSelect: new FormControl('', [Validators.required, Validators.minLength(1)]),
@@ -117,9 +121,13 @@ export class AddCursoComponent implements OnInit {
       this.finalizeBar();
     })
   }
+  
 
   ngOnDestroy() {
     this.stateImage.unsubscribe();
+    this.suscripcion1.unsubscribe();
+    this.suscripcion2.unsubscribe();
+    this.suscripcion3.unsubscribe();
   }
 
   displayedColumns = ['hora', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
@@ -266,7 +274,7 @@ export class AddCursoComponent implements OnInit {
   }
 
   materia() {
-    this.authService.getDataMateria().subscribe((data) => {
+    this.suscripcion1=this.authService.getDataMateria().subscribe((data) => {
       this.materias = [];
       data.forEach((dataMateria: any) => {
         this.materias.push({
@@ -278,7 +286,7 @@ export class AddCursoComponent implements OnInit {
   }
 
   getCursos() {
-    this.authService.getDataCurso().subscribe((data) => {
+    this.suscripcion2=this.authService.getDataCurso().subscribe((data) => {
       this.curso = [];
       data.forEach((dataMateria: any) => {
         this.curso.push({
@@ -290,7 +298,7 @@ export class AddCursoComponent implements OnInit {
   }
 
   getHorario() {
-    this.authService.getHorario().subscribe((data) => {
+    this.suscripcion3=this.authService.getHorario().subscribe((data) => {
       this.horarioGuardado = [];
       data.forEach((dataMateria: any) => {
         this.horarioGuardado.push({
@@ -342,8 +350,6 @@ export class AddCursoComponent implements OnInit {
     this.cursoForm.patchValue({ file: '' });
     this.validFile = false;
     this.nombreFile = '';
-    //this.nuevoHorario = [];
-    //console.log(this.archivoExcel);
   }
 
   //volver al estado original
