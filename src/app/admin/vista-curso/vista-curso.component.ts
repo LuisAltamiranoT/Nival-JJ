@@ -1,4 +1,4 @@
-import { Component, OnInit ,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 moment.locale('es');
@@ -8,12 +8,13 @@ import * as xlsx from 'xlsx';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth/services/auth.service';
 import { Nomina } from '../../shared/models/user.interface';
-import { MatTable } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 
 
 
 import { UploadExcelService } from '../../auth/services/upload-excel.service'
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-vista-curso',
   templateUrl: './vista-curso.component.html',
@@ -23,19 +24,28 @@ export class VistaCursoComponent implements OnInit {
   //manejor de tablas 
   @ViewChild(MatTable) tabla1: MatTable<Nomina>;
 
-//array de la nomina de los estudiantes 
-public nominaVista: Nomina[] = [];
+  //array de la nomina de los estudiantes 
+  public nominaVista: Nomina[] = [];
+  //dato que almacenara el id de la materia
+  public dataId: any;
+  //tomar la informacion de las asistencias
+  public asistencia = [];
+  //CODIGO NUEVO TABLA
+  displayedColumns: string[] = ['fila', 'codigoUnico', 'nombre', 'presente', 'atraso', 'falta'];
+  dataSource = new MatTableDataSource(this.nominaVista);
+
+  //manejar las suscripciones
+  private suscripcion1: Subscription;
+
+  //manejo de codigo qr
+  public codigoQr='kajshdkjahsdkjhaskdhugdyueggdvshfvdgvfsdvfhdvsf';
+
 
   nombre: any;
   fechaActual: any;
   nombreDay: any;
 
-  //dato que almacenara el id de la materia
-  public dataId: any;
-  //tomar la inforamcion de la nomina
-  public nomina=[];
-  //tomar la informacion de las asistencias
-  public asistencia=[];
+
 
   constructor(
     private authService: AuthService,
@@ -47,9 +57,9 @@ public nominaVista: Nomina[] = [];
     this.dataId = this._route.snapshot.paramMap.get('data');
 
     //obtener nomina estudiantes
-    console.log('id de la materia seleccionada',this.dataId);
+    console.log('id de la materia seleccionada', this.dataId);
     this.obtenerNomina(this.dataId);
-    
+
 
     ////////////////////////////
 
@@ -59,14 +69,15 @@ public nominaVista: Nomina[] = [];
 
     var day = moment(this.fechaActual).day();
 
-  
+
     this.nombreDay = moment.weekdays(day).charAt(0).toUpperCase() + moment.weekdays(day).slice(1)
   }
 
+  ngOnDestroy() {
+    this.suscripcion1.unsubscribe();
+  }
 
-//CODIGO NUEVO TABLA
-  displayedColumns = ['codigoUnico', 'nombre', 'presente', 'atraso', 'falta'];
-  dataSource = this.nominaVista;
+
 
 
 
@@ -106,101 +117,91 @@ public nominaVista: Nomina[] = [];
 
 
 
-/////////////////////////////////////////////////////////////////////////////
-//funciones utuizadas en esta pagina
-  public obtenerNomina(id){
-    this.authService.getDataCursoId(id).subscribe((data) => {
-      this.nomina = [];
+  /////////////////////////////////////////////////////////////////////////////
+  //funciones utuizadas en esta pagina
+  public obtenerNomina(id) {
+    this.suscripcion1=this.authService.getDataCursoId(id).subscribe((data) => {
+      this.nominaVista.length = 0;
       data.forEach((dataMateria: any) => {
-        this.nomina.push({
+        this.nominaVista.push({
           id: dataMateria.payload.doc.id,
-          data: dataMateria.payload.doc.data()
+          codigoUnico: dataMateria.payload.doc.data().codigoUnico,
+          nombre: dataMateria.payload.doc.data().nombre,
+          presente: false,
+          atraso: false,
+          falta: false
         })
       });
-      this.generateTable();
-    });
-  }
-
-  public generateTable(){
-    this.nomina.forEach(element => {
-      this.nominaVista.push({
-        codigoUnico:element.data.numeroUnico,
-        nombre:element.data.nombre,
-        id:element.id,
-        presente:false,
-        atraso:false,
-        falta:false
-      })
       this.tabla1.renderRows();
     });
   }
 
-  public generarConsultaActualziacionTabla(){
+  public generarConsultaActualziacionTabla() {
 
   }
- 
-  showOptionsPresente(event, dato:any,idEstudiante:any) {
+
+  showOptionsPresente(event, dato: any, idEstudiante: any) {
     this.nominaVista[dato].presente = true;
     this.nominaVista[dato].atraso = false;
     this.nominaVista[dato].falta = false;
-    try{
-      let data={
-        estudiante:idEstudiante,
-        fecha:this.fechaActual,
-        presente:true
+    try {
+      let data = {
+        estudiante: idEstudiante,
+        fecha: this.fechaActual,
+        presente: true
       }
-      let consulta = this.authService.createAsistencia(this.dataId,data);
-      if(consulta){
+      let consulta = this.authService.createAsistencia(this.dataId, data);
+      if (consulta) {
         this.authService.showSuccess('EL dato ha sido registrado');
         this.getAsistencia();
       }
-    }catch(error){
+    } catch (error) {
       this.authService.showError(error);
     }
   }
 
-  showOptionsAtraso(event, dato:any,idEstudiante:any) {
+  showOptionsAtraso(event, dato: any, idEstudiante: any) {
     this.nominaVista[dato].presente = false;
     this.nominaVista[dato].atraso = true;
     this.nominaVista[dato].falta = false;
-    try{
-      let data={
-        estudiante:idEstudiante,
-        fecha:this.fechaActual,
-        atraso:true
+    try {
+      let data = {
+        estudiante: idEstudiante,
+        fecha: this.fechaActual,
+        atraso: true
       }
-      let consulta = this.authService.createAsistencia(this.dataId,data);
-      if(consulta){
+      let consulta = this.authService.createAsistencia(this.dataId, data);
+      if (consulta) {
         this.authService.showSuccess('EL dato ha sido registrado');
       }
-    }catch(error){
+    } catch (error) {
       this.authService.showError(error);
     }
   }
 
-  showOptionsFalta(event, dato:any,idEstudiante:any) {
+  showOptionsFalta(event, dato: any, idEstudiante: any) {
     this.nominaVista[dato].presente = false;
     this.nominaVista[dato].atraso = false;
     this.nominaVista[dato].falta = true;
-    try{
-      let data={
-        estudiante:idEstudiante,
-        fecha:this.fechaActual,
-        falta:true
+    try {
+      let data = {
+        estudiante: idEstudiante,
+        fecha: this.fechaActual,
+        falta: true
       }
-      let consulta = this.authService.createAsistencia(this.dataId,data);
-      if(consulta){
+      let consulta = this.authService.createAsistencia(this.dataId, data);
+      if (consulta) {
         this.authService.showSuccess('EL dato ha sido registrado');
       }
-    }catch(error){
+    } catch (error) {
       this.authService.showError(error);
     }
   }
 
-  async getAsistencia(){
+  getAsistencia() {
     this.asistencia = [];
-    console.log(this.dataId,this.fechaActual);
-    this.authService.getDataAsistencia(this.dataId,this.fechaActual).subscribe((data) => {
+    console.log(this.dataId, this.fechaActual);
+    this.authService.getDataAsistencia(this.dataId, this.fechaActual).subscribe((data) => {
       data.forEach((dataMateria: any) => {
         this.asistencia.push({
           id: dataMateria.payload.doc.id,
@@ -211,4 +212,8 @@ public nominaVista: Nomina[] = [];
     console.log(this.asistencia);
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 }

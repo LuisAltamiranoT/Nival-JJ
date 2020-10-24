@@ -18,7 +18,7 @@ import { first, switchMap } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
-import { User, Curso, Materia } from '../../shared/models/user.interface';
+import { User, Curso, Materia, Nomina, NominaObligatoria } from '../../shared/models/user.interface';
 
 
 
@@ -276,7 +276,7 @@ export class AuthService extends RoleValidator {
       this.showError(error);
     }
   }
-  
+
 
 
   //crear materia
@@ -332,6 +332,21 @@ export class AuthService extends RoleValidator {
     }
   }
 
+  //imagen curso
+  public async updatePhotoCurso(valor: any, idCurso:any) {
+    try {
+      const userRef: AngularFirestoreDocument<Curso> = this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso);
+      const data: Curso = {
+        image: valor
+      };
+      await userRef.set(data, { merge: true });
+      this.estadoImgenUpdate.next();
+
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
   // agregar un curso se obtiene la informacion de uploadImage
 
   public async preparateCreateCurso(valor: any, image: any, nomina: any, horario: any) {
@@ -341,9 +356,9 @@ export class AuthService extends RoleValidator {
       let horarioCurso = horario;
 
       await Promise.all(archivoExcel.map(async (element) => {
-        const data = {
+        const data: NominaObligatoria = {
           nombre: element.nombre,
-          numeroUnico: element.codigoUnico
+          codigoUnico: element.codigoUnico
         }
         await this.createNomina(data, idcurso);
       }));
@@ -368,12 +383,46 @@ export class AuthService extends RoleValidator {
 
   }
   //crear nomina de estudiantes
-  public async createNomina(valor: any, idCurso: any) {
+  public async createNomina(valor: NominaObligatoria, idCurso: any) {
     try {
-      const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(`${idCurso}`).collection('nomina').add(valor);
+      const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('nomina').add(valor);
       return create;
     } catch (error) {
       this.showError(error);
+    }
+  }
+
+  //agregar estudiante en nomina segun el id del curso
+  public async addEstudiante(idCurso: any, valor: NominaObligatoria) {
+    try {
+      const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('nomina').add(valor);
+      return create;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+  //actualizar estudiante
+  public async updateEstudiante(data: NominaObligatoria, idCurso: any, idNomina: any) {
+    try {
+      const dataRef: AngularFirestoreDocument<NominaObligatoria> = this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('nomina').doc(idNomina);
+      const dataUpdate = await dataRef.set(data, { merge: true });
+      return { dataUpdate };
+
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+  //eliminar estudiante
+  public async delecteEstudiante(idCurso: any, idNomina: any): Promise<Number> {
+    let verify = 0;
+    try {
+      const data = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('nomina').doc(idNomina).delete();
+      verify = 1;
+      return verify;
+    } catch (error) {
+      this.showError(error);
+      return verify = 0;
     }
   }
 
@@ -383,9 +432,39 @@ export class AuthService extends RoleValidator {
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('horario').add(valor);
       return create;
     } catch (error) {
+      console.log(error);
       this.showError(error);
     }
   }
+
+  public async deleteHorario(idDelete: any): Promise<Number> {
+    let verify = 0;
+    try {
+      const data = await this.afs.doc(`users/${this.dataUser}`).collection('horario').doc(idDelete).delete();
+      verify = 1;
+      return verify;
+    } catch (error) {
+      this.showError(error);
+      return verify = 0;
+    }
+  }
+
+  //actualizar horario
+  public async updateHorario(horario, idCurso: any) {
+    let horarioCurso=horario;
+    await Promise.all(horarioCurso.map(async (element) => {
+      const data = {
+        posicion: element.posicion,
+        dia: element.dia,
+        uidMateria: element.idMateria,
+        uidCurso: idCurso
+      }
+      await this.createHorario(data);
+    }));
+    console.log('termino el guardado');
+    this.estadoImgenUpdate.next();
+  }
+
   //crear curso
   public async createCurso(valor: any, image: any) {
     try {
@@ -397,6 +476,18 @@ export class AuthService extends RoleValidator {
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').add(data);
       //console.log(create.id);
       return create.id;
+    } catch (error) {
+      this.showError(error);
+      //console.log(error);
+    }
+  }
+  //editar aula
+  public async updateCursoAula(idCurso: any, data: any) {
+    try {
+      const dataRef: AngularFirestoreDocument<Curso> = this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso);
+      const dataUpdate = await dataRef.set(data, { merge: true });
+      return { dataUpdate };
+
     } catch (error) {
       this.showError(error);
       //console.log(error);
@@ -426,6 +517,7 @@ export class AuthService extends RoleValidator {
   }
 
 
+
   //cursos
   public getDataCurso() {
     try {
@@ -436,21 +528,52 @@ export class AuthService extends RoleValidator {
     }
   }
 
-   //Obtener curso con el id
-   public getDataCursoId(id:any) {
+
+  //Obtener el curso con el id
+  public getCursoId(id: any) {
     try {
-      let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(id).collection('nomina',ref=>ref.orderBy('nombre')).snapshotChanges();
+      let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(id).snapshotChanges();
       return db;
     } catch (error) {
       this.showError(error);
     }
   }
-  
+
+  //Obtener horario por el curso
+  public getHorarioCursoId(idCurso: any) {
+    try {
+      let consulta = this.afs.doc(`users/${this.dataUser}`).collection('horario', ref => ref.where('uidCurso', '==', idCurso)).snapshotChanges();
+      return consulta;
+
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+  //Obtener la materia con el id
+  public getMateriaId(id: any) {
+    try {
+      let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('materias').doc(id).snapshotChanges();
+      return db;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+  //Obtener la nomina del curso
+  public getDataCursoId(id: any) {
+    try {
+      let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(id).collection('nomina', ref => ref.orderBy('nombre')).snapshotChanges();
+      return db;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
 
   //guardar asistencia
   //valor es un json con el valor presente atrasado o falta
-  public async createAsistencia(idCurso:any,valor:any) {
-   // console.log('data',valor);
+  public async createAsistencia(idCurso: any, valor: any) {
+    // console.log('data',valor);
     try {
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('asistencia').add(valor);
       return create;
@@ -459,25 +582,17 @@ export class AuthService extends RoleValidator {
     }
   }
 
-  //Obtener asistencia de todos
-  public getDataAsistencia(idCurso:any,dataAsistencia:any) {
+  //Obtener asistencia de todos por fecha
+  public getDataAsistencia(idCurso: any, dataAsistencia: any) {
     try {
-      let consulta = this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('asistencia',ref=> ref.where('fecha','==',dataAsistencia)).snapshotChanges();
+      let consulta = this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('asistencia', ref => ref.where('fecha', '==', dataAsistencia)).snapshotChanges();
       return consulta;
 
     } catch (error) {
       this.showError(error);
     }
   }
-    //Obtener asistencia de todos
-    public getDataNomina(id:any) {
-      try {
-        let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(id).collection('nomina',ref=>ref.orderBy('nombre')).snapshotChanges();
-        return db;
-      } catch (error) {
-        this.showError(error);
-      }
-    }
+
 
   //mensajes
   showError(mensaje: string) {

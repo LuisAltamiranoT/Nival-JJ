@@ -37,10 +37,17 @@ export interface FileI {
 
 
 export interface Nomina{
+    fila?:any,
     id?:any,
     codigoUnico?: any,
     nombre?:any,
     presente?:any,
     atraso?:any,
     falta?:any
+    opciones?:any
+}
+
+export interface NominaObligatoria{
+    codigoUnico: any,
+    nombre: any,
 }

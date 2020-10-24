@@ -4,6 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { NgFallimgModule } from 'ng-fallimg';
+import { CommonModule } from '@angular/common';
 
 //codigo QR
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
@@ -22,6 +23,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { NgxSpinnerModule } from "ngx-spinner";
+import {MatCardModule} from '@angular/material/card';
 
 //Verificar
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -58,7 +60,6 @@ import { NombreComponent } from './admin/perfil/nombre/nombre.component';
 import { ApellidoComponent } from './admin/perfil/apellido/apellido.component';
 import { PasswordComponent } from './admin/perfil/password/password.component';
 import { DeleteComponent } from './admin/perfil/delete/delete.component';
-import { CursoComponent } from './admin/curso/curso.component';
 import { MateriaComponent } from './admin/perfil/materia/materia.component';
 import { CursoGroupComponent } from './admin/curso-group/curso-group.component';
 import { FooterComponent } from './shared/footer/footer.component';
@@ -72,6 +73,14 @@ import { AddCursoComponent } from './admin/add-curso/add-curso.component';
 import { VistaHorarioComponent } from './admin/add-curso/vista-horario/vista-horario.component';
 import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
 import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
+import { EditCursoComponent } from './admin/edit-curso/edit-curso.component';
+import { ViewImageComponent } from './admin/curso-group/view-image/view-image.component';
+import { EditAulaComponent } from './admin/edit-curso/edit-aula/edit-aula.component';
+import { EditEstudianteComponent } from './admin/edit-curso/edit-estudiante/edit-estudiante.component';
+import { EditImageComponent } from './admin/edit-curso/edit-image/edit-image.component';
+import { AddEstudianteComponent } from './admin/edit-curso/add-estudiante/add-estudiante.component';
+import { EditHorarioComponent } from './admin/edit-curso/edit-horario/edit-horario.component';
+import { DeleteEstudianteComponent } from './admin/edit-curso/delete-estudiante/delete-estudiante.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +98,6 @@ import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
     ApellidoComponent,
     PasswordComponent,
     DeleteComponent,
-    CursoComponent,
     MateriaComponent,
     CursoGroupComponent,
     FooterComponent,
@@ -102,11 +110,20 @@ import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
     AddCursoComponent,
     VistaHorarioComponent,
     VistaCursoComponent,
-    CodigoQRComponent
+    CodigoQRComponent,
+    EditCursoComponent,
+    ViewImageComponent,
+    EditAulaComponent,
+    EditEstudianteComponent,
+    EditImageComponent,
+    AddEstudianteComponent,
+    EditHorarioComponent,
+    DeleteEstudianteComponent
 
   ],
   imports: [
     BrowserModule,
+    CommonModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(), // ToastrModule added
     AppRoutingModule,
@@ -138,7 +155,8 @@ import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
     MatExpansionModule,
     MatGridListModule,
     MatMenuModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MatCardModule
   ],
   providers: [
     AuthService,

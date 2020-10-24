@@ -36,15 +36,21 @@ export class UploadImageService extends ImageValidator {
     this.nominaDat=dataNomina;
     this.nominaHorario=dataHorario;
     console.log('estamos en el service'+image.name);
-    this.uploadImageService(data, image, this.MEDIA_STORAGE_PATH);
+    this.uploadImageService(data, image, this.MEDIA_STORAGE_PATH,'addCurso');
+  }
+
+  public preAddAndUpdateCurso(image: FileI, idCurso:any) {
+    let data=idCurso;
+    this.uploadImageService(data, image, this.MEDIA_STORAGE_PATH,'updateCurso');
   }
 
   public preAddAndUpdatePerfil(image: FileI) {
     let data = '';
-    this.uploadImageService(data, image, this.MEDIA_STORAGE_PATH_PERFIL);
+    this.uploadImageService(data, image, this.MEDIA_STORAGE_PATH_PERFIL,'updatePerfil');
   }
 
-  private uploadImageService(data: any, image: FileI, filenameFs:string){
+
+  private uploadImageService(data: any, image: FileI, filenameFs:string,clave:any){
     let item = false;
     this.filePath = this.generateFileName(image.name, filenameFs);
     const fileRef = this.storage.ref(this.filePath);
@@ -53,15 +59,14 @@ export class UploadImageService extends ImageValidator {
       finalize(() => {
         fileRef.getDownloadURL().subscribe(urlImage => {
           this.downloadURL = urlImage;
-          if (filenameFs === 'imageCurso') {
-            //llega los valores de el curso
-            let info = this.addCurso(data);
-            if(info){
-              
-            }
+          if(clave==='addCurso'){
+            this.addCurso(data);
           }
-          else {
-            let data = this.addPhoto();
+          if(clave==='updatePerfil'){
+            this.addPhoto();
+          }
+          if(clave==='updateCurso'){
+            this.updateImageCurso(data);
           }
 
         });
@@ -80,7 +85,18 @@ export class UploadImageService extends ImageValidator {
     let name =  splitted.split("?alt")[0];
     const fileref = this.storage.ref(`${this.MEDIA_STORAGE_PATH_PERFIL}/${name}`); 
     fileref.delete();
+  }
 
+  public async updateImageCurso(idCurso:any) {
+    let info = await this.authService.updatePhotoCurso(this.downloadURL,idCurso);
+    return info;
+  }
+  
+  public deleteImageCurso(imageName:string){
+    let splitted = imageName.split("imageCurso%2F")[1];
+    let name =  splitted.split("?alt")[0];
+    const fileref = this.storage.ref(`${this.MEDIA_STORAGE_PATH}/${name}`); 
+    fileref.delete();
   }
 
   private generateFileName(name: string, filenameFs: string): string {

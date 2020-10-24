@@ -69,9 +69,7 @@ export class MateriaComponent implements OnInit {
 
     }
   }
-  guardarData() {
 
-  }
 
   materia() {
     this.authService.getDataMateria().subscribe((data) => {

@@ -1,4 +1,52 @@
-table th td{
+.example-container {
+  min-width: 83.5vw;
+  max-height: 77vh;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+.mat-header-cell, .mat-footer-cell, .mat-cell {
+  box-sizing: border-box;
+  text-align: center;
+  justify-content:center;
+}
+
+.busqueda1{
+  font-size: 14px;
+  width: 60%;
+  padding-left: 1rem;
+  padding-top: 1rem;
+}
+
+td.mat-column-fila {
+  width: 10px;
+  padding-right: 8px;
+}
+
+td.mat-column-codigoUnico {
+  width: 100px;
+  padding-right: 8px;
+}
+td.mat-column-nombre {
+  width:300px;
+  padding-right: 8px;
+}
+td.mat-column-presente {
+  width: 100px;
+  padding-right: 8px;
+}
+td.mat-column-atraso {
+  width: 100px;
+  padding-right: 8px;
+}
+td.mat-column-falta {
+  width: 100px;
+  padding-right: 8px;
+}
+
+/*table th td{
     padding: .5rem;
     text-align: center;
     cursor: pointer !important;
@@ -10,14 +58,16 @@ table { width: 100%;
     font-size: 14px;
 }
 
-.mat-checkbox-disabled.mat-checkbox-checked .mat-checkbox-background, .mat-checkbox-disabled.mat-checkbox-indeterminate{
-    background-color: red !important;
+
+.busqueda1{
+  font-size: 14px;
+  width: 40%;
+  padding-left: .5rem;
+  margin-right: 10%;
 }
 
 
-
-
-/*nomina*/
+/*nomina*/ /*
 table th td{
     padding: .5rem;
     text-align: center;
@@ -36,7 +86,7 @@ cursor: pointer;
 table { width: 100%; font-size: 14px;}
 
 .container-nival{
-    min-height: 70vh;
+    min-height: 80vh;
 
 }
 
@@ -51,11 +101,11 @@ table { width: 100%; font-size: 14px;}
     opacity: 0.5 !important;
 }
 
-/*material*/
+/*material*//*
 .example-container {
     max-width: 100%;
-    overflow: auto;
     width: 100%;
+
   }
   
   table {
@@ -68,24 +118,35 @@ table { width: 100%; font-size: 14px;}
     justify-content:center;
   }
   
+  td.mat-column-fila {
+    min-width: 5vw;
+    width: 5vw;
+    padding-right: 8px;
+  }
+
   td.mat-column-codigoUnico {
-    width: 200px;
+    min-width: 10vw;
+    width: 10vw;
     padding-right: 8px;
   }
   
   td.mat-column-nombre {
-    width: 500px;
+    min-width: 30vw;
+    width: 30vw;
     padding-right: 8px;
   }
   td.mat-column-presente {
+    min-width: 200px;
     width:120px;
     padding-right: 8px;
   }
   td.mat-column-atraso {
+    min-width: 200px;
     width: 120px;
     padding-right: 8px;
   }
   td.mat-column-falta {
+    min-width: 200px;
     width: 120px;
     padding-right: 8px;
   }
@@ -96,5 +157,5 @@ table { width: 100%; font-size: 14px;}
   margin-left: auto !important;
   margin-right: auto !important;
 }
-
+*/
 

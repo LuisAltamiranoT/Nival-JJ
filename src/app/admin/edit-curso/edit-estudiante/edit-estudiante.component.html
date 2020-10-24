@@ -1,0 +1,42 @@
+<form [formGroup]="estudianteForm" (ngSubmit)="onClick()">
+    <h2 mat-dialog-title class="pb-1">Editar Estudiante:</h2>
+    <div class="text-center">
+        <div *ngIf="validate else barra">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-12 my-1">
+            <div class="form-group">
+                <mat-form-field class="fullNivalWidth">
+                    <mat-label>Código Único</mat-label>
+                    <input matInput [type]="'text'" autocomplete="off" placeholder="{{placeholderCodigo}}" formControlName="codigoUnico">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 col-12 my-1">
+            <div class="form-group">
+                <mat-form-field class="fullNivalWidth">
+                    <mat-label>Nombres</mat-label>
+                    <input matInput [type]="'text'" autocomplete="off" placeholder="{{placeholder}}" formControlName="estudiante">
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-md-4 col-lg-4 col-12 my-1">
+            <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 col-12 my-1">
+            <a class="btn btn-sm btn-warning text-white fullNivalWidth" (click)="eraser()">Borrar</a>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 col-12 my-1">
+            <button type="submit" class="btn btn-sm btn-primary fullNivalWidth" [disabled]="!estudianteForm.valid">Guardar</button>
+        </div>
+    </div>
+</form>
+
+<ng-template #barra>
+    <div class="pb-2">
+        <mat-progress-bar class="input-modal" id="progreesbar" mode="indeterminate"></mat-progress-bar>
+    </div>
+</ng-template>

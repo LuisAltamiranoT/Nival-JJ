@@ -18,6 +18,7 @@ import { EditarAnioComponent } from './editar-anio/editar-anio.component';
 import { FotoComponent } from './foto/foto.component';
 
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-perfil',
@@ -35,6 +36,7 @@ export class PerfilComponent implements OnInit {
   informacion = "";
   cursos = [];
   materias = [];
+  cursoCompleto=[];
   password = "";
   materiaSeleccionada = "";
   nombreMateria = "";
@@ -43,6 +45,10 @@ export class PerfilComponent implements OnInit {
   AnioLectivoFin = "dd/mm/yyyy";
 
   val = true;
+
+  private suscripcion1: Subscription;
+  private suscripcion2: Subscription;
+  private suscripcion3: Subscription;
 
   constructor(
     public ventana: MatDialog,
@@ -53,13 +59,18 @@ export class PerfilComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataUser();
-    this.curso();
     this.materia();
+    this.curso();
+  }
+
+  ngOnDestroy() {
+    this.suscripcion1.unsubscribe();
+    this.suscripcion2.unsubscribe();
+    this.suscripcion3.unsubscribe();
   }
 
   dataUser() {
-
-    this.authService.getDataUser().subscribe((data) => {
+    this.suscripcion1=this.authService.getDataUser().subscribe((data) => {
       this.nombre = data.nombre;
       this.apellido = data.apellido;
       this.correo = data.email;
@@ -73,20 +84,34 @@ export class PerfilComponent implements OnInit {
   }
 
   curso() {
-    this.authService.getDataCurso().subscribe((data) => {
-      this.cursos = [];
+    this.suscripcion2=this.authService.getDataCurso().subscribe((data) => {
+      this.cursos.length=0;
       data.forEach((dataCurso: any) => {
         this.cursos.push({
           id: dataCurso.payload.doc.id,
           data: dataCurso.payload.doc.data()
         });
       })
+      this.cargarData();
+    });
+  }
+
+  cargarData(){
+    this.materias.forEach(elementMateria => {
+      this.cursos.forEach(elementCurso => {
+        if(elementMateria.id===elementCurso.data.uidMateria){
+          this.cursoCompleto.push({
+            idCurso:elementCurso.id,
+            nombre:elementMateria.data.nombre+' '+elementCurso.data.aula
+          })
+        }
+      });
     });
   }
 
   materia() {
-    this.authService.getDataMateria().subscribe((data) => {
-      this.materias = [];
+    this.suscripcion3=this.authService.getDataMateria().subscribe((data) => {
+      this.materias.length=0;
       data.forEach((dataMateria: any) => {
         this.materias.push({
           id: dataMateria.payload.doc.id,
@@ -94,6 +119,15 @@ export class PerfilComponent implements OnInit {
         });
       })
     });
+  }
+
+  //eliminar curso
+  eliminarCurso(idCurso:any){
+
+  }
+  //editar curso
+  editarCurso(idCurso:any){
+    this.router.navigate(['edit-curso',idCurso]);
   }
 
   openAnioLectivoModal() {

@@ -13,15 +13,14 @@ interface HtmlInputEvent extends Event {
 }
 
 @Component({
-  selector: 'app-foto',
-  templateUrl: './foto.component.html',
-  styleUrls: ['./foto.component.css']
+  selector: 'app-edit-image',
+  templateUrl: './edit-image.component.html',
+  styleUrls: ['./edit-image.component.css']
 })
-export class FotoComponent implements OnInit {
+export class EditImageComponent implements OnInit {
+
   private stateImage: Subscription = null;
-
   validate = true;
-
 
   photoForm = new FormGroup({
     image: new FormControl('')
@@ -31,30 +30,30 @@ export class FotoComponent implements OnInit {
   perfil = '';
   private file: any;
   public photoSelected: string | ArrayBuffer;
-  //validar tamaño y tipo de imagen
   private validImage: boolean = false;
   private validateSize: boolean = false;
 
+
   constructor(
-    public dialogRef: MatDialogRef<FotoComponent>,
+    public dialogRef: MatDialogRef<EditImageComponent>,
     @Inject(MAT_DIALOG_DATA) public infoUser: any,
     private authService: AuthService,
     private uploadImage: UploadImageService
   ) { }
 
   ngOnInit(): void {
-
-    this.photoSelected = '../../../assets/aqui.jpg';
+    this.photoSelected = '../../../../assets/aqui.jpg';
 
     this.stateImage = this.authService.finalizoImage$.subscribe(() => {
       this.dimissModal();
     })
   }
+
   ngOnDestroy() {
     this.stateImage.unsubscribe();
   }
-  
-  
+
+
   onPhotoSelected(event: HtmlInputEvent): void {
     if (event.target.files && event.target.files[0]) {
       this.file = <File>event.target.files[0];
@@ -70,7 +69,7 @@ export class FotoComponent implements OnInit {
         } else {
           this.authService.showError('El tamaño de la imagen no puede exceder los 2MB');
         }
-      }else{
+      } else {
         this.authService.showError('El archivo seleccionado no es una imagen');
       }
     } else {
@@ -80,15 +79,13 @@ export class FotoComponent implements OnInit {
 
   addFoto() {
     this.validate = false;
-    if (this.validImage && this.infoUser === 'no-image') {
-      let data = this.uploadImage.preAddAndUpdatePerfil(this.file);
+    if (this.validImage && this.infoUser.image === ' ') {
+      let data = this.uploadImage.preAddAndUpdateCurso(this.file, this.infoUser.idCurso);
     } else {
-      let data = this.uploadImage.preAddAndUpdatePerfil(this.file);
-      this.uploadImage.deleteImagePerfil(this.infoUser);
+      let data = this.uploadImage.preAddAndUpdateCurso(this.file, this.infoUser.idCurso);
+      this.uploadImage.deleteImageCurso(this.infoUser.image);
     }
   }
-
-
 
   dimissModal() {
     this.validate = true;
