@@ -217,11 +217,15 @@ p{
     border-top: 1px solid rgba(0,0,0,.1);
 }
 
+
+/*codigo QR */
 .bshadow {
     display: flex;
     align-items: center;
     justify-content: center;
-    filter: drop-shadow(1px 1px 1px #222222); 
+    filter: drop-shadow(0px 0px .8px #222222);
+    opacity: .9;
+    /*filter: drop-shadow(1px 1px 1px #222222); */
    
   }
 

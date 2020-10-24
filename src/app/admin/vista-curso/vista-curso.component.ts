@@ -37,6 +37,9 @@ export class VistaCursoComponent implements OnInit {
   //manejar las suscripciones
   private suscripcion1: Subscription;
 
+  //manejo de codigo qr
+  public codigoQr='kajshdkjahsdkjhaskdhugdyueggdvshfvdgvfsdvfhdvsf';
+
 
   nombre: any;
   fechaActual: any;
@@ -213,5 +216,4 @@ export class VistaCursoComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
 }
