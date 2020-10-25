@@ -25,3 +25,127 @@
     background-repeat: no-repeat;
     background-attachment: fixed;
   }
+
+.card-img-top{
+    object-fit: contain;
+    vertical-align: middle;
+   text-align: center;
+}
+
+a{
+    color: black;
+    border: 0px !important;
+}
+a:hover{
+    text-decoration: none;
+}
+
+.card-image-nival{
+  vertical-align: middle;
+    height: 19rem;
+    max-height: 19rem;
+    width: 100%;
+}
+
+.card-title-nival{
+    padding: 2px !important;
+}
+
+@media screen and (min-width: 0px) and (max-width: 360px){
+    .card-image-nival{
+        height: 13rem;
+        max-height: 13rem;
+        width: 100%;
+    }
+}
+@media screen and (min-width: 360px) and (max-width: 576px){
+    .card-image-nival{
+        height: 15rem;
+        max-height: 15rem;
+        width: 100%;
+    }
+}
+@media screen and (min-width: 576px) and (max-width: 768px){
+    .card-image-nival{
+        height: 10rem;
+        max-height: 10rem;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px){
+    .card-image-nival{
+        height: 20rem;
+        max-height: 20rem;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1200px){
+    .card-image-nival{
+        height: 22rem;
+        max-height: 22rem;
+        width: 100%;
+    }
+}
+
+.hr-nival{
+    margin-top: 0.1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
+}
+
+.btn-nival{
+    font-weight: 500; 
+    color: #222;
+}
+
+/*iconos grandes*/
+.card-icon-nival{
+    font-size: 0.5rem;
+    /* top, rigth,bottom,left*/
+    padding: 3.5rem 10px 3.5rem 10px;
+    align-items: center;
+    color: white;
+}
+
+
+@media screen and (min-width: 0px) and (max-width: 360px){
+    .card-icon-nival{
+        font-size: 0.3rem;
+        padding: 2
+        1.8rem 10px 1.8rem 10px;
+    }
+}
+@media screen and (min-width: 360px) and (max-width: 576px){
+    .card-icon-nival{
+        font-size: 0.4rem;
+        padding: 1.8rem 10px 1.8rem 10px;
+    }
+}
+@media screen and (min-width: 576px) and (max-width: 768px){
+    .card-icon-nival{
+        font-size: 0.4rem;
+        padding: 1.8rem 10px 1.8rem 10px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px){
+    .card-icon-nival{
+        font-size: 0.5rem;
+        padding: 2rem 10px 2rem 10px;
+    }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1200px){
+    .card-icon-nival{
+        font-size: 0.5rem;
+        padding: 3.5rem 10px 3.5rem 10px;
+    }
+}
+
+.container-nival{
+    min-height: 70vh;
+
+}
