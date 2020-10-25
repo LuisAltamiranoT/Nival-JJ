@@ -93,7 +93,7 @@ private color=['DARKSLATEGRAY','CADETBLUE','CORAL','FIREBRICK','TEAL','INDIANRED
   openPhoto(image:any) {
     if (image!='') {
       this.ventana.open(ViewImageComponent,
-        { width: ' 25rem', data: image }).afterClosed().subscribe(item => {
+        { width: '25rem', data: image }).afterClosed().subscribe(item => {
         });
     } else {
       this.authService.showInfo('El curso no dispone de una imagen');
