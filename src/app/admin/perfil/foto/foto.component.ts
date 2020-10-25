@@ -53,8 +53,8 @@ export class FotoComponent implements OnInit {
   ngOnDestroy() {
     this.stateImage.unsubscribe();
   }
-  
-  
+
+
   onPhotoSelected(event: HtmlInputEvent): void {
     if (event.target.files && event.target.files[0]) {
       this.file = <File>event.target.files[0];
@@ -69,9 +69,13 @@ export class FotoComponent implements OnInit {
           reader.readAsDataURL(this.file);
         } else {
           this.authService.showError('El tamaño de la imagen no puede exceder los 2MB');
+          this.file = '';
+          this.photoForm.patchValue({ image: '' });
         }
-      }else{
+      } else {
         this.authService.showError('El archivo seleccionado no es una imagen');
+        this.file = '';
+        this.photoForm.patchValue({ image: '' });
       }
     } else {
       this.validImage = false;

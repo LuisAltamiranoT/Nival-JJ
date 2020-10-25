@@ -15,32 +15,32 @@ export class EditHorarioComponent implements OnInit {
   private stateImage: Subscription = null;
 
   public horarioVista: Horario[] = [
-    { hora: '7:00', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    //{ hora: '7:30', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    { hora: '8:00', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    //{ hora: '8:30', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    { hora: '9:00', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    //{ hora: '9:30', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    { hora: '10:00', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    //{ hora: '10:30', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    { hora: '11:00', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    //{ hora: '11:30', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    { hora: '12:00', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    //{ hora: '12:30', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    { hora: '13:00', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    //{ hora: '13:30', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    { hora: '14:00', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    //{ hora: '14:30', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    { hora: '15:00', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    //{ hora: '15:30', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    { hora: '16:00', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    //{ hora: '16:30', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    { hora: '17:00', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    //{ hora: '17:30', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    { hora: '18:00', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    //{ hora: '18:30', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    { hora: '19:00', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false },
-    { hora: '20:00', lunes: '', LS: false, LD: false, martes: '', MS: false, MD: false, miercoles: '', MiS: false, MiD: false, jueves: '', JS: false, JD: false, viernes: '', VS: false, VD: false }
+    { hora: '7:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false },
+    //{ hora: '7:30',  lunes: '',Lid:'', LS: false, LD: false, martes: '',Mid:'', MS: false, MD: false, miercoles: '',Miid:'', MiS: false, MiD: false, jueves: '',Jid:'', JS: false, JD: false, viernes: '',Vid:'', VS: false, VD: false },
+    { hora: '8:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false },
+    //{ hora: '8:30',  lunes: '',Lid:'', LS: false, LD: false, martes: '',Mid:'', MS: false, MD: false, miercoles: '',Miid:'', MiS: false, MiD: false, jueves: '',Jid:'', JS: false, JD: false, viernes: '',Vid:'', VS: false, VD: false },
+    { hora: '9:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false },
+    //{ hora: '9:30',  lunes: '',Lid:'', LS: false, LD: false, martes: '',Mid:'', MS: false, MD: false, miercoles: '',Miid:'', MiS: false, MiD: false, jueves: '',Jid:'', JS: false, JD: false, viernes: '',Vid:'', VS: false, VD: false },
+    { hora: '10:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false },
+    //{ hora: '10:30',  lunes: '',Lid:'', LS: false, LD: false, martes: '',Mid:'', MS: false, MD: false, miercoles: '',Miid:'', MiS: false, MiD: false, jueves: '',Jid:'', JS: false, JD: false, viernes: '',Vid:'', VS: false, VD: false },
+    { hora: '11:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false },
+    //{ hora: '11:30',  lunes: '',Lid:'', LS: false, LD: false, martes: '',Mid:'', MS: false, MD: false, miercoles: '',Miid:'', MiS: false, MiD: false, jueves: '',Jid:'', JS: false, JD: false, viernes: '',Vid:'', VS: false, VD: false },
+    { hora: '12:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false },
+    //{ hora: '12:30',  lunes: '',Lid:'', LS: false, LD: false, martes: '',Mid:'', MS: false, MD: false, miercoles: '',Miid:'', MiS: false, MiD: false, jueves: '',Jid:'', JS: false, JD: false, viernes: '',Vid:'', VS: false, VD: false },
+    { hora: '13:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false },
+    //{ hora: '13:30',  lunes: '',Lid:'', LS: false, LD: false, martes: '',Mid:'', MS: false, MD: false, miercoles: '',Miid:'', MiS: false, MiD: false, jueves: '',Jid:'', JS: false, JD: false, viernes: '',Vid:'', VS: false, VD: false },
+    { hora: '14:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false },
+    //{ hora: '14:30',  lunes: '',Lid:'', LS: false, LD: false, martes: '',Mid:'', MS: false, MD: false, miercoles: '',Miid:'', MiS: false, MiD: false, jueves: '',Jid:'', JS: false, JD: false, viernes: '',Vid:'', VS: false, VD: false },
+    { hora: '15:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false },
+    //{ hora: '15:30',  lunes: '',Lid:'', LS: false, LD: false, martes: '',Mid:'', MS: false, MD: false, miercoles: '',Miid:'', MiS: false, MiD: false, jueves: '',Jid:'', JS: false, JD: false, viernes: '',Vid:'', VS: false, VD: false },
+    { hora: '16:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false },
+    //{ hora: '16:30',  lunes: '',Lid:'', LS: false, LD: false, martes: '',Mid:'', MS: false, MD: false, miercoles: '',Miid:'', MiS: false, MiD: false, jueves: '',Jid:'', JS: false, JD: false, viernes: '',Vid:'', VS: false, VD: false },
+    { hora: '17:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false },
+    //{ hora: '17:30',  lunes: '',Lid:'', LS: false, LD: false, martes: '',Mid:'', MS: false, MD: false, miercoles: '',Miid:'', MiS: false, MiD: false, jueves: '',Jid:'', JS: false, JD: false, viernes: '',Vid:'', VS: false, VD: false },
+    { hora: '18:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false },
+    //{ hora: '18:30',  lunes: '',Lid:'', LS: false, LD: false, martes: '',Mid:'', MS: false, MD: false, miercoles: '',Miid:'', MiS: false, MiD: false, jueves: '',Jid:'', JS: false, JD: false, viernes: '',Vid:'', VS: false, VD: false },
+    { hora: '19:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false },
+    { hora: '20:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false }
   ]
 
   //control de progressbar
@@ -90,6 +90,7 @@ export class EditHorarioComponent implements OnInit {
     this.stateImage = this.authService.finalizoImage$.subscribe(() => {
       this.finalizeBar();
     })
+    console.log(this.nuevoHorario)
   }
   ngOnDestroy() {
     this.stateImage.unsubscribe();
@@ -184,51 +185,49 @@ export class EditHorarioComponent implements OnInit {
 
   private agregarDataArrayNuevaMateria(posicion: any, dia: any) {
     let data = {
-      id: '',
       posicion: posicion,
       dia: dia,
       idMateria: this.idMateriaSeleccionada
     }
-    this.nuevoHorario.push(data);
+    this.horarioEditado.push(data);
   }
 
   private async quitarDataArrayNuevaMateria(posicion: any, dia: any) {
-    for (let i = 0; i < this.nuevoHorario.length; i++) {
-      if (this.nuevoHorario[i].posicion === posicion && this.nuevoHorario[i].dia === dia) {
-        if (this.nuevoHorario[i].id != '') {
-          let data = await this.authService.deleteHorario(this.nuevoHorario[i].id);
-          if (data != 1) {
-
-          } else {
-            this.authService.showSuccess('El registro ha sido eliminado');
-          }
-        }
-        this.nuevoHorario.splice(i, 1);
+    console.log(this.horarioEditado)
+    for (let i = 0; i < this.horarioEditado.length; i++) {
+      if (this.horarioEditado[i].posicion === posicion && this.horarioEditado[i].dia === dia) {
+        this.horarioEditado.splice(i, 1);
+        this.authService.showSuccess('El registro ha sido eliminado');
         break;
       }
     }
-
+    console.log(this.horarioEditado)
   }
 
   private replaceHorarioCurso() {
     this.nuevoHorario.forEach(elementCurso => {
       if (elementCurso.dia === 'lunes') {
+        this.horarioVista[elementCurso.posicion]['Lid'] = elementCurso.id;
         this.horarioVista[elementCurso.posicion]['LD'] = false;
         this.horarioVista[elementCurso.posicion]['LS'] = true;
       }
       if (elementCurso.dia === 'martes') {
+        this.horarioVista[elementCurso.posicion]['Mid'] = elementCurso.id;
         this.horarioVista[elementCurso.posicion]['MD'] = false;
         this.horarioVista[elementCurso.posicion]['MS'] = true;
       }
       if (elementCurso.dia === 'miercoles') {
+        this.horarioVista[elementCurso.posicion]['Miid'] = elementCurso.id;
         this.horarioVista[elementCurso.posicion]['MiD'] = false;
         this.horarioVista[elementCurso.posicion]['MiS'] = true;
       }
       if (elementCurso.dia === 'jueves') {
+        this.horarioVista[elementCurso.posicion]['Jid'] = elementCurso.id;
         this.horarioVista[elementCurso.posicion]['JD'] = false;
         this.horarioVista[elementCurso.posicion]['JS'] = true;
       }
       if (elementCurso.dia === 'viernes') {
+        this.horarioVista[elementCurso.posicion]['Vid'] = elementCurso.id;
         this.horarioVista[elementCurso.posicion]['VD'] = false;
         this.horarioVista[elementCurso.posicion]['VS'] = true;
       }
@@ -278,65 +277,117 @@ export class EditHorarioComponent implements OnInit {
 
   ///delete posicion horario
   delHoraDiaLunes(posicionActual) {
-    if (this.nuevoHorario.length > 1) {
-      this.horarioVista[posicionActual]['LS'] = false;
-      this.horarioVista[posicionActual]['lunes'] = '';
-      this.quitarDataArrayNuevaMateria(posicionActual, 'lunes');
+    console.log(this.nuevoHorario.length)
+    console.log(this.nuevoHorario)
+    if ((this.nuevoHorario.length+this.horarioEditado.length)>1) {
+      if (this.horarioVista[posicionActual]['Lid'] != '') {
+        this.borrar(this.horarioVista[posicionActual]['Lid']);
+        this.horarioVista[posicionActual]['Lid'] = '';
+        this.horarioVista[posicionActual]['LS'] = false;
+        this.horarioVista[posicionActual]['lunes'] = '';
+      } else {
+        this.horarioVista[posicionActual]['Lid'] = '';
+        this.horarioVista[posicionActual]['LS'] = false;
+        this.horarioVista[posicionActual]['lunes'] = '';
+        this.quitarDataArrayNuevaMateria(posicionActual, 'lunes');
+      }
     } else {
       this.authService.showInfo('El curso debe tener por lo menos una hora registrada');
     }
   }
   delHoraDiaMartes(posicionActual) {
-    if (this.nuevoHorario.length > 1) {
-      this.horarioVista[posicionActual]['MS'] = false;
-      this.horarioVista[posicionActual]['martes'] = '';
-      this.quitarDataArrayNuevaMateria(posicionActual, 'martes');
+    console.log(this.nuevoHorario.length)
+    console.log(this.nuevoHorario)
+    if ((this.nuevoHorario.length+this.horarioEditado.length)>1) {
+      if (this.horarioVista[posicionActual]['Mid'] != '') {
+        this.borrar(this.horarioVista[posicionActual]['Mid']);
+        this.horarioVista[posicionActual]['Mid'] = '';
+        this.horarioVista[posicionActual]['MS'] = false;
+        this.horarioVista[posicionActual]['martes'] = '';
+      } else {
+        this.horarioVista[posicionActual]['Mid'] = '';
+        this.horarioVista[posicionActual]['MS'] = false;
+        this.horarioVista[posicionActual]['martes'] = '';
+        this.quitarDataArrayNuevaMateria(posicionActual, 'martes');
+      }
     } else {
       this.authService.showInfo('El curso debe tener por lo menos una hora registrada');
     }
   }
   delHoraDiaMiercoles(posicionActual) {
-    if (this.nuevoHorario.length > 1) {
-      this.horarioVista[posicionActual]['MiS'] = false;
-      this.horarioVista[posicionActual]['miercoles'] = '';
-      this.quitarDataArrayNuevaMateria(posicionActual, 'miercoles');
+    console.log(this.nuevoHorario.length)
+    console.log(this.nuevoHorario)
+    if ((this.nuevoHorario.length+this.horarioEditado.length)>1) {
+      if (this.horarioVista[posicionActual]['Miid'] != '') {
+        this.borrar(this.horarioVista[posicionActual]['Miid']);
+        this.horarioVista[posicionActual]['Miid'] = '';
+        this.horarioVista[posicionActual]['MiS'] = false;
+        this.horarioVista[posicionActual]['miercoles'] = '';
+      } else {
+        this.horarioVista[posicionActual]['Miid'] = '';
+        this.horarioVista[posicionActual]['MiS'] = false;
+        this.horarioVista[posicionActual]['miercoles'] = '';
+        this.quitarDataArrayNuevaMateria(posicionActual, 'miercoles');
+      }
     } else {
       this.authService.showInfo('El curso debe tener por lo menos una hora registrada');
     }
   }
   delHoraDiaJueves(posicionActual) {
-    if (this.nuevoHorario.length > 1) {
-      this.horarioVista[posicionActual]['JS'] = false;
-      this.horarioVista[posicionActual]['jueves'] = '';
-      this.quitarDataArrayNuevaMateria(posicionActual, 'jueves');
+    console.log(this.nuevoHorario.length)
+    console.log(this.nuevoHorario)
+    if ((this.nuevoHorario.length+this.horarioEditado.length)>1) {
+      if (this.horarioVista[posicionActual]['Jid'] != '') {
+        this.borrar(this.horarioVista[posicionActual]['Jid']);
+        this.horarioVista[posicionActual]['Jid'] = '';
+        this.horarioVista[posicionActual]['JS'] = false;
+        this.horarioVista[posicionActual]['jueves'] = '';
+      } else {
+        this.horarioVista[posicionActual]['Jid'] = '';
+        this.horarioVista[posicionActual]['JS'] = false;
+        this.horarioVista[posicionActual]['jueves'] = '';
+        this.quitarDataArrayNuevaMateria(posicionActual, 'jueves');
+      }
     } else {
       this.authService.showInfo('El curso debe tener por lo menos una hora registrada');
     }
   }
   delHoraDiaViernes(posicionActual) {
-    if (this.nuevoHorario.length > 1) {
-      this.horarioVista[posicionActual]['VS'] = false;
-      this.horarioVista[posicionActual]['viernes'] = '';
-      this.quitarDataArrayNuevaMateria(posicionActual, 'viernes');
+    console.log(this.nuevoHorario.length)
+    console.log(this.nuevoHorario)
+
+    if ((this.nuevoHorario.length+this.horarioEditado.length)>1) {
+
+      if (this.horarioVista[posicionActual]['Vid'] != '') {
+        this.borrar(this.horarioVista[posicionActual]['Vid']);
+        this.horarioVista[posicionActual]['Vid'] = '';
+        this.horarioVista[posicionActual]['VS'] = false;
+        this.horarioVista[posicionActual]['viernes'] = '';
+      } else {
+        this.horarioVista[posicionActual]['Vid'] = '';
+        this.horarioVista[posicionActual]['VS'] = false;
+        this.horarioVista[posicionActual]['viernes'] = '';
+        this.quitarDataArrayNuevaMateria(posicionActual, 'viernes');
+      }
     } else {
       this.authService.showInfo('El curso debe tener por lo menos una hora registrada');
     }
   }
 
+  async borrar(idHorario: any) {
+    let data = await this.authService.deleteHorario(idHorario);
+    if (data != 1) {
+    } else {
+      this.authService.showSuccess('El registro ha sido eliminado');
+    }
+  }
+
   async guardarNuevoHorario() {
     this.validate = false;
-    this.nuevoHorario.forEach(element => {
-      if (element.id == '') {
-        this.horarioEditado.push({
-          posicion: element.posicion,
-          dia: element.dia,
-          idMateria: element.idMateria
-        });
-      }
-    });
-    console.log('efitao');
-    console.log(this.horarioEditado)
-    await this.authService.updateHorario(this.horarioEditado, this.idCurso);
+    if(this.horarioEditado.length>0){
+      console.log(this.horarioEditado)
+      await this.authService.updateHorario(this.horarioEditado, this.idCurso);
+    }
   }
 
   dimissModal() {

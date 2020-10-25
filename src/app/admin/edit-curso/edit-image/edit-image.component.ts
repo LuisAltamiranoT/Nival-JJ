@@ -68,9 +68,13 @@ export class EditImageComponent implements OnInit {
           reader.readAsDataURL(this.file);
         } else {
           this.authService.showError('El tamaño de la imagen no puede exceder los 2MB');
+          this.file = '';
+          this.photoForm.patchValue({ image: '' });
         }
       } else {
         this.authService.showError('El archivo seleccionado no es una imagen');
+        this.file = '';
+        this.photoForm.patchValue({ image: '' });
       }
     } else {
       this.validImage = false;
