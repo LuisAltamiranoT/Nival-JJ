@@ -47,7 +47,7 @@ export class AddEstudianteComponent implements OnInit {
 
         if (this.array[i].codigoUnico == codigoUnico) {
           validacionDatos = 1;
-          this.authService.showError('El Número Único' + codigoUnico + ' ya se encuentra registrado');
+          this.authService.showError('El Código Único ' + codigoUnico + ' ya se encuentra registrado');
           this.validate = true;
           break;
         }
