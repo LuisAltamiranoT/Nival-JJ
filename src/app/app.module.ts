@@ -6,11 +6,11 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgFallimgModule } from 'ng-fallimg';
 import { CommonModule } from '@angular/common';
 
-//codigo QR
+// Código QR
 import { NgxQRCodeModule } from '@techiediaries/ngx-qrcode';
 import { FormsModule } from '@angular/forms';
 
-//material 
+// Material 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -23,10 +23,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTableModule } from '@angular/material/table';
 import { NgxSpinnerModule } from "ngx-spinner";
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
-//Verificar
-import { MatSidenavModule } from '@angular/material/sidenav';
+// Librerías usadas para barra de navegación
+import { MatSidenavModule  } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -47,7 +48,6 @@ import { SendEmailComponent } from './auth/send-email/send-email.component';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
-
 
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth/services/auth.service';
@@ -118,7 +118,7 @@ import { DeleteEstudianteComponent } from './admin/edit-curso/delete-estudiante/
     EditImageComponent,
     AddEstudianteComponent,
     EditHorarioComponent,
-    DeleteEstudianteComponent
+    DeleteEstudianteComponent,
 
   ],
   imports: [
@@ -156,7 +156,8 @@ import { DeleteEstudianteComponent } from './admin/edit-curso/delete-estudiante/
     MatGridListModule,
     MatMenuModule,
     NgxSpinnerModule,
-    MatCardModule
+    MatCardModule,
+    FlexLayoutModule
   ],
   providers: [
     AuthService,

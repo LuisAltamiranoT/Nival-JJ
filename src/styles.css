@@ -232,3 +232,5 @@ p{
   .mat-checkbox-disabled.mat-checkbox-checked .mat-checkbox-background, .mat-checkbox-disabled.mat-checkbox-indeterminate .mat-checkbox-background {
     background-color: cornflowerblue;
   }
+
+  @import "~@angular/material/prebuilt-themes/indigo-pink.css";

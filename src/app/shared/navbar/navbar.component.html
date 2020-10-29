@@ -1,97 +1,89 @@
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-white bg-white fixed-top" id="navbar"
-  *ngIf="user$ | async as user else login">
-  <div class="container">
-    <a class="navbar-brand" href="#">
+<!--*******************BARRA DE NAVEGACIÓN DE LA APLICACIÓN*******************************-->
+<div *ngIf="user$ | async as user else login">
+  <mat-toolbar class="bg-white barra-fija">
+    <a mat-button class="companyName" routerLink="/">
       <img src="../../../assets/logo6.PNG" alt="nival" id="logoNavbar">
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-      aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav ml-auto" id="nav-link-nival">
-        <li class="nav-item">
-          <a class="nav-link btn btn-outline-light text-left btn-nival" [routerLink]="['/admin']">
-            <i class="fas fa-house-user pr-1"></i>Inicio
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link btn btn-outline-light text-left btn-nival" [routerLink]="['/curso-group']">
-            <i class="fas fa-chalkboard-teacher pr-1"></i>Clases
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link btn btn-outline-light text-left btn-nival" [routerLink]="['/horario']">
-            <i class="fas fa-calendar-alt pr-1"></i>Horario
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link btn btn-outline-light text-left btn-nival" [routerLink]="['/perfil']">
-            <i class="fas fa-user-tie pr-1"></i>Perfil
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link btn btn-outline-light text-left btn-nival" (click)="logOut()">
-            <i class="fas fa-sign-out-alt pr-1"></i>Salir
-          </a>
-        </li>
-      </ul>
+    <span class="example-spacer"></span>
+    <div fxShow="true" fxHide.lt-md="true">
+      <a [routerLink]="['/admin']">
+        <i class="fas fa-house-user pr-1"></i>Inicio
+      </a>
+      <a [routerLink]="['/perfil']">
+        <i class="fas fa-user-tie pr-1"></i>Perfil
+      </a>
+      <a [routerLink]="['/curso-group']">
+        <i class="fas fa-chalkboard-teacher pr-1"></i>Clases
+      </a>
+      <a [routerLink]="['/horario']">
+        <i class="fas fa-calendar-alt pr-1"></i>Horario
+      </a>
+      <a (click)="logOut()">
+        <i class="fas fa-sign-out-alt pr-1"></i>Salir
+      </a>
     </div>
-  </div>
-</nav>
+    <div fxShow="true" fxHide.gt-sm="true">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+  </mat-toolbar>
+  <mat-sidenav-container fxFlexFill class="example-container">
+    <mat-sidenav style="height: 20vh !important; width: 20vh; position: fixed; margin-top: 7vh;" class="bg-white" #sidenav fxLayout="column" mode="over"
+      opened="false" fxHide.gt-sm="true" (click)="sidenav.toggle()">
+      <div fxLayout="column">
+        <a [routerLink]="['/admin']">
+          <i class="fas fa-house-user" style=" padding-right: 15px;"></i>Inicio
+        </a>
+        <a [routerLink]="['/perfil']">
+          <i class="fas fa-user-tie" style=" padding-right: 18px;"></i>Perfil
+        </a>
+        <a [routerLink]="['/curso-group']">
+          <i class="fas fa-chalkboard-teacher" style=" padding-right: 12px;"></i>Clases
+        </a>
+        <a [routerLink]="['/horario']">
+          <i class="fas fa-calendar-alt" style=" padding-right: 18px;"></i>Horario
+        </a>
+        <a (click)="logOut()">
+          <i class="fas fa-sign-out-alt" style=" padding-right: 17px;"></i>Salir
+        </a>
+      </div>
+    </mat-sidenav>
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
+  </mat-sidenav-container>
+</div>
 
-
+<!--*******************BARRA DE NAVEGACIÓN PARA LA PÁGINA DE LOGIN*******************************-->
 <ng-template #login>
-  <!-- Navigation -->
-   <nav class="navbar navbar-expand-lg navbar-white bg-white fixed-top" id="navbar">
-    <div class="container">
-      <a class="navbar-brand" href="#">
+  <div>
+    <mat-toolbar class="bg-white barra-fija">
+      <a mat-button class="companyName" routerLink="/">
         <img src="../../../assets/logo5.PNG" alt="nival" id="logoNavbar">
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto" id="nav-link-nival">
-          <li class="nav-item">
-            <a class="nav-link" (click)="openFormModalLogin()">Iniciar Sesion</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" (click)="openFormModalRegister()">Registrate</a>
-          </li>
-        </ul>
+      <span class="example-spacer"></span>
+      <div fxShow="true" fxHide.lt-md="true">
+        <a (click)="openFormModalLogin()">
+          <i class="fas fa-sign-in-alt pr-1"></i>Iniciar Sesión</a>
+        <a (click)="openFormModalRegister()">
+          <i class="fas fa-registered pr-1"></i>Registrate</a>
       </div>
-    </div>
-  </nav>
-
-<!--  <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #drawer class="sidenav" fixedInViewport
-        [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-        [mode]="(isHandset$ | async) ? 'over' : 'side'"
-        [opened]="(isHandset$ | async) === false">
-      <mat-toolbar>Menu</mat-toolbar>
-      <mat-nav-list>
-        <a mat-list-item routerLink="/pais1">Argentina</a>
-        <a mat-list-item routerLink="/pais2">Chile</a>
-        <a mat-list-item routerLink="/pais3">Uruguay</a>    
-      </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
-      <mat-toolbar color="primary">
-        <button
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawer.toggle()"
-          *ngIf="isHandset$ | async">
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      <div fxShow="true" fxHide.gt-sm="true">
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
         </button>
-        <span>Datos generales de paises</span>
-      </mat-toolbar>
-
-    </mat-sidenav-content>
-  </mat-sidenav-container>-->
-  
+      </div>
+    </mat-toolbar>
+    <mat-sidenav-container fxFlexFill class="example-container">
+      <mat-sidenav style="height: 9vh !important; width: 25vh; position: fixed; margin-top: 7vh;" class="bg-white" fxLayout="column" #sidenav mode="over"
+        opened="false" fxHide.gt-sm="true" (click)="sidenav.toggle()">
+        <div fxLayout="column">
+          <a (click)="openFormModalLogin()">
+            <i class="fas fa-sign-in-alt" style=" padding-right: 17px;"></i>Iniciar Sesión</a>
+          <a (click)="openFormModalRegister()">
+            <i class="fas fa-registered" style=" padding-right: 17px;"></i>Registrate</a>
+        </div>
+      </mat-sidenav>
+      <router-outlet (activate)="onActivate($event)"></router-outlet>
+    </mat-sidenav-container>
+  </div>
 </ng-template>

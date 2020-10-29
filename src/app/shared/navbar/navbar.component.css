@@ -1,0 +1,57 @@
+.companyName{
+  font-size: 150%;
+}
+
+.mat-toolbar{
+height: 7vh;
+}
+
+div {
+  overflow: inherit;
+}
+
+.mat-sidenav-container{
+background-color: white;
+}
+
+a{
+  text-decoration: none;
+  font-size: 16px;
+  white-space: normal;
+}
+
+button{
+  font-size: 110%;
+  min-width: min-content;
+}
+
+.example-icon {
+  padding: 0 14px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-sidenav-content{
+    font-size: 200%;
+    text-align: center;
+}
+
+a {color: black; padding-left: 15px; padding-top: 5px;}
+
+a:hover {color: black;}
+
+a:visited {color: black;}
+
+.barra-fija {
+  position: fixed;
+  z-index: 100; 
+  width: 100%;
+}
+
+
+
+
+
+  

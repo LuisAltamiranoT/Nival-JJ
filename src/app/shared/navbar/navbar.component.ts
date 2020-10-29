@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../../auth/login/login.component';
 
@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -49,4 +49,9 @@ export class NavbarComponent implements OnInit {
 
     }
   }
+
+  onActivate(event) {
+    window.scroll(0, 0);
+  }
+  
 }
