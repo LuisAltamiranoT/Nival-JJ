@@ -20,6 +20,9 @@ import { FotoComponent } from './foto/foto.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
+// Libreria para encriptar y desencriptar //
+import * as CryptoJS from 'crypto-js'
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
@@ -36,7 +39,7 @@ export class PerfilComponent implements OnInit {
   informacion = "";
   cursos = [];
   materias = [];
-  cursoCompleto=[];
+  cursoCompleto = [];
   password = "";
   materiaSeleccionada = "";
   nombreMateria = "";
@@ -50,6 +53,14 @@ export class PerfilComponent implements OnInit {
   private suscripcion2: Subscription;
   private suscripcion3: Subscription;
 
+  // Variables para revisar la parte de encriptación //
+  texto: string;
+  clave: string;
+  textoencriptado: string;
+  textodesencriptado: string;
+  pass_prueba: string;
+  textodesencriptado_mal: string;
+
   constructor(
     public ventana: MatDialog,
     private modalService: NgbModal,
@@ -61,6 +72,24 @@ export class PerfilComponent implements OnInit {
     this.dataUser();
     this.materia();
     this.curso();
+
+    //prueba de encriptacion
+    this.pruebaEncriptar();
+  }
+
+  // Funcion para encriptar //
+  pruebaEncriptar() {
+    this.texto = 'Mi materia favorita';
+    this.clave = 'NivalAPP';
+    this.pass_prueba = 'Jenny';
+    this.textoencriptado = CryptoJS.AES.encrypt(this.texto.trim(), this.clave.trim()).toString();
+    this.textodesencriptado = CryptoJS.AES.decrypt(this.textoencriptado.trim(), this.clave.trim()).toString(CryptoJS.enc.Utf8);
+    this.textodesencriptado_mal = CryptoJS.AES.decrypt(this.textoencriptado.trim(), this.pass_prueba.trim()).toString(CryptoJS.enc.Utf8);
+    console.log('Texto ----> ', this.texto)
+    console.log('Encripatdo ----> ', this.textoencriptado)
+    console.log('Desencriptado_clave_verdadera ----> ', this.textodesencriptado)
+    console.log('Desencriptar_clave_falsa ----> ', this.textodesencriptado_mal)
+
   }
 
   ngOnDestroy() {
@@ -70,7 +99,7 @@ export class PerfilComponent implements OnInit {
   }
 
   dataUser() {
-    this.suscripcion1=this.authService.getDataUser().subscribe((data) => {
+    this.suscripcion1 = this.authService.getDataUser().subscribe((data) => {
       this.nombre = data.nombre;
       this.apellido = data.apellido;
       this.correo = data.email;
@@ -84,8 +113,8 @@ export class PerfilComponent implements OnInit {
   }
 
   curso() {
-    this.suscripcion2=this.authService.getDataCurso().subscribe((data) => {
-      this.cursos.length=0;
+    this.suscripcion2 = this.authService.getDataCurso().subscribe((data) => {
+      this.cursos.length = 0;
       data.forEach((dataCurso: any) => {
         this.cursos.push({
           id: dataCurso.payload.doc.id,
@@ -96,13 +125,13 @@ export class PerfilComponent implements OnInit {
     });
   }
 
-  cargarData(){
+  cargarData() {
     this.materias.forEach(elementMateria => {
       this.cursos.forEach(elementCurso => {
-        if(elementMateria.id===elementCurso.data.uidMateria){
+        if (elementMateria.id === elementCurso.data.uidMateria) {
           this.cursoCompleto.push({
-            idCurso:elementCurso.id,
-            nombre:elementMateria.data.nombre+' '+elementCurso.data.aula
+            idCurso: elementCurso.id,
+            nombre: elementMateria.data.nombre + ' ' + elementCurso.data.aula
           })
         }
       });
@@ -110,8 +139,8 @@ export class PerfilComponent implements OnInit {
   }
 
   materia() {
-    this.suscripcion3=this.authService.getDataMateria().subscribe((data) => {
-      this.materias.length=0;
+    this.suscripcion3 = this.authService.getDataMateria().subscribe((data) => {
+      this.materias.length = 0;
       data.forEach((dataMateria: any) => {
         this.materias.push({
           id: dataMateria.payload.doc.id,
@@ -122,12 +151,12 @@ export class PerfilComponent implements OnInit {
   }
 
   //eliminar curso
-  eliminarCurso(idCurso:any){
+  eliminarCurso(idCurso: any) {
 
   }
   //editar curso
-  editarCurso(idCurso:any){
-    this.router.navigate(['edit-curso',idCurso]);
+  editarCurso(idCurso: any) {
+    this.router.navigate(['edit-curso', idCurso]);
   }
 
   openAnioLectivoModal() {
