@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormArray, AbstractControl } from '@angular/forms';
 
 //subscripcion a un observable
 import { Subscription } from "rxjs";
 
 //exportar archivos
 import * as xlsx from 'xlsx';
-import { UploadExcelService } from '../../auth/services/upload-excel.service'
+import { UploadExcelService } from 'src/app/services/upload-excel.service'
 
-import { AuthService } from 'src/app/auth/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { UploadImageService } from 'src/app/auth/services/upload-image.service';
+import { UploadImageService } from 'src/app/services/upload-image.service';
 
 import { MatDialog } from '@angular/material/dialog';
 import { VistaHorarioComponent } from './vista-horario/vista-horario.component';
-import { Horario } from "../../shared/models/horario.interface";
-import { Curso } from 'src/app/shared/models/user.interface';
+import { Horario } from "src/app/models/horario.interface";
+import { Curso } from 'src/app/models/user.interface';
 
 
 interface HtmlInputEvent extends Event {
@@ -28,8 +28,12 @@ interface HtmlInputEvent extends Event {
   styleUrls: ['./add-curso.component.css']
 })
 export class AddCursoComponent implements OnInit {
-
+  //observable
   private stateImage: Subscription = null;
+  //carga la informacion de la materia 
+  public materias = [];
+  //array temporal del cursos guardados
+  cursoGuardado = [];
   //validar si selecciono una imagen ya guardada en el storage
   imagenSelectStorage = '';
   //Validar archivo
@@ -46,14 +50,8 @@ export class AddCursoComponent implements OnInit {
   public materiaSeleccionada = '';
   //est almacena el id de la materia
   public idMateriaSeleccionada = '';
-  //carga la informacion de la base de datos
-  public materias = [];
-  //caraga la informacion del curso
-  public curso = [];
-  //carga horario guardado
-  public horarioGuardado = [];
-  //cargar horario actual del usuario
-  public horarioProfesor = [];
+  //index del array de materias
+  public indexArray: any;
   //Es el horario que se agregar con el nuevo curso
   public nuevoHorario: any = [];
   placeholder = 'Ejemplo GR1';
@@ -67,14 +65,12 @@ export class AddCursoComponent implements OnInit {
 
   //control de suscripciones
   private suscripcion1: Subscription;
-  private suscripcion2: Subscription;
-  private suscripcion3: Subscription;
 
   cursoForm = new FormGroup({
     materiaSelect: new FormControl('', [Validators.required, Validators.minLength(1)]),
     image: new FormControl(''),
     aula: new FormControl('', [Validators.required, Validators.minLength(1)]),
-    file: new FormControl(''),
+    file: new FormControl('', [Validators.required]),
   })
 
 
@@ -116,118 +112,71 @@ export class AddCursoComponent implements OnInit {
 
   ngOnInit(): void {
     this.materia();
-    this.getCursos();
-    this.getHorario();
     this.stateImage = this.authService.finalizoImage$.subscribe(() => {
       this.finalizeBar();
     })
   }
-  
+
 
   ngOnDestroy() {
     this.stateImage.unsubscribe();
     this.suscripcion1.unsubscribe();
-    this.suscripcion2.unsubscribe();
-    this.suscripcion3.unsubscribe();
   }
 
   displayedColumns = ['hora', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
   dataSource = this.horarioVista;
 
-  selectMateria(materia) {
-    this.replaceHorario();
-    //activa el horario en el registro
-    this.validacionDeMateria = true;
-    //toma los valores del select
-    let splitted = materia.split("+//+", 2);
-    //toma el id de la materia
-    this.idMateriaSeleccionada = splitted[0];
-    if (this.materiaSeleccionada != '') {
-      if (this.materiaSeleccionada != splitted[1]) {
-        let materiaAnerior = this.materiaSeleccionada;
-        this.materiaSeleccionada = splitted[1]
-        this.cambiarNombre(materiaAnerior);
-      } else {
 
-      }
-    } else {
-      this.materiaSeleccionada = splitted[1];
-    }
-    console.log('select => ' + materia, 'materia=> ' + this.materiaSeleccionada, 'idMateria=> ' + this.idMateriaSeleccionada);
+  materia() {
+    this.suscripcion1 = this.authService.getDataMateria().subscribe((data) => {
+      this.materias.length = 0;
+      data.forEach((dataMateria: any) => {
+        this.materias.push({
+          id: dataMateria.payload.doc.id,
+          data: dataMateria.payload.doc.data()
+        });
+      })
+    });
   }
 
-  private cambiarNombre(materiaAnterio: any) {
-    let numData = this.nuevoHorario.length;
-    if (numData > 0) {
-      for (let i = 0; i < numData; i++) {
-        this.horarioVista[this.nuevoHorario[i].posicion][this.nuevoHorario[i].dia] = this.materiaSeleccionada;
-        this.nuevoHorario[i].idMateria = this.idMateriaSeleccionada;
-      }
-    }
-    console.log('horario al cambiar ' + this.horarioVista);
-    console.log('horario nuev ' + this.nuevoHorario);
-  }
-
-  private agregarDataArrayNuevaMateria(posicion: any, dia: any) {
-    let data = {
-      posicion: posicion,
-      dia: dia,
-      idMateria: this.idMateriaSeleccionada
-    }
-    this.nuevoHorario.push(data);
-    console.log(this.nuevoHorario);
-  }
-
-  private quitarDataArrayNuevaMateria(posicion: any, dia: any) {
-    //console.log("All "+this.nuevoHorario);
-    for (let i = 0; i < this.nuevoHorario.length; i++) {
-      if (this.nuevoHorario[i].posicion === posicion && this.nuevoHorario[i].dia === dia) {
-        this.nuevoHorario.splice(i, 1);
-        break;
-      } else {
-
-      }
-    }
-  }
-
-  setHoraDiaLunes(posicionActual) {
+  setHoraDiaLunes(posicionActual,hora) {
     if (this.horarioVista[posicionActual]['lunes'] != '') {
     } else {
       this.horarioVista[posicionActual]['LS'] = true;
       this.horarioVista[posicionActual]['lunes'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'lunes');
+      this.agregarDataArrayNuevaMateria(posicionActual, 'lunes',hora);
     }
   }
-  setHoraDiaMartes(posicionActual) {
+  setHoraDiaMartes(posicionActual,hora) {
     if (this.horarioVista[posicionActual]['martes'] != '') {
     } else {
       this.horarioVista[posicionActual]['MS'] = true;
       this.horarioVista[posicionActual]['martes'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'martes');
+      this.agregarDataArrayNuevaMateria(posicionActual, 'martes',hora);
     }
   }
-  setHoraDiaMiercoles(posicionActual) {
+  setHoraDiaMiercoles(posicionActual,hora) {
     if (this.horarioVista[posicionActual]['miercoles'] != '') {
     } else {
       this.horarioVista[posicionActual]['MiS'] = true;
       this.horarioVista[posicionActual]['miercoles'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'miercoles');
+      this.agregarDataArrayNuevaMateria(posicionActual, 'miercoles',hora);
     }
   }
-  setHoraDiaJueves(posicionActual) {
+  setHoraDiaJueves(posicionActual,hora) {
     if (this.horarioVista[posicionActual]['jueves'] != '') {
     } else {
       this.horarioVista[posicionActual]['JS'] = true;
       this.horarioVista[posicionActual]['jueves'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'jueves');
+      this.agregarDataArrayNuevaMateria(posicionActual, 'jueves',hora);
     }
   }
-  setHoraDiaViernes(posicionActual) {
+  setHoraDiaViernes(posicionActual,hora) {
     if (this.horarioVista[posicionActual]['viernes'] != '') {
     } else {
       this.horarioVista[posicionActual]['VS'] = true;
       this.horarioVista[posicionActual]['viernes'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'viernes');
+      this.agregarDataArrayNuevaMateria(posicionActual, 'viernes',hora);
     }
   }
 
@@ -258,6 +207,144 @@ export class AddCursoComponent implements OnInit {
     this.quitarDataArrayNuevaMateria(posicionActual, 'viernes');
   }
 
+  replaceHorario() {
+    this.materias.forEach(element => {
+      element.data.cursos.forEach(elementCurso => {
+        console.log('cursos',[elementCurso]);
+        if ([elementCurso].length!=0) {
+          elementCurso.horario.forEach(elementHorario => {
+            //console.log('segundo foreach',elementHorario.dia)
+            this.horarioVista[elementHorario.posicion][elementHorario.dia] = element.data.nombre + ' - ' + elementCurso.aula;
+            if (elementHorario.dia === 'lunes') {
+              this.horarioVista[elementHorario.posicion]['LD'] = true;
+              this.horarioVista[elementHorario.posicion]['LS'] = false;
+            }
+            if (elementHorario.dia === 'martes') {
+              this.horarioVista[elementHorario.posicion]['MD'] = true;
+              this.horarioVista[elementHorario.posicion]['MS'] = false;
+            }
+            if (elementHorario.dia === 'miercoles') {
+              this.horarioVista[elementHorario.posicion]['MiD'] = true;
+              this.horarioVista[elementHorario.posicion]['MiS'] = false;
+            }
+            if (elementHorario.dia === 'jueves') {
+              this.horarioVista[elementHorario.posicion]['JD'] = true;
+              this.horarioVista[elementHorario.posicion]['JS'] = false;
+            }
+            if (elementHorario.dia === 'viernes') {
+              this.horarioVista[elementHorario.posicion]['VD'] = true;
+              this.horarioVista[elementHorario.posicion]['VS'] = false;
+            }
+          });
+        }
+      });
+    })
+  }
+
+  selectMateria(materia) {
+    this.replaceHorario();
+    //activa el horario en el registro
+    this.validacionDeMateria = true;
+    //toma los valores del select
+    let splitted = materia.split("+//+", 3);
+    //toma el id de la materia
+    this.idMateriaSeleccionada = splitted[0];
+    //toma la posicion el index;
+    this.indexArray = splitted[2];
+    console.log('es la posicion array', this.indexArray)
+    if (this.materiaSeleccionada != '') {
+      if (this.materiaSeleccionada != splitted[1]) {
+        this.materiaSeleccionada = splitted[1]
+        this.cambiarNombre();
+      }
+    } else {
+      this.materiaSeleccionada = splitted[1];
+    }
+    //console.log('select => ' + materia, 'materia=> ' + this.materiaSeleccionada, 'idMateria=> ' + this.idMateriaSeleccionada);
+  }
+
+
+  private cambiarNombre() {
+    let numData = this.nuevoHorario.length;
+    if (numData > 0) {
+      for (let i = 0; i < numData; i++) {
+        this.horarioVista[this.nuevoHorario[i].posicion][this.nuevoHorario[i].dia] = this.materiaSeleccionada;
+        this.nuevoHorario[i].idMateria = this.idMateriaSeleccionada;
+      }
+    }
+    console.log('horario al cambiar ', this.horarioVista);
+    console.log('horario nuev ', this.nuevoHorario);
+  }
+
+  private agregarDataArrayNuevaMateria(posicion: any, dia: any,hora:any) {
+    let data = {
+      posicion: posicion,
+      dia: dia,
+      hora:hora
+    }
+    this.nuevoHorario.push(data);
+    console.log(this.nuevoHorario);
+  }
+
+  private quitarDataArrayNuevaMateria(posicion: any, dia: any) {
+    //console.log("All "+this.nuevoHorario);
+    for (let i = 0; i < this.nuevoHorario.length; i++) {
+      if (this.nuevoHorario[i].posicion === posicion && this.nuevoHorario[i].dia === dia) {
+        this.nuevoHorario.splice(i, 1);
+        break;
+      } 
+    }
+  }
+
+
+  addCurso(data: any) {
+    try {
+      this.validate = false;
+      const { aula } = this.cursoForm.value;
+      if (this.nuevoHorario.length > 0) {
+        if (this.validFile) {
+          //guardar con imagen
+          if (this.validImage) {
+            //aula,idMateria,image,Nomina,Horario,cursos
+            this.uploadImage.preAddAndUpdate(aula, this.idMateriaSeleccionada, this.file, this.archivoExcel, this.nuevoHorario, this.materias[this.indexArray].data.cursos);
+          } else {
+            //sguardar sin imagen
+            this.guardarWhitoutImage();
+          }
+        } else {
+          this.authService.showError('El curso debe tener una nomina');
+        }
+      } else {
+        this.validate = true;
+        this.authService.showError('El curso debe tener registrado al menos una hora');
+      }
+    } catch (error) {
+      this.finalizeBar();
+      this.authService.showError(error);
+    }
+  }
+
+
+  async guardarWhitoutImage() {
+    const { aula } = this.cursoForm.value;
+    this.cursoGuardado = this.materias[this.indexArray].data.cursos;
+    let id = this.cursoGuardado.length + 1;
+    let idCurso = this.idMateriaSeleccionada + id;
+    
+   let cursoNuevo = await this.authService.createNomina(this.archivoExcel, idCurso, this.idMateriaSeleccionada);
+
+    this.cursoGuardado.push({
+      id: idCurso,
+      aula: aula,
+      image: '',
+      horario: this.nuevoHorario,
+      uidNomina: cursoNuevo.id
+    });
+
+    console.log('curso almacenado', this.cursoGuardado);
+    await this.authService.createCurso(this.cursoGuardado, this.idMateriaSeleccionada);
+  }
+
   onPhotoSelected(event: HtmlInputEvent): void {
     if (event.target.files && event.target.files[0]) {
       this.file = <File>event.target.files[0];
@@ -273,102 +360,29 @@ export class AddCursoComponent implements OnInit {
           this.file = '';
           this.cursoForm.patchValue({ image: '' });
         }
-      }else{
+      } else {
         this.authService.showError('El archivo seleccionado no es una imagen');
         this.file = '';
-          this.cursoForm.patchValue({ image: '' });
+        this.cursoForm.patchValue({ image: '' });
       }
     } else {
       this.validImage = false;
     }
   }
 
- 
-  
-
-  materia() {
-    this.suscripcion1=this.authService.getDataMateria().subscribe((data) => {
-      this.materias = [];
-      data.forEach((dataMateria: any) => {
-        this.materias.push({
-          id: dataMateria.payload.doc.id,
-          data: dataMateria.payload.doc.data()
-        });
-      })
-    });
-  }
-
-  getCursos() {
-    this.suscripcion2=this.authService.getDataCurso().subscribe((data) => {
-      this.curso = [];
-      data.forEach((dataMateria: any) => {
-        this.curso.push({
-          id: dataMateria.payload.doc.id,
-          data: dataMateria.payload.doc.data()
-        })
-      });
-    });
-  }
-
-  getHorario() {
-    this.suscripcion3=this.authService.getHorario().subscribe((data) => {
-      this.horarioGuardado = [];
-      data.forEach((dataMateria: any) => {
-        this.horarioGuardado.push({
-          id: dataMateria.payload.doc.id,
-          data: dataMateria.payload.doc.data()
-        })
-      });
-    });
-  }
-
-  replaceHorario() {
-    console.log('Se ejecuta el replace');
-    this.materias.forEach(element => {
-      this.curso.forEach(elementCurso => {
-        if (element.id === elementCurso.data.uidMateria) {
-          this.horarioGuardado.forEach(elementHorario => {
-            if (elementCurso.id === elementHorario.data.uidCurso) {
-              this.horarioVista[elementHorario.data.posicion][elementHorario.data.dia] = element.data.nombre + ' - ' + elementCurso.data.aula;
-              if (elementHorario.data.dia === 'lunes') {
-                this.horarioVista[elementHorario.data.posicion]['LD'] = true;
-                this.horarioVista[elementHorario.data.posicion]['LS'] = false;
-              }
-              if (elementHorario.data.dia === 'martes') {
-                this.horarioVista[elementHorario.data.posicion]['MD'] = true;
-                this.horarioVista[elementHorario.data.posicion]['MS'] = false;
-              }
-              if (elementHorario.data.dia === 'miercoles') {
-                this.horarioVista[elementHorario.data.posicion]['MiD'] = true;
-                this.horarioVista[elementHorario.data.posicion]['MiS'] = false;
-              }
-              if (elementHorario.data.dia === 'jueves') {
-                this.horarioVista[elementHorario.data.posicion]['JD'] = true;
-                this.horarioVista[elementHorario.data.posicion]['JS'] = false;
-              }
-              if (elementHorario.data.dia === 'viernes') {
-                this.horarioVista[elementHorario.data.posicion]['VD'] = true;
-                this.horarioVista[elementHorario.data.posicion]['VS'] = false;
-              }
-            }
-          });
-        }
-      });
-    });
-  }
 
   //boton eliminar archivo
   clearFile() {
-    this.archivoExcel = [];
+    this.archivoExcel.Length = 0;
     this.cursoForm.patchValue({ file: '' });
     this.validFile = false;
     this.nombreFile = '';
   }
 
   //volver al estado original
-  eraserAll(){
+  eraserAll() {
     this.clearFile();
-    this.nuevoHorario=[];
+    this.nuevoHorario = [];
     this.cursoForm.patchValue({ aula: '' });
     this.cursoForm.patchValue({ image: '' });
   }
@@ -377,7 +391,6 @@ export class AddCursoComponent implements OnInit {
   onFileChange(ev: any) {
     let workBook = null;
     const reader = new FileReader();
-
     const file = ev.target.files[0];
 
     if (file) {
@@ -390,15 +403,19 @@ export class AddCursoComponent implements OnInit {
           const sheet_name_list = workBook.SheetNames;
           const plantilla = xlsx.utils.sheet_to_json(workBook.Sheets[sheet_name_list[0]]);
           plantilla.forEach(async (data1: any) => {
-            const { CodigoUnico, Nombre } = data1;
-            if (CodigoUnico && Nombre) {
+            const { CodigoUnico, Nombre, Correo } = data1;
+            if (CodigoUnico && Nombre && Correo) {
               // lee los datos de la nomina
               let data = {
                 nombre: Nombre,
-                codigoUnico: CodigoUnico
+                codigoUnico: CodigoUnico,
+                correo:Correo,
+                image:'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680',
+                uidUser:'noRegister',
+                asistencia: []
               }
               this.archivoExcel.push(data);
-              //console.log(data,'  ',this.archivoExcel);
+              //console.log(data,'  ',[this.archivoExcel]);
             } else {
               //console.log('llega el else');
             }
@@ -407,7 +424,7 @@ export class AddCursoComponent implements OnInit {
             this.validFile = true;
             this.nombreFile = file.name;
           } else {
-            this.authService.showInfoExcel('Por favor revise que el archivo contenga las columnas: CodigoUnico, Nombre');
+            this.authService.showInfoExcel('Por favor revise que el archivo contenga las columnas: CodigoUnico, Nombre, Correo');
             this.cursoForm.patchValue({ file: '' });
           }
 
@@ -416,46 +433,13 @@ export class AddCursoComponent implements OnInit {
       }
       else {
         this.authService.showError('Este no es un archivo de formato excel')
+        this.cursoForm.patchValue({ file: '' });
       }
     } else {
       //console.log("esta en el else");
     }
   }
 
-
-  addCurso(data: any) {
-    this.validate = false;
-    try {
-      if (this.validFile && this.nuevoHorario.length > 0) {
-        if (this.validImage) {
-          //GUARDADO INFORAMCION CON IMAGEN
-          console.log('guardado el id es ', this.idMateriaSeleccionada)
-          const { aula } = this.cursoForm.value;
-          let data: Curso = {
-            uidMateria: this.idMateriaSeleccionada,
-            aula: aula
-          }
-          this.uploadImage.preAddAndUpdate(data, this.file, this.archivoExcel, this.nuevoHorario);
-
-        } else {
-          //GUARDADO INFORAMCION SIN IMAGEN
-          const { aula } = this.cursoForm.value;
-          let data: Curso = {
-            uidMateria: this.idMateriaSeleccionada,
-            aula: aula,
-            image: ''
-          }
-          let info = this.authService.preparateCreateCurso(data, '', this.archivoExcel, this.nuevoHorario);
-        }
-      } else {
-        this.validate = true;
-        this.authService.showError('Por favor ingrese los datos solicitados en el formulario');
-      }
-    } catch (error) {
-      this.finalizeBar();
-      this.authService.showError(error);
-    }
-  }
 
   finalizeBar() {
     const { aula } = this.cursoForm.value;
@@ -466,13 +450,12 @@ export class AddCursoComponent implements OnInit {
     this.photoQuit();
   }
 
-  photoQuit(){
-    this.validImage= false;
+  photoQuit() {
+    this.validImage = false;
     this.cursoForm.patchValue({ image: '' });
-    this.photoSelected='';
-    this.file='';
+    this.photoSelected = '';
+    this.file = '';
   }
-
 }
 
 

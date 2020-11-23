@@ -8,7 +8,7 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { PerfilComponent } from './admin/perfil/perfil.component';
 
-import { GuardGuard } from './auth/guard.guard';
+import { GuardGuard } from './services/guard.guard';
 import { CursoGroupComponent } from './admin/curso-group/curso-group.component';
 import { HorarioComponent } from './admin/horario/horario.component';
 import { AddCursoComponent } from './admin/add-curso/add-curso.component';

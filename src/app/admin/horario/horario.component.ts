@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../auth/services/auth.service';
-import { Horario } from "../../shared/models/horario.interface";
+import { AuthService } from 'src/app/services/auth.service';
+import { Horario } from "src/app/models/horario.interface";
 import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -12,44 +13,44 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class HorarioComponent implements OnInit {
 
-  
+
   public horarioVista: Horario[] = [
-    { hora: '7:00', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
+    { hora: '7:00', lunes: '', LC: '', Lid: '', martes: '', MC: '', Mid: '', miercoles: '', MiC: '', Miid: '', jueves: '', JC: '', Jid: '', viernes: '', VC: '', Vid: '' },
     //{ hora: '7:30', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
-    { hora: '8:00', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
+    { hora: '8:00', lunes: '', LC: '', Lid: '', martes: '', MC: '', Mid: '', miercoles: '', MiC: '', Miid: '', jueves: '', JC: '', Jid: '', viernes: '', VC: '', Vid: '' },
     //{ hora: '8:30', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
-    { hora: '9:00', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
+    { hora: '9:00', lunes: '', LC: '', Lid: '', martes: '', MC: '', Mid: '', miercoles: '', MiC: '', Miid: '', jueves: '', JC: '', Jid: '', viernes: '', VC: '', Vid: '' },
     //{ hora: '9:30', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
-    { hora: '10:00', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
+    { hora: '10:00', lunes: '', LC: '', Lid: '', martes: '', MC: '', Mid: '', miercoles: '', MiC: '', Miid: '', jueves: '', JC: '', Jid: '', viernes: '', VC: '', Vid: '' },
     //{ hora: '10:30', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
-    { hora: '11:00', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
+    { hora: '11:00', lunes: '', LC: '', Lid: '', martes: '', MC: '', Mid: '', miercoles: '', MiC: '', Miid: '', jueves: '', JC: '', Jid: '', viernes: '', VC: '', Vid: '' },
     //{ hora: '11:30', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
-    { hora: '12:00', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
+    { hora: '12:00', lunes: '', LC: '', Lid: '', martes: '', MC: '', Mid: '', miercoles: '', MiC: '', Miid: '', jueves: '', JC: '', Jid: '', viernes: '', VC: '', Vid: '' },
     //{ hora: '12:30', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
-    { hora: '13:00', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
+    { hora: '13:00', lunes: '', LC: '', Lid: '', martes: '', MC: '', Mid: '', miercoles: '', MiC: '', Miid: '', jueves: '', JC: '', Jid: '', viernes: '', VC: '', Vid: '' },
     //{ hora: '13:30', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
-    { hora: '14:00', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
+    { hora: '14:00', lunes: '', LC: '', Lid: '', martes: '', MC: '', Mid: '', miercoles: '', MiC: '', Miid: '', jueves: '', JC: '', Jid: '', viernes: '', VC: '', Vid: '' },
     //{ hora: '14:30', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
-    { hora: '15:00', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
+    { hora: '15:00', lunes: '', LC: '', Lid: '', martes: '', MC: '', Mid: '', miercoles: '', MiC: '', Miid: '', jueves: '', JC: '', Jid: '', viernes: '', VC: '', Vid: '' },
     //{ hora: '15:30', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
-    { hora: '16:00', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
+    { hora: '16:00', lunes: '', LC: '', Lid: '', martes: '', MC: '', Mid: '', miercoles: '', MiC: '', Miid: '', jueves: '', JC: '', Jid: '', viernes: '', VC: '', Vid: '' },
     //{ hora: '16:30', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
-    { hora: '17:00', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
+    { hora: '17:00', lunes: '', LC: '', Lid: '', martes: '', MC: '', Mid: '', miercoles: '', MiC: '', Miid: '', jueves: '', JC: '', Jid: '', viernes: '', VC: '', Vid: '' },
     //{ hora: '17:30', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
-    { hora: '18:00', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
+    { hora: '18:00', lunes: '', LC: '', Lid: '', martes: '', MC: '', Mid: '', miercoles: '', MiC: '', Miid: '', jueves: '', JC: '', Jid: '', viernes: '', VC: '', Vid: '' },
     //{ hora: '18:30', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
-    { hora: '19:00', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''},
-    { hora: '20:00', lunes: '',LC:'',Lid:'', martes: '',MC:'',Mid:'',miercoles: '', MiC:'',Miid:'', jueves: '',JC:'',Jid:'', viernes: '',VC:'',Vid:''}
+    { hora: '19:00', lunes: '', LC: '', Lid: '', martes: '', MC: '', Mid: '', miercoles: '', MiC: '', Miid: '', jueves: '', JC: '', Jid: '', viernes: '', VC: '', Vid: '' },
+    { hora: '20:00', lunes: '', LC: '', Lid: '', martes: '', MC: '', Mid: '', miercoles: '', MiC: '', Miid: '', jueves: '', JC: '', Jid: '', viernes: '', VC: '', Vid: '' }
   ]
 
-//carga la informacion de la base de datos
-public materias = [];
- //caraga la informacion del curso
- public curso = [];
- //carga horario guardado
- public horarioGuardado = [];
-//colores para cada materia
-private color=['DARKSLATEGRAY','CADETBLUE','CORAL','FIREBRICK','TEAL','INDIANRED','DARKSLATEBLUE','SEAGREEN','BROWN','LIGHTSLATEGRAY'];
+  //control de suscripciones
+  private suscripcion1: Subscription;
+
+  //carga la informacion de la base de datos
+  public materias = [];
+  //carga horario guardado
+
+  private color = ['DARKSLATEGRAY', 'CADETBLUE', 'CORAL', 'FIREBRICK', 'TEAL', 'INDIANRED', 'DARKSLATEBLUE', 'SEAGREEN', 'BROWN', 'LIGHTSLATEGRAY'];
 
   constructor(
     public router: Router,
@@ -60,82 +61,66 @@ private color=['DARKSLATEGRAY','CADETBLUE','CORAL','FIREBRICK','TEAL','INDIANRED
     this.getMateria();
   }
 
-  displayedColumns:string[] = ['hora', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
+  ngOnDestroy() {
+    this.suscripcion1.unsubscribe();
+  }
+
+  displayedColumns: string[] = ['hora', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
   dataSource = new MatTableDataSource(this.horarioVista);
 
 
   getMateria() {
-    this.authService.getDataMateria().subscribe((data) => {
-      this.materias.length=0;
+    this.suscripcion1 = this.authService.getDataMateria().subscribe((data) => {
+      this.materias.length = 0;
       data.forEach((dataMateria: any) => {
         this.materias.push({
           id: dataMateria.payload.doc.id,
           data: dataMateria.payload.doc.data()
         });
       })
-    });
-
-    this.authService.getDataCurso().subscribe((data) => {
-      this.curso.length=0;
-      data.forEach((dataMateria: any) => {
-        this.curso.push({
-          id: dataMateria.payload.doc.id,
-          data: dataMateria.payload.doc.data()
-        })
-      });
-    });
-
-    this.authService.getHorario().subscribe((data) => {
-      this.horarioGuardado.length=0;
-      data.forEach((dataMateria: any) => {
-        this.horarioGuardado.push({
-          id: dataMateria.payload.doc.id,
-          data: dataMateria.payload.doc.data()
-        })
-      });
       this.replaceHorario();
     });
   }
 
   replaceHorario() {
-    console.log('Se ejecuta el replace');
-    let cont =0;
+    let cont = 0;
     this.materias.forEach(element => {
-      this.curso.forEach(elementCurso => {
-        if (element.id === elementCurso.data.uidMateria) {
-          if(cont<this.color.length-1){
-            cont=cont+1
-          }else{
-            cont=0;
+      element.data.cursos.forEach(elementCurso => {
+        if ([elementCurso].length!=0) {
+          if (cont < this.color.length - 1) {
+            cont = cont + 1
+          } else {
+            cont = 0;
           }
-          this.horarioGuardado.forEach(elementHorario => {
-            if (elementCurso.id === elementHorario.data.uidCurso) {
-              this.horarioVista[elementHorario.data.posicion][elementHorario.data.dia] = element.data.nombre + ' - ' + elementCurso.data.aula;
-              if (elementHorario.data.dia === 'lunes') {
-                this.horarioVista[elementHorario.data.posicion]['LC'] = this.color[cont];
-                this.horarioVista[elementHorario.data.posicion]['Lid'] = elementCurso.id;
+          elementCurso.horario.forEach(elementHorario => {
+              this.horarioVista[elementHorario.posicion][elementHorario.dia] = element.data.nombre + ' - ' + elementCurso.aula;
+              if (elementHorario.dia === 'lunes') {
+                this.horarioVista[elementHorario.posicion]['LC'] = this.color[cont];
+                this.horarioVista[elementHorario.posicion]['Lid'] = elementCurso.id;
               }
-              if (elementHorario.data.dia === 'martes') {
-                this.horarioVista[elementHorario.data.posicion]['MC'] = this.color[cont];
-                this.horarioVista[elementHorario.data.posicion]['Mid'] = elementCurso.id;
+              if (elementHorario.dia === 'martes') {
+                this.horarioVista[elementHorario.posicion]['MC'] = this.color[cont];
+                this.horarioVista[elementHorario.posicion]['Mid'] = elementCurso.id;
               }
-              if (elementHorario.data.dia === 'miercoles') {
-                this.horarioVista[elementHorario.data.posicion]['MiC'] = this.color[cont];
-                this.horarioVista[elementHorario.data.posicion]['Miid'] =elementCurso.id;
+              if (elementHorario.dia === 'miercoles') {
+                this.horarioVista[elementHorario.posicion]['MiC'] = this.color[cont];
+                this.horarioVista[elementHorario.posicion]['Miid'] = elementCurso.id;
               }
-              if (elementHorario.data.dia === 'jueves') {
-                this.horarioVista[elementHorario.data.posicion]['JC'] = this.color[cont];
-                this.horarioVista[elementHorario.data.posicion]['Jid'] = elementCurso.id;
+              if (elementHorario.dia === 'jueves') {
+                this.horarioVista[elementHorario.posicion]['JC'] = this.color[cont];
+                this.horarioVista[elementHorario.posicion]['Jid'] = elementCurso.id;
               }
-              if (elementHorario.data.dia === 'viernes') {
-                this.horarioVista[elementHorario.data.posicion]['VC'] = this.color[cont];
-                this.horarioVista[elementHorario.data.posicion]['Vid'] =elementCurso.id;
+              if (elementHorario.dia === 'viernes') {
+                this.horarioVista[elementHorario.posicion]['VC'] = this.color[cont];
+                this.horarioVista[elementHorario.posicion]['Vid'] = elementCurso.id;
               }
-            }
+            
           });
         }
       });
     });
+
+    console.log(this.horarioVista);
   }
 
   applyFilter(event: Event) {
@@ -143,10 +128,14 @@ private color=['DARKSLATEGRAY','CADETBLUE','CORAL','FIREBRICK','TEAL','INDIANRED
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  
-  openCurso(id:any) {
-    this.router.navigate(['vista-curso',id]);
+
+  openCurso(id: any) {
+    this.router.navigate(['vista-curso', id]);
   }
- 
+
+  limpiarBusqueda(input) {
+    input.value = '';
+    this.dataSource.filter = null;
+  }
 
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators} from '@angular/forms';
 
-import { AuthService } from '../../../auth/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-password',
@@ -51,10 +51,4 @@ export class PasswordComponent implements OnInit {
   dimissModal(){
     this.dialogRef.close();
   }
-
-  eraser() {
-    this.passwordForm.patchValue({ office: "" });
-  }
-
-
 }

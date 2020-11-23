@@ -50,11 +50,11 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
 
 import { environment } from 'src/environments/environment';
-import { AuthService } from './auth/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { PerfilComponent } from './admin/perfil/perfil.component';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
-import { GuardGuard } from './auth/guard.guard';
+import { GuardGuard } from './services/guard.guard';
 import { InfoComponent } from './admin/perfil/info/info.component';
 import { NombreComponent } from './admin/perfil/nombre/nombre.component';
 import { ApellidoComponent } from './admin/perfil/apellido/apellido.component';

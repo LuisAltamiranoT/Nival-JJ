@@ -129,6 +129,40 @@ input:-webkit-autofill {
     }
 }
 
+
+.busqueda1{
+  font-size: 14px;
+  width: 50%;
+  padding: 1rem
+}
+@media screen and (min-width: 0px) and (max-width: 360px){
+  .busqueda1{
+    width: 100%;
+  }
+}
+@media screen and (min-width: 360px) and (max-width: 576px){
+  .busqueda1{
+    width: 100%;
+  }
+}
+@media screen and (min-width: 576px) and (max-width: 768px){
+  .busqueda1{
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px){
+  .busqueda1{
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 992px) and (max-width: 1200px){
+  .busqueda1{
+    width: 50%;
+  }
+}
+
   /*callout*/
 .bd-callout {
     padding: 1rem;
@@ -234,3 +268,10 @@ p{
   }
 
   @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+
+
+  /*nuevas clase*/
+  .aNival{
+    color: black;
+}

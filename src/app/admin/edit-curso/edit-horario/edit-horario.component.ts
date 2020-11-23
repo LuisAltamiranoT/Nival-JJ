@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AuthService } from '../../../auth/services/auth.service';
-import { Horario } from "../../../shared/models/horario.interface";
+import { AuthService } from 'src/app/services/auth.service';
+import { Horario } from "src/app/models/horario.interface";
 import { Subscription } from 'rxjs';
 
 

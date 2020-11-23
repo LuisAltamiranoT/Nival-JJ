@@ -32,12 +32,12 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
-                                <mat-form-field class="fullNivalWidth">
+                                <mat-form-field  class="fullNivalWidth">
                                     <mat-label>Materia</mat-label>
                                     <mat-select formControlName="materiaSelect"
                                         (selectionChange)="selectMateria($event.value)">
-                                        <mat-option *ngFor="let materia of materias"
-                                            value="{{materia.id}}+//+{{materia.data.nombre}}">
+                                        <mat-option *ngFor="let materia of materias, let indice=index"
+                                            value="{{materia.id}}+//+{{materia.data.nombre}}+//+{{indice}}">
                                             {{materia.data.nombre}}
                                         </mat-option>
                                     </mat-select>
@@ -89,7 +89,7 @@
                                                     {{element.lunes}}
                                                 </p>
 
-                                                <a class="text-center text-muted" (click)="setHoraDiaLunes(l)"
+                                                <a class="text-center text-muted" (click)="setHoraDiaLunes(l,element.hora)"
                                                     *ngIf="!element.LS && !element.LD">
                                                     <i class="far fa-plus-square"></i>
                                                 </a>
@@ -114,7 +114,7 @@
                                                     {{element.martes}}
                                                 </p>
 
-                                                <a class="text-center text-muted" (click)="setHoraDiaMartes(m)"
+                                                <a class="text-center text-muted" (click)="setHoraDiaMartes(m,element.hora)"
                                                     *ngIf="!element.MS && !element.MD">
                                                     <i class="far fa-plus-square"></i>
                                                 </a>
@@ -141,7 +141,7 @@
                                                     {{element.miercoles}}
                                                 </p>
 
-                                                <a class="text-center text-muted" (click)="setHoraDiaMiercoles(mi)"
+                                                <a class="text-center text-muted" (click)="setHoraDiaMiercoles(mi,element.hora)"
                                                     *ngIf="!element.MiS && !element.MiD">
                                                     <i class="far fa-plus-square"></i>
                                                 </a>
@@ -164,7 +164,7 @@
                                                     {{element.jueves}}
                                                 </p>
 
-                                                <a class="text-center text-muted" (click)="setHoraDiaJueves(j)"
+                                                <a class="text-center text-muted" (click)="setHoraDiaJueves(j,element.hora)"
                                                     *ngIf="!element.JS && !element.JD">
                                                     <i class="far fa-plus-square"></i>
                                                 </a>
@@ -188,7 +188,7 @@
                                                     {{element.viernes}}
                                                 </p>
 
-                                                <a class="text-center text-muted" (click)="setHoraDiaViernes(v)"
+                                                <a class="text-center text-muted" (click)="setHoraDiaViernes(v,element.hora)"
                                                     *ngIf="!element.VS && !element.VD">
                                                     <i class="far fa-plus-square"></i>
                                                 </a>

@@ -4,7 +4,7 @@ import { LoginComponent } from '../login/login.component';
 
 import { FormGroup, FormControl } from '@angular/forms';
 
-import { AuthService } from '../services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -41,7 +41,7 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['/verification-email']);
       }
     } catch (error) {
-      this.authService.showError('Someting wrong');
+      this.authService.showError('Algo salio mal');
     }
   }
 
