@@ -109,18 +109,18 @@ export class PerfilComponent implements OnInit {
   }
   
   cargarData() {
+    this.cursoCompleto.length=0;
     this.materias.forEach(elementMateria => {
-      elementMateria.data.cursos.forEach(elementCurso => {
-        console.log('datos de cursos',elementCurso.id)
-        if (elementCurso.id != 'vacio') {
-          this.cursoCompleto.push({
-            idCurso: elementCurso.id,
-            nombre: elementMateria.data.nombre + ' ' + elementCurso.aula
-          })
-        }
-        
-      });
-      
+      //console.log('llega',elementMateria);
+      console.log('datos de curs',elementMateria.data.cursos.length)
+      if(elementMateria.data.cursos.length!=0){
+        elementMateria.data.cursos.forEach(elementCurso => {
+            this.cursoCompleto.push({
+              idCurso: elementCurso.id,
+              nombre: elementMateria.data.nombre + ' ' + elementCurso.aula
+            })
+        });
+      }  
     });
   }
 
