@@ -23,7 +23,7 @@ export class EditImageComponent implements OnInit {
   validate = true;
 
   photoForm = new FormGroup({
-    image: new FormControl('')
+    image: new FormControl('', Validators.required)
   })
 
   //image="";

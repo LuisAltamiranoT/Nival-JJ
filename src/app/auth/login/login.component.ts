@@ -75,7 +75,7 @@ export class LoginComponent implements OnInit {
 
   openReset(){
     this.dimissModalLogin();
-    this.router.navigate(['/forgot-password']);
+    this.router.navigate(['/password-forgot']);
   }
 
   showError(mensaje: string) {

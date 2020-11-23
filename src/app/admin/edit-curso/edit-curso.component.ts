@@ -21,8 +21,6 @@ import { EditHorarioComponent } from './edit-horario/edit-horario.component';
 import { EditImageComponent } from './edit-image/edit-image.component';
 
 
-
-
 @Component({
   selector: 'app-edit-curso',
   templateUrl: './edit-curso.component.html',

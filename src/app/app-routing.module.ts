@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SendEmailComponent } from './auth/send-email/send-email.component';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
 import { HomeComponent } from './home/home.component';
-import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { PerfilComponent } from './admin/perfil/perfil.component';
+import { PasswordForgotComponent } from 'src/app/auth/password-forgot/password-forgot.component';
 
 import { GuardGuard } from './auth/guard.guard';
 import { CursoGroupComponent } from './admin/curso-group/curso-group.component';
@@ -15,6 +13,9 @@ import { AddCursoComponent } from './admin/add-curso/add-curso.component';
 import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
 import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
 import { EditCursoComponent } from './admin/edit-curso/edit-curso.component';
+import { VistaReportesComponent } from './admin/reporteria/vista-reportes/vista-reportes.component';
+import { ReporteGeneralComponent } from './admin/reporteria/reporte-general/reporte-general.component';
+import { ReporteIndividualComponent } from './admin/reporteria/reporte-individual/reporte-individual.component';
 
 const routes: Routes = [
   {
@@ -31,8 +32,8 @@ const routes: Routes = [
     component: SendEmailComponent
   },
   {
-    path: 'forgot-password',
-    component: ForgotPasswordComponent
+    path: 'password-forgot',
+    component: PasswordForgotComponent
   },
   {
     path: 'admin',
@@ -72,6 +73,21 @@ const routes: Routes = [
   {
     path: 'edit-curso/:data',
     component: EditCursoComponent,
+    canActivate: [GuardGuard]
+  },
+  {
+    path: 'reportes/:data',
+    component: VistaReportesComponent,
+    canActivate: [GuardGuard]
+  },
+  {
+    path: 'reporte-general/:data/:dataI/:dataF',
+    component: ReporteGeneralComponent,
+    canActivate: [GuardGuard]
+  },
+  {
+    path: 'reporte-individual/:data/:dataE/:dataI/:dataF',
+    component: ReporteIndividualComponent,
     canActivate: [GuardGuard]
   }
 ];

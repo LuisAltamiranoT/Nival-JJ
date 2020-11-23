@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 
 import { AuthService } from '../../../auth/services/auth.service';
 @Component({
@@ -11,9 +11,10 @@ import { AuthService } from '../../../auth/services/auth.service';
 export class EditAulaComponent implements OnInit {
   placeholder = "Ejemplo GR1"
   validate = true;
+  mensaje = "";
 
   aulaForm = new FormGroup({
-    aula: new FormControl('', [Validators.required, Validators.minLength(1)])
+    aula: new FormControl('', [Validators.required, Validators.minLength(1), this.match()])
   })
 
   constructor(
@@ -23,7 +24,7 @@ export class EditAulaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.placeholder= this.infoUser.nombreAula;
+    this.placeholder = this.infoUser.nombreAula;
     this.aulaForm.patchValue({ aula: this.infoUser.nombreAula });
   }
 
@@ -56,5 +57,29 @@ export class EditAulaComponent implements OnInit {
   eraser() {
     this.aulaForm.patchValue({ aula: "" });
   }
+
+  //validar informacion
+  match() {
+    return (control: AbstractControl): { [s: string]: boolean } => {
+      if (control.parent) {
+        let data = control.value;
+        //console.log(data);
+        //console.log(long)
+        if (data === this.placeholder) {
+          return {
+            match: true
+          };
+        } else if (data === undefined) {
+          this.mensaje = 'Debe ingresar materia';
+          return {
+            match: true
+          };
+        }
+      }
+      this.mensaje = '';
+      return null;
+    };
+  }
+
 
 }

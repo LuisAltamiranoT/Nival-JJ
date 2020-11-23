@@ -16,7 +16,7 @@ export class AddEstudianteComponent implements OnInit {
   private array = [];
 
   estudianteForm = new FormGroup({
-    codigoUnico: new FormControl('', [Validators.required, Validators.minLength(1)]),
+    codigoUnico: new FormControl('', [Validators.required, Validators.maxLength(9)]),
     estudiante: new FormControl('', [Validators.required, Validators.minLength(1)])
   })
 
@@ -81,6 +81,43 @@ export class AddEstudianteComponent implements OnInit {
   eraser() {
     this.estudianteForm.patchValue({ codigoUnico: "" });
     this.estudianteForm.patchValue({ estudiante: "" });
+  }
+
+  IngresarSoloLetras(e) {
+    let key = e.keyCode || e.which;
+    let tecla = String.fromCharCode(key).toString();
+    //Se define todo el abecedario que se va a usar.
+    let letras = " áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+    //Es la validación del KeyCodes, que teclas recibe el campo de texto.
+    let especiales = [8, 37, 39, 46, 6, 13];
+    let tecla_especial = false
+    for (var i in especiales) {
+      if (key == especiales[i]) {
+        tecla_especial = true;
+        break;
+      }
+    }
+    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+      this.authService.showInfo('No se admite el ingreso de números');
+      return false;
+    }
+  }
+
+  IngresarSoloNumeros(evt) {
+    if (window.event) {
+      var keynum = evt.keyCode;
+    }
+    else {
+      keynum = evt.which;
+    }
+    // Comprobamos si se encuentra en el rango numérico y que teclas no recibirá.
+    if ((keynum > 47 && keynum < 58) || keynum == 8 || keynum == 13 || keynum == 6) {
+      return true;
+    }
+    else {
+      this.authService.showInfo('No se admite el ingreso de letras');
+      return false;
+    }
   }
 
 }

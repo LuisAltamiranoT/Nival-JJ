@@ -45,8 +45,6 @@ export class VistaCursoComponent implements OnInit {
   fechaActual: any;
   nombreDay: any;
 
-
-
   constructor(
     private authService: AuthService,
     public router: Router,

@@ -11,11 +11,11 @@
     <input type="file" class="d-none" (change)="onPhotoSelected($event)" #photoInput formControlName="image">
     <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
-            <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="closeModal()">Cancelar</a>
-        </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
             <button type="submit" class="btn btn-sm btn-primary fullNivalWidth"
                 [disabled]="!photoForm.valid">Guardar</button>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
+            <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="closeModal()">Cancelar</a>
         </div>
     </div>
 </form>

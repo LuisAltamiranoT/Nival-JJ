@@ -51,7 +51,6 @@ import { AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
 
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth/services/auth.service';
-import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { PerfilComponent } from './admin/perfil/perfil.component';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { GuardGuard } from './auth/guard.guard';
@@ -70,7 +69,6 @@ import { EditarMateriaComponent } from './admin/perfil/editar-materia/editar-mat
 import { EditarAnioComponent } from './admin/perfil/editar-anio/editar-anio.component';
 import { FotoComponent } from './admin/perfil/foto/foto.component';
 import { AddCursoComponent } from './admin/add-curso/add-curso.component';
-import { VistaHorarioComponent } from './admin/add-curso/vista-horario/vista-horario.component';
 import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
 import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
 import { EditCursoComponent } from './admin/edit-curso/edit-curso.component';
@@ -81,6 +79,10 @@ import { EditImageComponent } from './admin/edit-curso/edit-image/edit-image.com
 import { AddEstudianteComponent } from './admin/edit-curso/add-estudiante/add-estudiante.component';
 import { EditHorarioComponent } from './admin/edit-curso/edit-horario/edit-horario.component';
 import { DeleteEstudianteComponent } from './admin/edit-curso/delete-estudiante/delete-estudiante.component';
+import { PasswordForgotComponent } from './auth/password-forgot/password-forgot.component';
+import { ReporteGeneralComponent } from './admin/reporteria/reporte-general/reporte-general.component';
+import { ReporteIndividualComponent } from './admin/reporteria/reporte-individual/reporte-individual.component';
+import { VistaReportesComponent } from './admin/reporteria/vista-reportes/vista-reportes.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +92,6 @@ import { DeleteEstudianteComponent } from './admin/edit-curso/delete-estudiante/
     RegisterComponent,
     HomeComponent,
     SendEmailComponent,
-    ForgotPasswordComponent,
     PerfilComponent,
     AdminHomeComponent,
     InfoComponent,
@@ -108,7 +109,6 @@ import { DeleteEstudianteComponent } from './admin/edit-curso/delete-estudiante/
     EditarAnioComponent,
     FotoComponent,
     AddCursoComponent,
-    VistaHorarioComponent,
     VistaCursoComponent,
     CodigoQRComponent,
     EditCursoComponent,
@@ -119,6 +119,10 @@ import { DeleteEstudianteComponent } from './admin/edit-curso/delete-estudiante/
     AddEstudianteComponent,
     EditHorarioComponent,
     DeleteEstudianteComponent,
+    PasswordForgotComponent,
+    ReporteGeneralComponent,
+    ReporteIndividualComponent,
+    VistaReportesComponent,
 
   ],
   imports: [

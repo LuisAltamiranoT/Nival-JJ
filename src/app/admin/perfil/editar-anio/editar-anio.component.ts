@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from '../../../auth/services/auth.service';
 
@@ -15,8 +15,8 @@ export class EditarAnioComponent implements OnInit {
   validate = true;
 
   anioForm = new FormGroup({
-    inicio: new FormControl(''),
-    fin: new FormControl('')
+    inicio: new FormControl('', Validators.required),
+    fin: new FormControl('', Validators.required)
   })
 
   constructor(

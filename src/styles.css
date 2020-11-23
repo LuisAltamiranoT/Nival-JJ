@@ -1,5 +1,5 @@
 @import '~ngx-toastr/toastr';
-
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 a{
     cursor: pointer;
 }
@@ -233,4 +233,4 @@ p{
     background-color: cornflowerblue;
   }
 
-  @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+

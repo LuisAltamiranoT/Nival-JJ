@@ -1,22 +1,22 @@
 <!--Eliminar Materia-->
-    <form [formGroup]="materiaForm" (ngSubmit)="onClick()">
-        <h2 mat-dialog-title class="pb-1">Materias:</h2>
-        <div class="text-center">
-            <div *ngIf="validate else barra">
-            </div>
+<form [formGroup]="materiaForm" (ngSubmit)="onClick()">
+    <h2 mat-dialog-title class="pb-1">Materias:</h2>
+    <div class="text-center">
+        <div *ngIf="validate else barra">
         </div>
-        <div class="form-group">
-            <h3>Está seguro de eliminar: <strong>{{materia}}</strong> de su lista</h3>
+    </div>
+    <div class="form-group">
+        <h3>Está seguro de eliminar: <strong>{{materia}}</strong> de su lista</h3>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
+            <button type="submit" class="btn btn-sm btn-primary fullNivalWidth">Aceptar</button>
         </div>
-        <div class="row">
-            <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
-                <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
-            </div>
-            <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
-                <button type="submit" class="btn btn-sm btn-primary fullNivalWidth">Aceptar</button>
-            </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
+            <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
         </div>
-    </form>
+    </div>
+</form>
 <ng-template #barra>
     <div class="pb-2">
         <mat-progress-bar class="input-modal" id="progreesbar" mode="indeterminate"></mat-progress-bar>

@@ -7,9 +7,13 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12 col-12 my-1">
             <div class="form-group">
-                <mat-form-field class="fullNivalWidth">
+                <mat-form-field class="fullNivalWidth" hintLabel="Ingresar 9 Caracteres">
                     <mat-label>Código Único</mat-label>
-                    <input matInput [type]="'number'" autocomplete="off" placeholder="{{placeholderCodigo}}" formControlName="codigoUnico">
+                    <input matInput #num [type]="'number'" autocomplete="off" placeholder="{{placeholderCodigo}}"
+                        formControlName="codigoUnico" maxlength="9"
+                        oninput="if(this.value.length > this.maxLength) this.value=this.value.slice(0,this.maxLength);"
+                        (keypress)="IngresarSoloNumeros($event)">
+                    <mat-hint align="end">{{num.value?.length || 0}}/9</mat-hint>
                 </mat-form-field>
             </div>
         </div>
@@ -17,20 +21,22 @@
             <div class="form-group">
                 <mat-form-field class="fullNivalWidth">
                     <mat-label>Nombres</mat-label>
-                    <input matInput [type]="'text'" autocomplete="off" placeholder="{{placeholder}}" formControlName="estudiante">
+                    <input matInput [type]="'text'" autocomplete="off" placeholder="{{placeholder}}"
+                        formControlName="estudiante" (keypress)="IngresarSoloLetras($event)">
                 </mat-form-field>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-4 col-md-4 col-lg-4 col-12 my-1">
-            <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
+            <button type="submit" class="btn btn-sm btn-primary fullNivalWidth"
+                [disabled]="!estudianteForm.valid">Guardar</button>
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4 col-12 my-1">
             <a class="btn btn-sm btn-warning text-white fullNivalWidth" (click)="eraser()">Borrar</a>
         </div>
         <div class="col-sm-4 col-md-4 col-lg-4 col-12 my-1">
-            <button type="submit" class="btn btn-sm btn-primary fullNivalWidth" [disabled]="!estudianteForm.valid">Guardar</button>
+            <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
         </div>
     </div>
 </form>

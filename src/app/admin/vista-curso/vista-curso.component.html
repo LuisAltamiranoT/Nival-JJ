@@ -1,25 +1,42 @@
 <div class="container mt-5 container-nival">
     <div class="row mt-5">
-        <div class="col-sm-6 col-md-6 col-lg-6 col-6 mt-4 pt-1 pbn-1">
+        <div class="col-sm-4 col-md-4 col-lg-4 col-4 mt-4 pt-1 pbn-1">
             <h3 class="font-weight-normal">
                 <i class="fas fa-list pr-1 pb-1 fa-nival fa-sm"></i>Asistencia</h3>
         </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 col-6 mt-4 pt-1 pbn-1">
-            <a class="float-right btn-nival pt-1" style="text-decoration: none;"
-                [routerLink]="['/codigo',codigoQr]" target="_blank">
+        <div class="col-sm-4 col-md-4 col-lg-4 col-4 mt-4 pt-1 pbn-1">
+            <a class="float-right btn-nival pt-1" style="text-decoration: none;" [routerLink]="['/codigo',codigoQr]"
+                target="_blank">
                 <i class="fa fa-qrcode pr-1"></i>Generar QR
+            </a>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 col-4 mt-4 pt-1 pbn-1">
+            <a class="float-right btn-nival pt-1" style="text-decoration: none;" [routerLink]="['/reportes', dataId]">
+                <i class="fa fa-files-o pr-1"></i>Reportes
             </a>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-12 col-12" style="margin: 0px !important; padding: 0px !important;">
             <hr class="hr-nival">
         </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-md-4 col-lg-4 col-12 my-1">
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 col-12 my-1">
+            <a class="btn btn-sm btn-info text-white fullNivalWidth">Finalizar Registro</a>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 col-12 my-1">
+        </div>
+    </div>
+    <div class="row mt-3">
         <div class="form-group">
             <div class="row">
                 <div class="col-sm-12 col-md-12 col-lg-12 col-12 mb-1">
                     <div class="example-container mat-elevation-z3">
                         <mat-form-field class="busqueda1">
                             <mat-label>Buscar</mat-label>
-                            <input matInput autocomplete="off" (keyup)="applyFilter($event)" placeholder="Ejemplo 201720 o Pepito Perez" #input>
+                            <input matInput autocomplete="off" (keyup)="applyFilter($event)"
+                                placeholder="Ejemplo 201720 o Pepito Perez" #input>
                         </mat-form-field>
                         <table mat-table [dataSource]="dataSource" #tabla1>
 
@@ -80,7 +97,7 @@
 
                             <tr class="mat-row" *matNoDataRow>
                                 <td class="mat-cell" colspan="5">No se ha encontrado: "{{input.value}}"</td>
-                             </tr>
+                            </tr>
                         </table>
                     </div>
                 </div>

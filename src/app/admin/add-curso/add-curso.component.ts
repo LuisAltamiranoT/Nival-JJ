@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 import { UploadImageService } from 'src/app/auth/services/upload-image.service';
 
 import { MatDialog } from '@angular/material/dialog';
-import { VistaHorarioComponent } from './vista-horario/vista-horario.component';
 import { Horario } from "../../shared/models/horario.interface";
 import { Curso } from 'src/app/shared/models/user.interface';
 
@@ -474,7 +473,6 @@ export class AddCursoComponent implements OnInit {
   }
 
 }
-
 
 
 

@@ -11,7 +11,7 @@
                     <mat-form-field class="fullNivalWidth">
                         <mat-label>Inicio</mat-label>
                         <input autocomplete="off" matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker"
-                            formControlName="inicio">
+                            formControlName="inicio" readonly>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
@@ -22,7 +22,7 @@
                     <mat-form-field class="fullNivalWidth">
                         <mat-label>Final</mat-label>
                         <input autocomplete="off" matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker1"
-                            formControlName="fin">
+                            formControlName="fin" readonly>
                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                         <mat-datepicker #picker1></mat-datepicker>
                     </mat-form-field>
@@ -33,14 +33,12 @@
     <div class="form-group">
         <div class="row">
             <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
-                <a class="btn btn-sm btn-danger text-white fullNivalWidth" (click)="dimissModalInfo()">Cancelar</a>
+                <button type="submit" class="btn btn-sm btn-info fullNivalWidth"
+                    [disabled]="!anioForm.valid">Guardar</button>
             </div>
             <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
-                <button type="submit" class="btn btn-sm btn-info fullNivalWidth">Guardar</button>
+                <a class="btn btn-sm btn-danger text-white fullNivalWidth" (click)="dimissModalInfo()">Cancelar</a>
             </div>
-            <!--div class="col">
-
-            </div-->
         </div>
     </div>
 </form>
