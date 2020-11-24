@@ -10,15 +10,16 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./materia.component.css']
 })
 export class MateriaComponent implements OnInit {
+
   placeholder = "Ingresa una nueva materia";
   mensaje = '';
   validate = true;
   materias = [];
-  nombreProfesor='';
-  image="../../../assets/perfil.jpg";
+  nombreProfesor = '';
+  image = "../../../assets/perfil.jpg";
 
   materiaForm = new FormGroup({
-    materia: new FormControl('', [Validators.required, Validators.minLength(4),this.match()])
+    materia: new FormControl('', [Validators.required, Validators.minLength(4), this.match()])
   })
 
   constructor(
@@ -28,7 +29,7 @@ export class MateriaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.nombreProfesor=this.infoUser.nombre;
+    this.nombreProfesor = this.infoUser.nombre;
     this.image = this.infoUser.image;
     this.materia();
   }
@@ -37,12 +38,12 @@ export class MateriaComponent implements OnInit {
     try {
       this.validate = false;
       const { materia } = this.materiaForm.value;
-      const dat = await this.authService.createMateria(materia,this.nombreProfesor,this.image);
-        if (dat) {
-          this.authService.showUpdatedata();
-          this.materiaForm.patchValue({ materia: "" });
-          this.validate = true;
-        }
+      const dat = await this.authService.createMateria(materia, this.nombreProfesor, this.image);
+      if (dat) {
+        this.authService.showUpdatedata();
+        this.materiaForm.patchValue({ materia: "" });
+        this.validate = true;
+      }
     } catch (error) {
 
     }
@@ -76,8 +77,8 @@ export class MateriaComponent implements OnInit {
         let data = control.value;
         //console.log(this.materias);
         //console.log(data.toUpperCase())
-        if(this.materias.includes(data.toUpperCase())){
-          this.mensaje='Esta materia ya exite en tu lista';
+        if (this.materias.includes(data.toUpperCase())) {
+          this.mensaje = 'Esta materia ya exite en tu lista';
           return {
             match: true
           };

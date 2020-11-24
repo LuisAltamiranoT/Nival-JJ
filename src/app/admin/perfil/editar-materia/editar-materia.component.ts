@@ -95,33 +95,29 @@ export class EditarMateriaComponent implements OnInit {
           this.mensaje = 'Debe ingresar materia';
           //console.log(this.materias);
           //console.log(data.toUpperCase())
-          if (this.materias.includes(data.toUpperCase())) {
-            this.mensaje = 'Esta materia ya exite en tu lista';
-            return {
-              match: true
-            };
-          }
+        } else if (this.materias.includes(data.toUpperCase())) {
+          this.mensaje = 'Esta materia ya exite en tu lista';
+          return {
+            match: true
+          };
         }
-        this.mensaje = '';
-        return null;
-      };
+      }
+      this.mensaje = '';
+      return null;
     }
   }
-  
+
   //validar dos nombres
   matchNombre() {
     return (control: AbstractControl): { [s: string]: boolean } => {
       if (control.parent) {
         let data = control.value.toUpperCase();
-        if (data === this.placeholder.toUpperCase()) {
-          return {
-            match: true
-          };
-        }
-        this.mensaje = '';
-        return null;
-      };
+      }
+      this.mensaje = '';
+      return null;
     }
   }
+
+
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RegisterComponent } from '../register/register.component';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, AbstractControl, Validators } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth.service';
@@ -18,8 +18,8 @@ export class LoginComponent implements OnInit {
   hide = true;
 
   loginForm = new FormGroup({
-    email: new FormControl(''),
-    password: new FormControl('')
+    email: new FormControl('', [Validators.required, Validators.email, this.matchEmail()]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6)])
   })
 
   constructor(
@@ -82,5 +82,25 @@ export class LoginComponent implements OnInit {
     this.toastr.success(mensaje, 'Error', {
       timeOut: 2000,
     });
+  }
+
+  matchEmail() {
+    return (control: AbstractControl): { [s: string]: boolean } => {
+      // control.parent es el FormGroup
+      if (control.parent) { // en las primeras llamadas control.parent es undefined
+        let dominio = control.value.split("@", 2);
+        //console.log(dominio[1],dominio.length);
+        if (dominio[1] !== 'epn.edu.ec') {
+          //console.log(control.value,'no pertenece al dominio');
+          //this.validacionEmail=false;
+          return {
+            match: true
+          };
+        }
+      }
+      //console.log('iguales');
+      //this.validacionEmail=true;
+      return null;
+    };
   }
 }
