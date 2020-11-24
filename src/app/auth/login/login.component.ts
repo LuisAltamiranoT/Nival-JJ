@@ -4,7 +4,7 @@ import { RegisterComponent } from '../register/register.component';
 import { FormGroup, FormControl } from '@angular/forms';
 
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

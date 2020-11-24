@@ -4,8 +4,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 
-import { Nomina } from '../../../shared/models/user.interface';
-import { AuthService } from '../../../auth/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { Nomina } from 'src/app/models/user.interface';
 import { Subscription } from 'rxjs';
 
 // Libreria para encriptar y desencriptar //
@@ -30,11 +30,15 @@ export class VistaReportesComponent implements OnInit {
   @ViewChild(MatTable) tabla1: MatTable<Nomina>;
 
   //CODIGO NUEVO TABLA
-  displayedColumns: string[] = ['fila', 'codigoUnico', 'nombre', 'reporte'];
+  displayedColumns: string[] = ['fila', 'codigoUnico', 'image', 'nombre', 'reporte'];
   dataSource = new MatTableDataSource(this.nominaVista);
 
   //dato que almacenara el id de la materia
   public dataId: any;
+  public idNomina: any;
+  public idMateria: any;
+  //array original de nomina de estudiante
+  private nominaConsulta: any = [];
 
   // Variables para revisar la parte de encriptación //
   texto_i: string;
@@ -55,8 +59,12 @@ export class VistaReportesComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataId = this._route.snapshot.paramMap.get('data');
-    this.obtenerNomina(this.dataId);
+    //console.log(this.dataId);
+    let splitted = this.dataId.split("//");
+    this.idNomina = splitted[0];
+    this.idMateria = splitted[1];
     this.periodoFiltro('null', 'null');
+    this.obtenerNomina(this.idMateria, this.idNomina);
   }
 
   // Funcion para encriptar //
@@ -94,20 +102,6 @@ export class VistaReportesComponent implements OnInit {
     }
   }
 
-  public obtenerNomina(id) {
-    this.suscripcion1 = this.authService.getDataCursoId(id).subscribe((data) => {
-      this.nominaVista.length = 0;
-      data.forEach((dataMateria: any) => {
-        this.nominaVista.push({
-          id: dataMateria.payload.doc.id,
-          codigoUnico: dataMateria.payload.doc.data().codigoUnico,
-          nombre: dataMateria.payload.doc.data().nombre,
-        })
-      });
-      this.tabla1.renderRows();
-    });
-  }
-
   fecha_fin: any;
   fecha_inicio: any;
   validarFecha(event, form) {
@@ -128,6 +122,66 @@ export class VistaReportesComponent implements OnInit {
         })
       }
     }
+  }
+
+  public obtenerNomina(idMateria: any, idNomina: any) {
+    this.suscripcion1 = this.authService.getDataNominaCursoId(idMateria, idNomina).subscribe((data) => {
+      this.nominaVista.length = 0;
+      this.nominaConsulta.length = 0;
+
+      const dataNomina: any = data.payload.data();
+      dataNomina.nomina.forEach((dataMateria: any) => {
+        //console.log('tamaño array', dataMateria.asistencia.length)
+        let ultimoId = dataMateria.asistencia.length - 1;
+        //console.log('antes del id ', ultimoId);
+        if (ultimoId < 0) {
+          ultimoId = 0;
+        }
+        //console.log('ultimo index', ultimoId)
+
+        if (dataMateria.asistencia.length == 0) {
+          console.log('cero if entra');
+          this.nominaVista.push({
+            nombre: dataMateria.nombre,
+            codigoUnico: dataMateria.codigoUnico,
+            //correo: dataMateria.correo,
+            //image: dataMateria.image,
+          })
+        } else {
+          console.log('entra a else')
+          if (dataMateria.asistencia[ultimoId].estado == true) {
+            console.log('entra al estado');
+            this.nominaVista.push({
+              nombre: dataMateria.nombre,
+              codigoUnico: dataMateria.codigoUnico,
+              //correo: dataMateria.correo,
+              //image: dataMateria.image,
+            })
+          } else {
+            console.log('entra al else estado');
+            this.nominaVista.push({
+              nombre: dataMateria.nombre,
+              codigoUnico: dataMateria.codigoUnico,
+              //correo: dataMateria.correo,
+              // image: dataMateria.image,
+            })
+          }
+        }
+        this.nominaConsulta.push({
+          nombre: dataMateria.nombre,
+          codigoUnico: dataMateria.codigoUnico,
+          correo: dataMateria.correo,
+          image: dataMateria.image,
+        })
+      });
+      this.tabla1.renderRows();
+    });
+    //console.log(this.nominaVista);
+  }
+
+  limpiarBusqueda(input) {
+    input.value = '';
+    this.dataSource.filter = null;
   }
 
 }

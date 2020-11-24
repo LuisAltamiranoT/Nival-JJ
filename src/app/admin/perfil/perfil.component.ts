@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { InfoComponent } from './info/info.component';
 import { NombreComponent } from './nombre/nombre.component';
 
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from 'src/app/auth/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 
@@ -31,7 +30,7 @@ import * as CryptoJS from 'crypto-js'
 
 export class PerfilComponent implements OnInit {
   image = "../../../assets/profe.jpg";
-  perfil = "../../../assets/perfil.jpg";
+  perfil = "https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680";
   nombre = "";
   apellido = "";
   oficina = "";
@@ -50,7 +49,6 @@ export class PerfilComponent implements OnInit {
   val = true;
 
   private suscripcion1: Subscription;
-  private suscripcion2: Subscription;
   private suscripcion3: Subscription;
 
   // Variables para revisar la parte de encriptación //
@@ -63,7 +61,6 @@ export class PerfilComponent implements OnInit {
 
   constructor(
     public ventana: MatDialog,
-    private modalService: NgbModal,
     private authService: AuthService,
     private router: Router
   ) { }
@@ -71,7 +68,6 @@ export class PerfilComponent implements OnInit {
   ngOnInit(): void {
     this.dataUser();
     this.materia();
-    this.curso();
 
     //prueba de encriptacion
     this.pruebaEncriptar();
@@ -95,47 +91,37 @@ export class PerfilComponent implements OnInit {
 
   ngOnDestroy() {
     this.suscripcion1.unsubscribe();
-    this.suscripcion2.unsubscribe();
     this.suscripcion3.unsubscribe();
   }
 
   dataUser() {
     this.suscripcion1 = this.authService.getDataUser().subscribe((data) => {
-      this.nombre = data.nombre;
-      this.apellido = data.apellido;
-      this.correo = data.email;
-      this.informacion = data.info;
-      this.oficina = data.oficina;
-      this.AnioLectivoInicio = data.anioInicio;
-      this.AnioLectivoFin = data.anioFin;
-      this.perfil = data.photoUrl;
+      let dataUser: any = [data.payload.data()];
+      this.nombre =dataUser[0].nombre;
+      this.apellido = dataUser[0].apellido;
+      this.correo = dataUser[0].email;
+      this.informacion = dataUser[0].info;
+      this.oficina = dataUser[0].oficina;
+      this.AnioLectivoInicio = dataUser[0].anioInicio;
+      this.AnioLectivoFin = dataUser[0].anioFin;
+      this.perfil = dataUser[0].photoUrl;
       console.log(data);
     });
   }
-
-  curso() {
-    this.suscripcion2 = this.authService.getDataCurso().subscribe((data) => {
-      this.cursos.length = 0;
-      data.forEach((dataCurso: any) => {
-        this.cursos.push({
-          id: dataCurso.payload.doc.id,
-          data: dataCurso.payload.doc.data()
-        });
-      })
-      this.cargarData();
-    });
-  }
-
+  
   cargarData() {
+    this.cursoCompleto.length=0;
     this.materias.forEach(elementMateria => {
-      this.cursos.forEach(elementCurso => {
-        if (elementMateria.id === elementCurso.data.uidMateria) {
-          this.cursoCompleto.push({
-            idCurso: elementCurso.id,
-            nombre: elementMateria.data.nombre + ' ' + elementCurso.data.aula
-          })
-        }
-      });
+      //console.log('llega',elementMateria);
+      console.log('datos de curs',elementMateria.data.cursos.length)
+      if(elementMateria.data.cursos.length!=0){
+        elementMateria.data.cursos.forEach(elementCurso => {
+            this.cursoCompleto.push({
+              idCurso: elementCurso.id,
+              nombre: elementMateria.data.nombre + ' ' + elementCurso.aula
+            })
+        });
+      }  
     });
   }
 
@@ -148,6 +134,7 @@ export class PerfilComponent implements OnInit {
           data: dataMateria.payload.doc.data()
         });
       })
+      this.cargarData();
     });
   }
 
@@ -185,7 +172,11 @@ export class PerfilComponent implements OnInit {
   }
 
   openMateriaModal() {
-    this.openMaterial(MateriaComponent);
+    let data={
+      nombre:this.nombre+' '+this.apellido,
+      image: this.perfil
+    }
+    this.openMaterial1(MateriaComponent,data);
   }
 
   openEditMateriaModal(data: any, idData: any) {

@@ -60,6 +60,9 @@
                             <mat-label>Buscar</mat-label>
                             <input matInput autocomplete="off" (keyup)="applyFilter($event)"
                                 placeholder="Ejemplo 201720 o Pepito Perez" #input>
+                            <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda(input)">
+                                <mat-icon matSuffix>close</mat-icon>
+                            </a>
                         </mat-form-field>
                         <table mat-table [dataSource]="dataSource" #tabla1>
 
@@ -77,6 +80,15 @@
                                 </td>
                             </ng-container>
 
+                            <!-- image colunm -->
+                            <ng-container matColumnDef="image" sticky>
+                                <th mat-header-cell *matHeaderCellDef> Imagen </th>
+                                <td class="px-1" mat-cell *matCellDef="let element, let i = index;">
+                                    <a (click)='openPhoto(element.image)'>
+                                        <img mat-card-image class="avatarNival" src={{element.image}} alt="noImage">
+                                    </a>
+                                </td>
+                            </ng-container>
                             <!-- Name Column -->
                             <ng-container matColumnDef="nombre">
                                 <th mat-header-cell *matHeaderCellDef> Nombre </th>

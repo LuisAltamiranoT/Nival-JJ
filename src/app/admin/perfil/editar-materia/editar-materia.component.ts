@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 
-import { AuthService } from '../../../auth/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class EditarMateriaComponent implements OnInit {
   mensaje = "";
 
   materiaForm = new FormGroup({
-    materia: new FormControl('', [Validators.required, Validators.minLength(1), this.match()])
+    materia: new FormControl('', [Validators.required, Validators.minLength(4), this.match(), this.matchNombre()])
   })
 
   constructor(
@@ -64,12 +64,9 @@ export class EditarMateriaComponent implements OnInit {
         if (!dat) {
           this.validate = true;
         }
-
       } else {
         //console.log(permiso +" no se guarda")
-
       }
-
     } catch (error) {
       console.log(error);
     }
@@ -96,16 +93,35 @@ export class EditarMateriaComponent implements OnInit {
           };
         } else if (data === undefined) {
           this.mensaje = 'Debe ingresar materia';
+          //console.log(this.materias);
+          //console.log(data.toUpperCase())
+          if (this.materias.includes(data.toUpperCase())) {
+            this.mensaje = 'Esta materia ya exite en tu lista';
+            return {
+              match: true
+            };
+          }
+        }
+        this.mensaje = '';
+        return null;
+      };
+    }
+  }
+  
+  //validar dos nombres
+  matchNombre() {
+    return (control: AbstractControl): { [s: string]: boolean } => {
+      if (control.parent) {
+        let data = control.value.toUpperCase();
+        if (data === this.placeholder.toUpperCase()) {
           return {
             match: true
           };
         }
-      }
-      this.mensaje = '';
-      return null;
-    };
+        this.mensaje = '';
+        return null;
+      };
+    }
   }
-
-
 
 }

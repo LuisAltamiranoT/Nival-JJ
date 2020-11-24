@@ -4,7 +4,7 @@ import { FormControl, FormGroup, AbstractControl, Validator } from '@angular/for
 
 
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../../../auth/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-info',

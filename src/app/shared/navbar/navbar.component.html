@@ -1,6 +1,6 @@
 <!--*******************BARRA DE NAVEGACIÓN DE LA APLICACIÓN*******************************-->
 <div *ngIf="user$ | async as user else login">
-  <mat-toolbar class="bg-white barra-fija">
+  <mat-toolbar class="bg-white barra-fija" style="height: 11vh !important;">
     <a mat-button class="companyName" routerLink="/">
       <img src="../../../assets/logo6.PNG" alt="nival" id="logoNavbar">
     </a>
@@ -29,9 +29,9 @@
     </div>
   </mat-toolbar>
   <mat-sidenav-container fxFlexFill class="example-container">
-    <mat-sidenav style="height: 20vh !important; width: 20vh; position: fixed; margin-top: 7vh;" class="bg-white"
+    <mat-sidenav style="height: 50vh !important; width: 40vh; position: fixed; margin-top: 7vh;" class="bg-white"
       #sidenav fxLayout="column" mode="over" opened="false" fxHide.gt-sm="true" (click)="sidenav.toggle()">
-      <div fxLayout="column">
+      <div fxLayout="column" style="margin-top: 3vh;">
         <a [routerLink]="['/admin']">
           <i class="fas fa-house-user" style=" padding-right: 15px;"></i>Inicio
         </a>
@@ -56,7 +56,7 @@
 <!--*******************BARRA DE NAVEGACIÓN PARA LA PÁGINA DE LOGIN*******************************-->
 <ng-template #login>
   <div>
-    <mat-toolbar class="bg-white barra-fija">
+    <mat-toolbar class="bg-white barra-fija" style="height: 11vh !important;">
       <a mat-button class="companyName" routerLink="/">
         <img src="../../../assets/logo5.PNG" alt="nival" id="logoNavbar">
       </a>
@@ -74,9 +74,9 @@
       </div>
     </mat-toolbar>
     <mat-sidenav-container fxFlexFill class="example-container">
-      <mat-sidenav style="height: 9vh !important; width: 25vh; position: fixed; margin-top: 7vh;" class="bg-white"
+      <mat-sidenav style="height: 20vh !important; width: 45vh; position: fixed; margin-top: 7vh;" class="bg-white"
         fxLayout="column" #sidenav mode="over" opened="false" fxHide.gt-sm="true" (click)="sidenav.toggle()">
-        <div fxLayout="column">
+        <div fxLayout="column" style="margin-top: 3vh;">
           <a (click)="openFormModalLogin()">
             <i class="fas fa-sign-in-alt" style=" padding-right: 17px;"></i>Iniciar Sesión</a>
           <a (click)="openFormModalRegister()">

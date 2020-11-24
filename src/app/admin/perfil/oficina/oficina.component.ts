@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, AbstractControl, Validators } from '@angular/forms';
 
-import { AuthService } from '../../../auth/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { InfoComponent } from '../info/info.component';
 
 

@@ -2,8 +2,8 @@ import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { AuthService } from '../../../auth/services/auth.service';
-import { UploadImageService } from 'src/app/auth/services/upload-image.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { UploadImageService } from 'src/app/services/upload-image.service';
 
 //subscripcion a un observable
 import { Subscription } from "rxjs";

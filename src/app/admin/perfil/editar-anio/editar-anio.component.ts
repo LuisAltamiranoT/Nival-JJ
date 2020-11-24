@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { AuthService } from '../../../auth/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-editar-anio',

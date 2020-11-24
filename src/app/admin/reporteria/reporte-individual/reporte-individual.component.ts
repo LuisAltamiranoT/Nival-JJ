@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { AuthService } from '../../../auth/services/auth.service';
-import { Nomina } from '../../../shared/models/user.interface';
+import { AuthService } from 'src/app/services/auth.service';
+import { Nomina } from 'src/app/models/user.interface';
 
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
@@ -86,15 +86,15 @@ export class ReporteIndividualComponent implements OnInit {
   }
 
   public obtenerNomina(id) {
-    this.suscripcion1 = this.authService.getDataCursoId(id).subscribe((data) => {
+    this.suscripcion1 = this.authService.getCursoId(id).subscribe((data) => {
       this.nominaVista.length = 0;
-      data.forEach((dataMateria: any) => {
+     /* data.forEach((dataMateria: any) => {
         this.nominaVista.push({
           id: dataMateria.payload.doc.id,
           codigoUnico: dataMateria.payload.doc.data().codigoUnico,
           nombre: dataMateria.payload.doc.data().nombre,
         })
-      });
+      });*/
       this.tabla1.renderRows();
     });
   }

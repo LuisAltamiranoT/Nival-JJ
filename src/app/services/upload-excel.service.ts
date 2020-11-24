@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ExcelValidator } from '../helpers/excelValidator';
+import { ExcelValidator } from 'src/app/helpers/excelValidator';
 @Injectable({
   providedIn: 'root'
 })

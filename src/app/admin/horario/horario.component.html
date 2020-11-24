@@ -10,10 +10,13 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12 col-12 mb-1">
                 <div class="example-container mat-elevation-z3">
-                    <mat-form-field class="busqueda1">
+                    <mat-form-field appearance="standard" class="busqueda1">
                         <mat-label>Buscar</mat-label>
                         <input matInput autocomplete="off" (keyup)="applyFilter($event)"
                             placeholder="Ejemplo GR3 o Filosofía" #input>
+                            <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda(input)">
+                                <mat-icon matSuffix>close</mat-icon>
+                            </a>
                     </mat-form-field>
                     <table mat-table [dataSource]="dataSource">
 

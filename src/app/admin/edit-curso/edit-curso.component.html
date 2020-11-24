@@ -68,6 +68,9 @@
                                     <mat-label>Buscar</mat-label>
                                     <input matInput autocomplete="off" (keyup)="applyFilter($event)"
                                         placeholder="Ejemplo 201720 o Pepito Perez" #input>
+                                        <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda(input)">
+                                            <mat-icon matSuffix>close</mat-icon>
+                                        </a>
                                 </mat-form-field>
                                 <table mat-table [dataSource]="dataSource2" #tabla1>
                                     <!-- Numero de fila -->

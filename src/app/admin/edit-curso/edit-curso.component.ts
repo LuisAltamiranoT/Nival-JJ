@@ -4,9 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { AuthService } from '../../auth/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
 
-import { Nomina } from '../../shared/models/user.interface';
+import { Nomina } from 'src/app/models/user.interface';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 //subscripcion a un observable
@@ -97,7 +97,7 @@ export class EditCursoComponent implements OnInit {
   }
 
   getNominaCurso(idCurso: any) {
-    this.suscripcion3 = this.authService.getDataCursoId(idCurso).subscribe((data) => {
+    /*this.suscripcion3 = this.authService.getDataCursoId(idCurso).subscribe((data) => {
       this.nominaVista.length = 0;
       data.forEach((dataMateria: any) => {
         this.nominaVista.push({
@@ -108,7 +108,7 @@ export class EditCursoComponent implements OnInit {
         })
       });
       this.tabla1.renderRows();
-    });
+    });*/
   }
   /*openAddEstudianteModal() {
     this.openMaterial(AddEstudianteComponent);
@@ -199,6 +199,11 @@ export class EditCursoComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource2.filter = filterValue.trim().toLowerCase();
+  }
+
+  limpiarBusqueda(input) {
+    input.value = '';
+    this.dataSource2.filter = null;
   }
 
 }

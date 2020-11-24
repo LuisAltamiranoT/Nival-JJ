@@ -10,7 +10,8 @@ import { Request, Response } from 'express';
 //import * as fs from "fs";
 //const fs = require ('fs');
 
-import { RoleValidator } from '../../auth/helpers/rolValidator';
+
+import { RoleValidator } from 'src/app/helpers/rolValidator';
 
 import { ToastrService } from 'ngx-toastr';
 import { first, switchMap } from 'rxjs/operators';
@@ -18,7 +19,7 @@ import { first, switchMap } from 'rxjs/operators';
 import { Observable, of, Subject } from 'rxjs';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
-import { User, Curso, Materia, Nomina, NominaObligatoria } from '../../shared/models/user.interface';
+import { User, Curso, Materia, Nomina, NominaObligatoria, MateriaRegister } from 'src/app/models/user.interface';
 
 
 
@@ -78,7 +79,7 @@ export class AuthService extends RoleValidator {
     }
   }
 
-  //Registro estudiante
+  //Registro profesor
   async register(email: string, password: string, nombre: string, apellido: string): Promise<User> {
     try {
       const { user } = await this.afAuth.createUserWithEmailAndPassword(
@@ -86,7 +87,7 @@ export class AuthService extends RoleValidator {
         password
       );
       await this.registerDataUser(user, nombre, apellido);
-      this.sendVerificationEmail();
+      await this.sendVerificationEmail();
       return user;
     } catch (error) {
       this.showError(error);
@@ -131,7 +132,8 @@ export class AuthService extends RoleValidator {
         apellido: apellido,
         email: user.email,
         emailVerified: user.emailVerified,
-        role: 'ADMIN'
+        role: 'ADMIN',
+        photoUrl:'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680'
       };
 
       return await userRef.set(data, { merge: true });
@@ -141,9 +143,10 @@ export class AuthService extends RoleValidator {
     }
   }
 
+  //Obtener Datos
   public getDataUser() {
     try {
-      let db = this.afs.doc<User>(`users/${this.dataUser}`).valueChanges();
+      let db = this.afs.doc<User>(`users/${this.dataUser}`).snapshotChanges();
       return db;
     } catch (error) {
       this.showError(error);
@@ -280,12 +283,16 @@ export class AuthService extends RoleValidator {
 
 
   //crear materia
-  public async createMateria(valor: any) {
+  public async createMateria(valor: any, nombre: any, image: any) {
     try {
-      const data: Materia = {
-        nombre: valor
+      const data: MateriaRegister = {
+        nombre: valor,
+        profesor: nombre,
+        photoUrl: image,
+        uidProfesor: this.dataUser,
+        cursos: []
       }
-      const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').add(data);
+      const create = await this.afs.doc<Materia>(`users/${this.dataUser}`).collection('materias').add(data);
       return create;
     } catch (error) {
       this.showError(error);
@@ -351,30 +358,10 @@ export class AuthService extends RoleValidator {
 
   public async preparateCreateCurso(valor: any, image: any, nomina: any, horario: any) {
     try {
-      let idcurso = await this.createCurso(valor, image);
       let archivoExcel = nomina;
+      let idMateria = 'asd';
       let horarioCurso = horario;
-
-      await Promise.all(archivoExcel.map(async (element) => {
-        const data: NominaObligatoria = {
-          nombre: element.nombre,
-          codigoUnico: element.codigoUnico
-        }
-        await this.createNomina(data, idcurso);
-      }));
-
-
-      await Promise.all(horarioCurso.map(async (element) => {
-        const data = {
-          posicion: element.posicion,
-          dia: element.dia,
-          uidMateria: element.idMateria,
-          uidCurso: idcurso
-        }
-        await this.createHorario(data);
-      }));
-
-      console.log('termino el guardado');
+      //await this.createCurso(valor, image, idMateria, horarioCurso);
       this.estadoImgenUpdate.next();
 
     } catch (error) {
@@ -382,10 +369,32 @@ export class AuthService extends RoleValidator {
     }
 
   }
-  //crear nomina de estudiantes
-  public async createNomina(valor: NominaObligatoria, idCurso: any) {
+
+
+  //crear curso
+  public async createCurso(listCurso: any, idMateria: any) {
+    //cursos,idMateria,idCurso,nomina
     try {
-      const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('nomina').add(valor);
+      const datos: Materia = {
+        cursos: listCurso
+      }
+      await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).set(datos, { merge: true });
+      this.estadoImgenUpdate.next();
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+  //crear nomina de estudiantes
+  public async createNomina(nomina: any, idCurso: any, idMateria) {
+    try {
+      const nominaCurso: NominaObligatoria = {
+        uidMateria: idMateria,
+        uidCurso: idCurso,
+        uidProfesor: this.dataUser,
+        nomina: nomina
+      }
+      const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').add(nominaCurso);
       return create;
     } catch (error) {
       this.showError(error);
@@ -393,7 +402,7 @@ export class AuthService extends RoleValidator {
   }
 
   //agregar estudiante en nomina segun el id del curso
-  public async addEstudiante(idCurso: any, valor: NominaObligatoria) {
+  public async addEstudiante(idCurso: any, valor: any) {
     try {
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('nomina').add(valor);
       return create;
@@ -402,9 +411,9 @@ export class AuthService extends RoleValidator {
     }
   }
   //actualizar estudiante
-  public async updateEstudiante(data: NominaObligatoria, idCurso: any, idNomina: any) {
+  public async updateEstudiante(data: any, idCurso: any, idNomina: any) {
     try {
-      const dataRef: AngularFirestoreDocument<NominaObligatoria> = this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('nomina').doc(idNomina);
+      const dataRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('nomina').doc(idNomina);
       const dataUpdate = await dataRef.set(data, { merge: true });
       return { dataUpdate };
 
@@ -465,22 +474,7 @@ export class AuthService extends RoleValidator {
     this.estadoImgenUpdate.next();
   }
 
-  //crear curso
-  public async createCurso(valor: any, image: any) {
-    try {
-      const data: Curso = {
-        uidMateria: valor.uidMateria,
-        aula: valor.aula,
-        image: image
-      }
-      const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').add(data);
-      //console.log(create.id);
-      return create.id;
-    } catch (error) {
-      this.showError(error);
-      //console.log(error);
-    }
-  }
+
   //editar aula
   public async updateCursoAula(idCurso: any, data: any) {
     try {
@@ -559,10 +553,27 @@ export class AuthService extends RoleValidator {
       this.showError(error);
     }
   }
-  //Obtener la nomina del curso
-  public getDataCursoId(id: any) {
+
+  //actualizar nomina
+  public async updateNomina(idNomina: any, idMateria: any, array: any, fechaHora: any, estado: any) {
     try {
-      let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(id).collection('nomina', ref => ref.orderBy('nombre')).snapshotChanges();
+      let data = {
+        estado: estado,
+        nomina: array
+      }
+      let db = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina);
+      db.set(data, { merge: true });
+      return db;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+
+  //Obtener la nomina del curso
+  public getDataNominaCursoId(idMateria: any, idNomina: any) {
+    try {
+      let db = this.afs.doc<NominaObligatoria>(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).snapshotChanges();
       return db;
     } catch (error) {
       this.showError(error);
@@ -572,15 +583,35 @@ export class AuthService extends RoleValidator {
 
   //guardar asistencia
   //valor es un json con el valor presente atrasado o falta
-  public async createAsistencia(idCurso: any, valor: any) {
+  public async createAsistencia(idMateria: any, idNomina: any) {
     // console.log('data',valor);
     try {
-      const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('asistencia').add(valor);
+      const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).update({ nomina: firebase.firestore.FieldValue.arrayRemove({ nombre: 'sebastian prueba', codigoUnico: '3344' }) });
       return create;
     } catch (error) {
       this.showError(error);
     }
   }
+  /*  remove estudiante
+  public async createAsistencia(idMateria: any,idNomina:any) {
+    // console.log('data',valor);
+    try {
+      const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).update({nomina: firebase.firestore.FieldValue.arrayRemove({nombre:'sebastian prueba',codigoUnico:'3344'})});
+      return create;
+    } catch (error) {
+      this.showError(error);
+    }
+  } */
+  /*guardar nuevo estudiante
+  public async createAsistencia(idMateria: any,idNomina:any) {
+    // console.log('data',valor);
+    try {
+      const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).update({nomina: firebase.firestore.FieldValue.arrayUnion('nuevoDato')});
+      return create;
+    } catch (error) {
+      this.showError(error);
+    }
+  }*/
 
   //Obtener asistencia de todos por fecha
   public getDataAsistencia(idCurso: any, dataAsistencia: any) {
@@ -627,7 +658,7 @@ export class AuthService extends RoleValidator {
       timeOut: 4000,
     });
   }
-  succes
+
 
 
 

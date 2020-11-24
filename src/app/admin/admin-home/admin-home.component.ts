@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthService } from 'src/app/auth/services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
+
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin-home',
@@ -8,6 +10,8 @@ import { AuthService } from 'src/app/auth/services/auth.service';
   styleUrls: ['./admin-home.component.css']
 })
 export class AdminHomeComponent implements OnInit {
+
+  private suscripcion1: Subscription;
   nombre="";
 
   constructor(
@@ -18,10 +22,16 @@ export class AdminHomeComponent implements OnInit {
     this.dataUser();
   }
 
-  dataUser(){
-    this.authService.getDataUser().subscribe((data)=>{
-      this.nombre=data.nombre;
-    })
+  
+  ngOnDestroy() {
+    this.suscripcion1.unsubscribe();
+  }
+
+  dataUser() {
+    this.suscripcion1 = this.authService.getDataUser().subscribe((data) => {
+      let dataUser: any = [data.payload.data()];
+      this.nombre =dataUser[0].nombre;
+    });
   }
 
 }
