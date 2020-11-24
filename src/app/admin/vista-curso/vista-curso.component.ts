@@ -87,14 +87,10 @@ export class VistaCursoComponent implements OnInit {
       dataNomina.nomina.forEach((dataMateria: any) => {
         //console.log('tamaño array', dataMateria.asistencia.length)
         let ultimoId = dataMateria.asistencia.length - 1;
-        //console.log('antes del id ', ultimoId);
-        if (ultimoId < 0) {
-          ultimoId = 0;
-        }
-        //console.log('ultimo index', ultimoId)
 
-        if (dataMateria.asistencia.length == 0) {
-          console.log('cero if entra');
+        //console.log('ultimo index', ultimoId),
+        //console.log('este es el estado anterior', estado)
+        if (ultimoId === -1) {
           this.nominaVista.push({
             nombre: dataMateria.nombre,
             codigoUnico: dataMateria.codigoUnico,
@@ -103,36 +99,33 @@ export class VistaCursoComponent implements OnInit {
             presente: false,
             atraso: false,
             falta: false,
-            estado: false
+            estado: true
+          })
+        } else if (dataMateria.asistencia[ultimoId].estado === false) {
+          this.nominaVista.push({
+            nombre: dataMateria.nombre,
+            codigoUnico: dataMateria.codigoUnico,
+            correo: dataMateria.correo,
+            image: dataMateria.image,
+            presente: false,
+            atraso: false,
+            falta: false,
+            estado: true
           })
         } else {
-          console.log('entra a else')
-          if (dataMateria.asistencia[ultimoId].estado == true) {
-            console.log('entra al estado');
-            this.nominaVista.push({
-              nombre: dataMateria.nombre,
-              codigoUnico: dataMateria.codigoUnico,
-              correo: dataMateria.correo,
-              image: dataMateria.image,
-              presente: dataMateria.asistencia[ultimoId].presente,
-              atraso: dataMateria.asistencia[ultimoId].atraso,
-              falta: dataMateria.asistencia[ultimoId].falta,
-              estado: dataMateria.asistencia[ultimoId].estado
-            })
-          } else {
-            console.log('entra al else estado');
-            this.nominaVista.push({
-              nombre: dataMateria.nombre,
-              codigoUnico: dataMateria.codigoUnico,
-              correo: dataMateria.correo,
-              image: dataMateria.image,
-              presente: false,
-              atraso: false,
-              falta: false,
-              estado: false
-            })
-          }
+          console.log('entra al else estado');
+          this.nominaVista.push({
+            nombre: dataMateria.nombre,
+            codigoUnico: dataMateria.codigoUnico,
+            correo: dataMateria.correo,
+            image: dataMateria.image,
+            presente: dataMateria.asistencia[ultimoId].presente,
+            atraso: dataMateria.asistencia[ultimoId].atraso,
+            falta: dataMateria.asistencia[ultimoId].falta,
+            estado: true
+          })
         }
+
         this.nominaConsulta.push({
           nombre: dataMateria.nombre,
           codigoUnico: dataMateria.codigoUnico,
@@ -191,40 +184,33 @@ export class VistaCursoComponent implements OnInit {
   }
 
   almacenarNomina(indexArray, presente, atraso, falta) {
-    //console.log('tamaño de array',this.nominaConsulta)
-    //vaida si el array nomina contiene datos
-    let tamañoArrayAsistencia = this.nominaConsulta[indexArray].asistencia.length;
-    if (tamañoArrayAsistencia < 0) {
-      tamañoArrayAsistencia = 0;
+
+    let tamañoArrayAsistencia = this.nominaConsulta[indexArray].asistencia.length - 1;
+
+    if (tamañoArrayAsistencia === -1) {
+
+      this.agregarArray(indexArray, presente, atraso, falta,true);
+
+    } else if (this.nominaConsulta[indexArray].asistencia[tamañoArrayAsistencia].estado === false) {
+
+      this.agregarArray(indexArray, presente, atraso, falta,true);
+      
+    }else{
+      this.agregarArrayReemplazar(indexArray, presente, atraso, falta,tamañoArrayAsistencia,true);
     }
+    
+  }
 
-    if (tamañoArrayAsistencia == 0) {
-
-      this.agregarArray(indexArray, presente, atraso, falta);
-
-    } else {
-      //console.log('djaslkdjaslkdjaskljdlkasjdlkasjdlkajs' + this.nominaConsulta[indexArray].asistencia.length);
-      //toma la posicion del ultimo dato ingresado
-      let indexAsistencia = this.nominaConsulta[indexArray].asistencia.length - 1;
-      if (indexAsistencia < 0) {
-        indexAsistencia = 0;
-      }
-      //verifica si ya existe la fecha y actualiza la fecha
-      if (this.nominaConsulta[indexArray].asistencia[indexAsistencia].estado == false) {
-        this.agregarArray(indexArray, presente, atraso, falta);
-      } else {
-        this.nominaConsulta[indexArray].asistencia[indexAsistencia] = {
-          fecha: this.fechaActual,
-          dia: this.nombreDay,
-          presente: presente,
-          atraso: atraso,
-          falta: falta,
-          estado: false
-        }
-        //console.log('Entro a los if', this.nominaConsulta)
-      }
+agregarArrayReemplazar(indexArray,presente,atraso,falta,ultimoId, estado){
+    this.nominaConsulta[indexArray].asistencia[ultimoId]={
+      fecha: this.fechaActual,
+      dia: this.nombreDay,
+      presente: presente,
+      atraso: atraso,
+      falta: falta,
+      estado: estado,
     }
-    console.log('probar array de objetos', this.nominaConsulta)
+    console.log(this.nominaConsulta);
   }
 
 
@@ -241,52 +227,31 @@ export class VistaCursoComponent implements OnInit {
   }
 
   almacenarNominaFinalizado() {
+    let cont =-1;
     this.estado = 'presente';
-    this.nominaConsulta.forEach(element => {
-      //element.asistencia.length
-      let tamañoArrayAsistencia = element.asistencia.length;
-      if (tamañoArrayAsistencia < 0) {
-        tamañoArrayAsistencia = 0;
+    this.nominaConsulta.forEach(elementCurso => {
+      cont=cont+1;
+      console.log('se imprime',elementCurso.asistencia.length);
+      let ultimoId = elementCurso.asistencia.length-1;
+      if(ultimoId === -1){
+        this.agregarArray(cont, false, false, true,false);
+      }else if(elementCurso.asistencia[ultimoId].estado===false){
+        this.agregarArray(cont, false, false, true,false);
+      }else{
+        this.agregarArrayReemplazar(cont, elementCurso.asistencia[ultimoId].presente, elementCurso.asistencia[ultimoId].atraso, elementCurso.asistencia[ultimoId].falta,ultimoId,false);
       }
-      if (tamañoArrayAsistencia == 0) {
-        element.asistencia.push({
-          fecha: this.fechaActual,
-          dia: this.nombreDay,
-          presente: false,
-          atraso: false,
-          falta: true,
-          estado: false,
-        })
-      } else {
-        let indexAsistencia = tamañoArrayAsistencia - 1;
-        if (indexAsistencia < 0) {
-          indexAsistencia = 0;
-        }
 
-        if (element.asistencia[indexAsistencia].estado == false) {
-          
-        } else {
-          element.asistencia.push({
-            fecha: this.fechaActual,
-            dia: this.nombreDay,
-            presente: element.asistencia[indexAsistencia].presente,
-            atraso: element.asistencia[indexAsistencia].atraso,
-            falta: element.asistencia[indexAsistencia].falta,
-            estado: false,
-          })
-        }
-      }
-    });
 
-    this.nominaConsulta.forEach(element => {
-      console.log(element);
     });
     this.agregarArrayFinalizado();
 
   }
 
 
-  async agregarArray(indexArray, presente, atraso, falta) {
+
+
+
+  async agregarArray(indexArray, presente, atraso, falta,estado) {
     console.log('datos que se insertaran', indexArray, this.nominaConsulta[indexArray].asistencia)
     await this.nominaConsulta[indexArray].asistencia.push({
       fecha: this.fechaActual,
@@ -294,7 +259,7 @@ export class VistaCursoComponent implements OnInit {
       presente: presente,
       atraso: atraso,
       falta: falta,
-      estado: true,
+      estado: estado,
     })
   }
 
