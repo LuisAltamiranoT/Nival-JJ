@@ -24,11 +24,12 @@ export class DeleteEstudianteComponent implements OnInit {
   }
 
   
-  async onClick() {
+  onClick() {
     try {
       this.validate = false;
-      const dat = await this.authService.delecteEstudiante(this.infoUser.idCurso, this.infoUser.idEstudiante);
-      if (dat!=0) {
+      const dat = this.authService.deleteEstudiante(this.infoUser.idMateria, this.infoUser.idNomina,this.infoUser.array);
+      ////idMateria: any, idNomina: any,ArrayEstudiante:any
+      if (dat) {
         this.authService.showSuccess('El registro ha sido eliminado');
         this.dialogRef.close();
       }else{
