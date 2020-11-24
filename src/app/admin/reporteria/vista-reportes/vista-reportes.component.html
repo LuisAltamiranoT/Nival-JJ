@@ -64,7 +64,7 @@
                                 <mat-icon matSuffix>close</mat-icon>
                             </a>
                         </mat-form-field>
-                        <table mat-table [dataSource]="dataSource" #tabla1>
+                        <table mat-table [dataSource]="dataSource2" #tabla1>
 
                             <!-- Numero de fila -->
                             <ng-container matColumnDef="fila">
@@ -86,6 +86,17 @@
                                 <td class="px-1" mat-cell *matCellDef="let element, let i = index;">
                                     <a (click)='openPhoto(element.image)'>
                                         <img mat-card-image class="avatarNival" src={{element.image}} alt="noImage">
+                                    </a>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="correo">
+                                <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                                <td class="px-1" mat-cell *matCellDef="let element, let l = index;">
+
+                                    <a class="text-left">
+                                        <p class=" rounded p-1 mt-2">
+                                            {{element.correo}}
+                                        </p>
                                     </a>
                                 </td>
                             </ng-container>
@@ -114,8 +125,8 @@
                             </ng-container>
 
                             <!-- Symbol Column -->
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns2; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
 
                             <tr class="mat-row" *matNoDataRow>
                                 <td class="mat-cell" colspan="5">No se ha encontrado: "{{input.value}}"</td>

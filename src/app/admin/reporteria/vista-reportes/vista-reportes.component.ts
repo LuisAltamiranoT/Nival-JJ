@@ -10,6 +10,8 @@ import { Subscription } from 'rxjs';
 
 // Libreria para encriptar y desencriptar //
 import * as CryptoJS from 'crypto-js'
+import { ViewImageComponent } from '../../curso-group/view-image/view-image.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-vista-reportes',
@@ -29,9 +31,7 @@ export class VistaReportesComponent implements OnInit {
   // Manejo de tablas
   @ViewChild(MatTable) tabla1: MatTable<Nomina>;
 
-  //CODIGO NUEVO TABLA
-  displayedColumns: string[] = ['fila', 'codigoUnico', 'image', 'nombre', 'reporte'];
-  dataSource = new MatTableDataSource(this.nominaVista);
+ 
 
   //dato que almacenara el id de la materia
   public dataId: any;
@@ -51,10 +51,11 @@ export class VistaReportesComponent implements OnInit {
 
   //manejar las suscripciones
   private suscripcion1: Subscription;
-
+  private suscripcion2: Subscription;
   constructor(
     private authService: AuthService,
     private _route: ActivatedRoute,
+    public ventana: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -64,7 +65,7 @@ export class VistaReportesComponent implements OnInit {
     this.idNomina = splitted[0];
     this.idMateria = splitted[1];
     this.periodoFiltro('null', 'null');
-    this.obtenerNomina(this.idMateria, this.idNomina);
+    this.getNominaCurso(this.idMateria, this.idNomina);
   }
 
   // Funcion para encriptar //
@@ -82,7 +83,7 @@ export class VistaReportesComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource2.filter = filterValue.trim().toLowerCase();
   }
 
   // Método para ingresar fcehas para filtrar información
@@ -124,64 +125,50 @@ export class VistaReportesComponent implements OnInit {
     }
   }
 
-  public obtenerNomina(idMateria: any, idNomina: any) {
+  ngOnDestroy() {
+    this.suscripcion1.unsubscribe();
+    this.suscripcion2.unsubscribe();
+  }
+
+  //CODIGO NUEVO TABLA
+  displayedColumns2:string[] = ['fila', 'codigoUnico','image','correo','nombre', 'opciones'];
+  dataSource2 = new MatTableDataSource(this.nominaVista);
+
+  public getNominaCurso(idMateria: any, idNomina: any) {
     this.suscripcion1 = this.authService.getDataNominaCursoId(idMateria, idNomina).subscribe((data) => {
       this.nominaVista.length = 0;
-      this.nominaConsulta.length = 0;
-
       const dataNomina: any = data.payload.data();
+      //'codigoUnico','image','correo','nombre'
       dataNomina.nomina.forEach((dataMateria: any) => {
-        //console.log('tamaño array', dataMateria.asistencia.length)
-        let ultimoId = dataMateria.asistencia.length - 1;
-        //console.log('antes del id ', ultimoId);
-        if (ultimoId < 0) {
-          ultimoId = 0;
-        }
-        //console.log('ultimo index', ultimoId)
-
-        if (dataMateria.asistencia.length == 0) {
-          console.log('cero if entra');
           this.nominaVista.push({
             nombre: dataMateria.nombre,
             codigoUnico: dataMateria.codigoUnico,
             //correo: dataMateria.correo,
             //image: dataMateria.image,
+            //uidUser:dataMateria.uidUser,
+            //asistencia:dataMateria.asistencia
           })
-        } else {
-          console.log('entra a else')
-          if (dataMateria.asistencia[ultimoId].estado == true) {
-            console.log('entra al estado');
-            this.nominaVista.push({
-              nombre: dataMateria.nombre,
-              codigoUnico: dataMateria.codigoUnico,
-              //correo: dataMateria.correo,
-              //image: dataMateria.image,
-            })
-          } else {
-            console.log('entra al else estado');
-            this.nominaVista.push({
-              nombre: dataMateria.nombre,
-              codigoUnico: dataMateria.codigoUnico,
-              //correo: dataMateria.correo,
-              // image: dataMateria.image,
-            })
-          }
-        }
-        this.nominaConsulta.push({
-          nombre: dataMateria.nombre,
-          codigoUnico: dataMateria.codigoUnico,
-          correo: dataMateria.correo,
-          image: dataMateria.image,
-        })
       });
       this.tabla1.renderRows();
     });
-    //console.log(this.nominaVista);
+    console.log(this.nominaVista);
   }
 
   limpiarBusqueda(input) {
     input.value = '';
-    this.dataSource.filter = null;
+    this.dataSource2.filter = null;
   }
+
+  openImage(image: any) {
+    if (image != 'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680') {
+      this.ventana.open(ViewImageComponent,
+        { data: image }).afterClosed().subscribe(item => {
+        });
+    } else {
+      this.authService.showInfo('El estudiante no dispone de una imagen de perfil');
+    }
+  }
+
+
 
 }

@@ -299,16 +299,30 @@ export class AuthService extends RoleValidator {
     }
   }
 
-  public async updateMateria(documentId: string, valor: any) {
+  public async updateMateria(documentId: string, data: any) {
     try {
       const userRef: AngularFirestoreDocument<Materia> = this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(documentId);
-      const data: Materia = {
-        nombre: valor
+      const update: Materia = {
+        nombre: data
       };
-      const dataUpdate = await userRef.set(data, { merge: true });
+      const dataUpdate = await userRef.set(update, { merge: true });
       return { dataUpdate };
     } catch (error) {
       this.showError(error);
+    }
+  }
+
+  
+  //editar aula
+  public async updateCursoAula(documentId: any, data: any) {
+    try {
+      const dataRef: AngularFirestoreDocument<Materia> = this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(documentId);
+      const dataUpdate = await dataRef.set(data[0], { merge: true });
+      return { dataUpdate };
+
+    } catch (error) {
+      this.showError(error);
+      //console.log(error);
     }
   }
 
@@ -402,91 +416,41 @@ export class AuthService extends RoleValidator {
   }
 
   //agregar estudiante en nomina segun el id del curso
-  public async addEstudiante(idCurso: any, valor: any) {
+  public async addEstudiante(idMateria: any,idNomina:any, valor: any){
     try {
-      const create = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('nomina').add(valor);
+      const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).update({nomina: firebase.firestore.FieldValue.arrayUnion(valor)});
       return create;
+      
     } catch (error) {
       this.showError(error);
     }
   }
-  //actualizar estudiante
-  public async updateEstudiante(data: any, idCurso: any, idNomina: any) {
-    try {
-      const dataRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('nomina').doc(idNomina);
-      const dataUpdate = await dataRef.set(data, { merge: true });
-      return { dataUpdate };
 
-    } catch (error) {
-      this.showError(error);
-    }
-  }
 
   //eliminar estudiante
-  public async delecteEstudiante(idCurso: any, idNomina: any): Promise<Number> {
-    let verify = 0;
+  public async deleteEstudiante(idMateria: any, idNomina: any,ArrayEstudiante:any) {
     try {
-      const data = await this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso).collection('nomina').doc(idNomina).delete();
-      verify = 1;
-      return verify;
-    } catch (error) {
-      this.showError(error);
-      return verify = 0;
-    }
-  }
-
-  //crear horario
-  public async createHorario(valor: any) {
-    try {
-      const create = await this.afs.doc(`users/${this.dataUser}`).collection('horario').add(valor);
+      const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).update({nomina: firebase.firestore.FieldValue.arrayRemove(ArrayEstudiante)});
       return create;
     } catch (error) {
-      console.log(error);
       this.showError(error);
     }
   }
 
-  public async deleteHorario(idDelete: any): Promise<Number> {
-    let verify = 0;
-    try {
-      const data = await this.afs.doc(`users/${this.dataUser}`).collection('horario').doc(idDelete).delete();
-      verify = 1;
-      return verify;
-    } catch (error) {
-      this.showError(error);
-      return verify = 0;
-    }
-  }
+
 
   //actualizar horario
-  public async updateHorario(horario, idCurso: any) {
-    let horarioCurso = horario;
-    await Promise.all(horarioCurso.map(async (element) => {
-      const data = {
-        posicion: element.posicion,
-        dia: element.dia,
-        uidMateria: element.idMateria,
-        uidCurso: idCurso
-      }
-      await this.createHorario(data);
-    }));
-    console.log('termino el guardado');
-    this.estadoImgenUpdate.next();
-  }
-
-
-  //editar aula
-  public async updateCursoAula(idCurso: any, data: any) {
+  public async updateHorario(horario:any, idMateria: any) {
     try {
-      const dataRef: AngularFirestoreDocument<Curso> = this.afs.doc(`users/${this.dataUser}`).collection('cursos').doc(idCurso);
-      const dataUpdate = await dataRef.set(data, { merge: true });
+      const dataRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria);
+      const dataUpdate = await dataRef.set(horario[0], { merge: true });
+      this.showUpdatedata();
       return { dataUpdate };
-
     } catch (error) {
       this.showError(error);
-      //console.log(error);
     }
   }
+
 
   //obtener cursos
   public getCurso() {
@@ -555,20 +519,32 @@ export class AuthService extends RoleValidator {
   }
 
   //actualizar nomina
-  public async updateNomina(idNomina: any, idMateria: any, array: any, fechaHora: any, estado: any) {
+  public async updateNomina(idNomina: any, idMateria: any, array: any, estado: any): Promise<void> {
     try {
       let data = {
+
         estado: estado,
         nomina: array
       }
-      let db = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina);
-      db.set(data, { merge: true });
+      let db = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).set(data, { merge: true });
       return db;
     } catch (error) {
       this.showError(error);
     }
   }
 
+   //actualizar estudiante
+   public async updateNominaEstudiante(idNomina: any, idMateria: any, array: any): Promise<void>{
+    try {
+      let data = {
+        nomina: array
+      }
+      let db = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).set(data, { merge: true });
+      return db;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
 
   //Obtener la nomina del curso
   public getDataNominaCursoId(idMateria: any, idNomina: any) {
@@ -580,38 +556,6 @@ export class AuthService extends RoleValidator {
     }
   }
 
-
-  //guardar asistencia
-  //valor es un json con el valor presente atrasado o falta
-  public async createAsistencia(idMateria: any, idNomina: any) {
-    // console.log('data',valor);
-    try {
-      const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).update({ nomina: firebase.firestore.FieldValue.arrayRemove({ nombre: 'sebastian prueba', codigoUnico: '3344' }) });
-      return create;
-    } catch (error) {
-      this.showError(error);
-    }
-  }
-  /*  remove estudiante
-  public async createAsistencia(idMateria: any,idNomina:any) {
-    // console.log('data',valor);
-    try {
-      const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).update({nomina: firebase.firestore.FieldValue.arrayRemove({nombre:'sebastian prueba',codigoUnico:'3344'})});
-      return create;
-    } catch (error) {
-      this.showError(error);
-    }
-  } */
-  /*guardar nuevo estudiante
-  public async createAsistencia(idMateria: any,idNomina:any) {
-    // console.log('data',valor);
-    try {
-      const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).update({nomina: firebase.firestore.FieldValue.arrayUnion('nuevoDato')});
-      return create;
-    } catch (error) {
-      this.showError(error);
-    }
-  }*/
 
   //Obtener asistencia de todos por fecha
   public getDataAsistencia(idCurso: any, dataAsistencia: any) {

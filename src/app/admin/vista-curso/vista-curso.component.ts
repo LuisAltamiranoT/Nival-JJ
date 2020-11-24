@@ -96,6 +96,7 @@ export class VistaCursoComponent implements OnInit {
             codigoUnico: dataMateria.codigoUnico,
             correo: dataMateria.correo,
             image: dataMateria.image,
+            uidUser:dataMateria.uidUser,
             presente: false,
             atraso: false,
             falta: false,
@@ -107,6 +108,7 @@ export class VistaCursoComponent implements OnInit {
             codigoUnico: dataMateria.codigoUnico,
             correo: dataMateria.correo,
             image: dataMateria.image,
+            uidUser:dataMateria.uidUser,
             presente: false,
             atraso: false,
             falta: false,
@@ -119,6 +121,7 @@ export class VistaCursoComponent implements OnInit {
             codigoUnico: dataMateria.codigoUnico,
             correo: dataMateria.correo,
             image: dataMateria.image,
+            uidUser:dataMateria.uidUser,
             presente: dataMateria.asistencia[ultimoId].presente,
             atraso: dataMateria.asistencia[ultimoId].atraso,
             falta: dataMateria.asistencia[ultimoId].falta,
@@ -131,6 +134,7 @@ export class VistaCursoComponent implements OnInit {
           codigoUnico: dataMateria.codigoUnico,
           correo: dataMateria.correo,
           image: dataMateria.image,
+          uidUser:dataMateria.uidUser,
           asistencia: dataMateria.asistencia
         })
       });
@@ -214,10 +218,10 @@ agregarArrayReemplazar(indexArray,presente,atraso,falta,ultimoId, estado){
   }
 
 
-  async almacenarDatos() {
+  almacenarDatos() {
     //idNomina, idMateria, array, fechaHora, estado
     try {
-      let data = await this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, this.fechaActual, this.estado);
+      let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, this.estado);
       if (data) {
         this.authService.showUpdatedata();
       }
@@ -264,7 +268,7 @@ agregarArrayReemplazar(indexArray,presente,atraso,falta,ultimoId, estado){
   }
 
   async agregarArrayFinalizado() {
-    let data = await this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, this.fechaActual, this.estado);
+    let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, this.estado);
     if (data) {
       this.authService.showUpdatedata();
     }
@@ -281,12 +285,12 @@ agregarArrayReemplazar(indexArray,presente,atraso,falta,ultimoId, estado){
   }
 
   openPhoto(image: any) {
-    if (image != '') {
+    if (image != 'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680') {
       this.ventana.open(ViewImageComponent,
         { data: image }).afterClosed().subscribe(item => {
         });
     } else {
-      this.authService.showInfo('El curso no dispone de una imagen');
+      this.authService.showInfo('El estudiante no dispone de una imagen de perfil');
     }
   }
 

@@ -51,17 +51,13 @@ export class CursoGroupComponent implements OnInit {
 
   replaceCursos() {
     this.cursoVista.length = 0;
-    console.log('Se ejecuta el replace');
     this.materias.forEach(elementMateria => {
       elementMateria.data.cursos.forEach(elementCurso => {
+        console.log(elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id);
         if ([elementCurso].length != 0) {
           let idCurso=elementCurso.uidNomina+ '//' + elementMateria.id;
-          //let base='';
-          //elementCurso.horario.forEach(element => {
-            //base = base+'//'+element.dia+'-'+element.hora;
-          //});
-          //console.log('cadena',idCurso+base);
           this.cursoVista.push({
+            idCursoEdit:elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id,
             idCurso: idCurso,
             nombre: elementMateria.data.nombre + ' ' + elementCurso.aula,
             image: elementCurso.image

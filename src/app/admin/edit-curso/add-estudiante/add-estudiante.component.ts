@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -16,8 +16,9 @@ export class AddEstudianteComponent implements OnInit {
   private array = [];
 
   estudianteForm = new FormGroup({
-    codigoUnico: new FormControl('', [Validators.required, Validators.maxLength(9)]),
-    estudiante: new FormControl('', [Validators.required, Validators.minLength(1)])
+    codigoUnico: new FormControl('', [Validators.required, Validators.minLength(9)]),
+    estudiante: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    email: new FormControl('', [Validators.required, Validators.email, this.matchEmail()])
   })
 
   constructor(
@@ -27,45 +28,59 @@ export class AddEstudianteComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    //idMateria:this.idMateria,
+    //idCurso:this.idNomina,
+    //array:this.nominaVista
     this.array = this.infoUser.array;
   }
 
   async onClick() {
     try {
       this.validate = false;
-      let validacionDatos = 0;
-      const { codigoUnico } = this.estudianteForm.value;
-      const { estudiante } = this.estudianteForm.value;
+      let validacionDatos = false;
+      const { codigoUnico, estudiante, email } = this.estudianteForm.value;
 
       for (let i = 0; i < this.array.length; i++) {
         if (this.array[i].nombre.toLowerCase() == estudiante.toLowerCase()) {
-          validacionDatos = 1;
+          validacionDatos = true;
           this.authService.showError('El estudiante ' + estudiante + ' ya está registrado en el curso');
           this.validate = true;
           break;
         }
 
         if (this.array[i].codigoUnico == codigoUnico) {
-          validacionDatos = 1;
-          this.authService.showError('El Código Único ' + codigoUnico + ' ya se encuentra registrado');
+          validacionDatos = true;
+          this.authService.showError('El código único ' + codigoUnico + ' ya se encuentra registrado');
+          this.validate = true;
+          break;
+        }
+
+        if (this.array[i].correo == email) {
+          validacionDatos = true;
+          this.authService.showError('El correo electronico' + email + ' ya se encuentra registrado');
           this.validate = true;
           break;
         }
       }
 
-      if (validacionDatos != 0) {
+      if (validacionDatos) {
 
       } else {
         let info = {
           nombre: estudiante,
-          codigoUnico: codigoUnico
+          codigoUnico: codigoUnico,
+          correo: email,
+          image: 'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680',
+          uidUser: 'noRegister',
+          asistencia: []
         }
-        const dat = await this.authService.addEstudiante(this.infoUser.idCurso, info);
+
+        const dat = this.authService.addEstudiante(this.infoUser.idMateria, this.infoUser.idCurso, info);
         if (dat) {
+          this.validate = true
           this.authService.showUpdatedata();
           this.dialogRef.close();
-        }
-        if (!dat) {
+        } else {
           this.validate = true;
         }
       }
@@ -78,9 +93,51 @@ export class AddEstudianteComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  eraser() {
-    this.estudianteForm.patchValue({ codigoUnico: "" });
+  limpiarNombre() {
     this.estudianteForm.patchValue({ estudiante: "" });
+  }
+  limpiarNumero() {
+    this.estudianteForm.patchValue({ codigoUnico: "" });
+  }
+  limpiarCorreo() {
+    this.estudianteForm.patchValue({ email: "" });
+  }
+
+  matchEmail() {
+    return (control: AbstractControl): { [s: string]: boolean } => {
+      // control.parent es el FormGroup
+      if (control.parent) { // en las primeras llamadas control.parent es undefined
+        let dominio = control.value.split("@", 2);
+        //console.log(dominio[1],dominio.length);
+        if (dominio[1] !== 'epn.edu.ec') {
+          //console.log(control.value,'no pertenece al dominio');
+          //this.validacionEmail=false;
+          return {
+            match: true
+          };
+        }
+      }
+      //console.log('iguales');
+      //this.validacionEmail=true;
+      return null;
+    };
+  }
+
+  IngresarSoloNumeros(evt) {
+    if (window.event) {
+      var keynum = evt.keyCode;
+    }
+    else {
+      keynum = evt.which;
+    }
+    // Comprobamos si se encuentra en el rango numérico y que teclas no recibirá.
+    if ((keynum > 47 && keynum < 58) || keynum == 8 || keynum == 13 || keynum == 6) {
+      return true;
+    }
+    else {
+      this.authService.showInfo('No se admite el ingreso de letras');
+      return false;
+    }
   }
 
   IngresarSoloLetras(e) {
@@ -99,23 +156,6 @@ export class AddEstudianteComponent implements OnInit {
     }
     if (letras.indexOf(tecla) == -1 && !tecla_especial) {
       this.authService.showInfo('No se admite el ingreso de números');
-      return false;
-    }
-  }
-
-  IngresarSoloNumeros(evt) {
-    if (window.event) {
-      var keynum = evt.keyCode;
-    }
-    else {
-      keynum = evt.which;
-    }
-    // Comprobamos si se encuentra en el rango numérico y que teclas no recibirá.
-    if ((keynum > 47 && keynum < 58) || keynum == 8 || keynum == 13 || keynum == 6) {
-      return true;
-    }
-    else {
-      this.authService.showInfo('No se admite el ingreso de letras');
       return false;
     }
   }

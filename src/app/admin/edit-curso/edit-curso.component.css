@@ -19,31 +19,10 @@
     box-sizing: border-box;
     text-align: center;
     justify-content:center;
+    padding: 5px !important;
   }
   
-  td.mat-column-hora {
-    width: 100px;
-    padding-right: 8px;
-  }
-  
-  td.mat-column-lunes {
-    width: 200px;
-    padding-right: 8px;
-  }
-  td.mat-column-martes {
-    width:200px;
-    padding-right: 8px;
-  }
-  td.mat-column-miercoles {
-    width: 200px;
-    padding-right: 8px;
-  }
-  td.mat-column-jueves {
-    width: 200px;
-    padding-right: 8px;
-  }
-  td.mat-column-viernes {
-    width: 200px;
-    padding-right: 8px;
+  td.mat-column-fila {
+    width: 20px;
   }
   

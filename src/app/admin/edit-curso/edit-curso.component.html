@@ -68,9 +68,6 @@
                                     <mat-label>Buscar</mat-label>
                                     <input matInput autocomplete="off" (keyup)="applyFilter($event)"
                                         placeholder="Ejemplo 201720 o Pepito Perez" #input>
-                                        <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda(input)">
-                                            <mat-icon matSuffix>close</mat-icon>
-                                        </a>
                                 </mat-form-field>
                                 <table mat-table [dataSource]="dataSource2" #tabla1>
                                     <!-- Numero de fila -->
@@ -88,6 +85,17 @@
                                     </ng-container>
 
                                     <!-- Name Column -->
+                                    <ng-container matColumnDef="image">
+                                        <th mat-header-cell *matHeaderCellDef> Imagen </th>
+                                        <td class="px-1" mat-cell *matCellDef="let element, let i = index;">
+                                            <a (click)='openImage(element.image)'>
+                                                <img mat-card-image class="avatarNival" src={{element.image}}
+                                                    alt="noImage">
+                                            </a>
+                                        </td>
+                                    </ng-container>
+
+                                    <!-- Name Column -->
                                     <ng-container matColumnDef="nombre">
                                         <th mat-header-cell *matHeaderCellDef> Nombre </th>
                                         <td class="px-1" mat-cell *matCellDef="let element, let l = index;">
@@ -100,15 +108,28 @@
                                         </td>
                                     </ng-container>
 
+                                    <!-- Name Column -->
+                                    <ng-container matColumnDef="correo">
+                                        <th mat-header-cell *matHeaderCellDef> Email </th>
+                                        <td class="px-1" mat-cell *matCellDef="let element, let l = index;">
+
+                                            <a class="text-left">
+                                                <p class=" rounded p-1 mt-2">
+                                                    {{element.correo}}
+                                                </p>
+                                            </a>
+                                        </td>
+                                    </ng-container>
+
                                     <ng-container matColumnDef="opciones">
                                         <th mat-header-cell *matHeaderCellDef> Opciones </th>
                                         <td class="px-1" mat-cell *matCellDef="let element, let l = index;">
                                             <a class="text-info p-1"
-                                                (click)="openEditEstudianteModal(element.id,element.nombre,element.codigoUnico,l)">
+                                                (click)="openEditEstudianteModal(element.nombre,element.correo,element.codigoUnico,l)">
                                                 <i class="far fa-edit"></i>
                                             </a>
                                             <a class="text-danger p-1"
-                                                (click)=" openDeleteEstudianteModal(element.id,element.nombre)">
+                                                (click)=" openDeleteEstudianteModal(element.id,element.nombre,l)">
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
                                         </td>
