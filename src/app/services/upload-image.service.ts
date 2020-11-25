@@ -113,28 +113,17 @@ export class UploadImageService extends ImageValidator {
     return `${filenameFs}/${new Date().getTime()}_${name}`;
   }
 
+
   public preAddAndUpdatePerfil(image: FileI) {
-    let data = '';
-    this.uploadImageService(data, image, this.MEDIA_STORAGE_PATH_PERFIL, 'updatePerfil');
-  }
-
-
-  private uploadImageService(data: any, image: FileI, filenameFs: string, clave: any) {
     let item = false;
-    this.filePath = this.generateFileName(image.name, filenameFs);
+    this.filePath = this.generateFileName(image.name, this.MEDIA_STORAGE_PATH_PERFIL);
     const fileRef = this.storage.ref(this.filePath);
     const task = this.storage.upload(this.filePath, image);
     let dataTsk = task.snapshotChanges().pipe(
       finalize(() => {
         fileRef.getDownloadURL().subscribe(urlImage => {
           this.downloadURL = urlImage;
-          if (clave === 'updatePerfil') {
             this.addPhoto();
-          }
-          if (clave === 'updateCurso') {
-            this.updateImageCurso(data);
-          }
-
         });
       })
     ).subscribe();
@@ -146,8 +135,8 @@ export class UploadImageService extends ImageValidator {
   }
 
   public deleteImagePerfil(imageName: string) {
-    //let splitted = imageName.split("perfil%2F")[1];
-    //let name =  splitted.split("?alt")[0];
+    let splitted = imageName.split("perfil%2F")[1];
+    let name =  splitted.split("?alt")[0];
     const fileref = this.storage.ref(`${this.MEDIA_STORAGE_PATH_PERFIL}/${name}`);
     fileref.delete();
   }

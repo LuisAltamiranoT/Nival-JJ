@@ -4,10 +4,10 @@
         <div *ngIf="validate else barra">
         </div>
     </div>
-    <div class="col-sm-12 col-md-12  col-lg-12 col-12 mx-auto my-4">
-        <div class="mx-auto rounded-circle" [ngStyle]="{'background-image':'url('+photoSelected+')'}" id="imagePerfil"
-            (click)="photoInput.click()"></div>
-
+    <div class="col-sm-12 col-md-12  col-lg-12 col-12 mx-auto mb-1 rounded border border-light">
+        <div class="text-center">
+            <img class="mx-auto" src="{{photoSelected}}" (click)="photoInput.click()" id="imagePerfil">
+        </div>
     </div>
     <input type="file" class="d-none" (change)="onPhotoSelected($event)" #photoInput formControlName="image">
     <div class="row">
