@@ -33,7 +33,8 @@
                         {{element.lunes}}
                     </p>
 
-                    <a class="text-center text-muted" (click)="setHoraDiaLunes(l,element.hora)" *ngIf="!element.LS && !element.LD">
+                    <a class="text-center text-muted" (click)="setHoraDiaLunes(l,element.hora)"
+                        *ngIf="!element.LS && !element.LD">
                         <i class="far fa-plus-square"></i>
                     </a>
                 </td>
@@ -57,7 +58,8 @@
                         {{element.martes}}
                     </p>
 
-                    <a class="text-center text-muted" (click)="setHoraDiaMartes(m,element.hora)" *ngIf="!element.MS && !element.MD">
+                    <a class="text-center text-muted" (click)="setHoraDiaMartes(m,element.hora)"
+                        *ngIf="!element.MS && !element.MD">
                         <i class="far fa-plus-square"></i>
                     </a>
 
@@ -105,7 +107,8 @@
                         {{element.jueves}}
                     </p>
 
-                    <a class="text-center text-muted" (click)="setHoraDiaJueves(j,element.hora)" *ngIf="!element.JS && !element.JD">
+                    <a class="text-center text-muted" (click)="setHoraDiaJueves(j,element.hora)"
+                        *ngIf="!element.JS && !element.JD">
                         <i class="far fa-plus-square"></i>
                     </a>
                 </td>
@@ -128,7 +131,8 @@
                         {{element.viernes}}
                     </p>
 
-                    <a class="text-center text-muted" (click)="setHoraDiaViernes(v,element.hora)" *ngIf="!element.VS && !element.VD">
+                    <a class="text-center text-muted" (click)="setHoraDiaViernes(v,element.hora)"
+                        *ngIf="!element.VS && !element.VD">
                         <i class="far fa-plus-square"></i>
                     </a>
                 </td>
@@ -142,10 +146,11 @@
 <br>
 <div class="row">
     <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
-        <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
+        <button type="button" class="btn btn-sm btn-primary fullNivalWidth"
+            (click)="guardarNuevoHorario()">Guardar</button>
     </div>
     <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
-        <button type="button" class="btn btn-sm btn-primary fullNivalWidth" (click)="guardarNuevoHorario()">Guardar</button>
+        <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
     </div>
 </div>
 <ng-template #barra>

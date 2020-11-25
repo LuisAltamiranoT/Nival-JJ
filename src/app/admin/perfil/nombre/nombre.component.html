@@ -7,7 +7,7 @@
     <div class="form-group">
         <mat-form-field appearance="standard" class="fullNivalWidth">
             <mat-label>Nombres</mat-label>
-            <input matInput [type]="'text'" autocomplete="off" placeholder="{{placeholder}}" formControlName="name">
+            <input matInput [type]="'text'" autocomplete="off" placeholder="{{placeholder}}" formControlName="name" (keypress)="IngresarSoloLetras($event)">
             <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda()">
                 <mat-icon matSuffix>close</mat-icon>
             </a>

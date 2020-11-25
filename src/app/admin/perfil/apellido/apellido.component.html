@@ -7,7 +7,8 @@
     <div class="form-group">
         <mat-form-field appearance="standard" class="fullNivalWidth">
             <mat-label>Apellidos</mat-label>
-            <input matInput [type]="'text'" autocomplete="off" placeholder="{{placeholder}}" formControlName="lastName">
+            <input matInput [type]="'text'" autocomplete="off" placeholder="{{placeholder}}" formControlName="lastName"
+                (keypress)="IngresarSoloLetras($event)">
             <a class="aNival" mat-icon-button matSuffix (click)="eraser()">
                 <mat-icon matSuffix>close</mat-icon>
             </a>
@@ -16,7 +17,8 @@
     </div>
     <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
-            <button type="submit" class="btn btn-sm btn-primary fullNivalWidth" [disabled]="!apellidoForm.valid">Guardar</button>
+            <button type="submit" class="btn btn-sm btn-primary fullNivalWidth"
+                [disabled]="!apellidoForm.valid">Guardar</button>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
             <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>

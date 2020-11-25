@@ -26,7 +26,7 @@
                 <mat-form-field appearance="standard" class="input-modal">
                     <mat-label>Nombres</mat-label>
                     <input matInput [type]="'text'" autocomplete="off" placeholder={{placeholder}} spellcheck="false"
-                        formControlName="estudiante" required>
+                        formControlName="estudiante" required (keypress)="IngresarSoloLetras($event)">
                     <a class="aNival" mat-icon-button matSuffix (click)="limpiarNombre()">
                         <mat-icon matSuffix>close</mat-icon>
                     </a>

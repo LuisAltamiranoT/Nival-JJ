@@ -23,7 +23,7 @@ export class MateriaComponent implements OnInit {
   private suscripcion1: Subscription;
 
   materiaForm = new FormGroup({
-    materia: new FormControl('', [Validators.required, Validators.minLength(4), this.match()])
+    materia: new FormControl('', [Validators.required, Validators.minLength(3), this.match()])
   })
 
   constructor(
