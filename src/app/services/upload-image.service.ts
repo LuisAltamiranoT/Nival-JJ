@@ -32,7 +32,7 @@ export class UploadImageService extends ImageValidator {
     super();
   }
 
-  public preAddAndUpdate(aula: any, idMateria: any, image: FileI, nomina: any, horario: any, cursos: any) {
+  public preAddAndUpdate(aula: any, idMateria: any, image: FileI, nomina: any, horario: any, cursos: any,idCursoNuevo) {
     //aula,idMateria,image,Nomina,Horario,cursos
     this.filePath = this.generateFileName(image.name, this.MEDIA_STORAGE_PATH);
     const fileRef = this.storage.ref(this.filePath);
@@ -42,7 +42,7 @@ export class UploadImageService extends ImageValidator {
         fileRef.getDownloadURL().subscribe(urlImage => {
           this.downloadURL = urlImage;
           //aqui se ejecuta el
-          this.addCurso(aula, idMateria, horario, nomina, cursos);
+          this.addCurso(aula, idMateria, horario, nomina, cursos,idCursoNuevo);
           //aula,idMateria,horario,nomina,arrayCursos
         });
       })
@@ -50,11 +50,10 @@ export class UploadImageService extends ImageValidator {
     //cursos,idMateria,idCurso,nomina
   }
 
-  async addCurso(aula: any, idMateria: any, horario: any, nomina: any, arrayCurso: any) {
+  async addCurso(aula: any, idMateria: any, horario: any, nomina: any, arrayCurso: any, idCursoNuevo:any) {
     //aula,idMateria,horario,nomina,arrayCursos
     let cursos = arrayCurso;
-    let id = cursos.length + 1;
-    let idCurso = idMateria + id;
+    let idCurso = idCursoNuevo;
     let cursoNuevo = await this.authService.createNomina(nomina, idCurso, idMateria);
 
     cursos.push({
