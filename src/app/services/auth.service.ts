@@ -326,6 +326,19 @@ export class AuthService extends RoleValidator {
     }
   }
 
+    //actualizar curso horario
+    public async updateImageCurso(curso:any, idMateria: any) {
+      try {
+        const dataRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria);
+        const dataUpdate = await dataRef.set(curso[0], { merge: true });
+        this.estadoImgenUpdate.next();
+        this.showUpdatedata();
+        return { dataUpdate };
+      } catch (error) {
+        this.showError(error);
+      }
+    }
+
   public async delecteMateria(documentId: string): Promise<Number> {
     let verify = 0;
     try {

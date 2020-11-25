@@ -54,10 +54,6 @@ export class NombreComponent implements OnInit {
   }
 
 
-  dimissModal() {
-    this.dialogRef.close();
-  }
-
   IngresarSoloLetras(e) {
     let key = e.keyCode || e.which;
     let tecla = String.fromCharCode(key).toString();
@@ -95,6 +91,11 @@ export class NombreComponent implements OnInit {
     }
   }
 
+  dimissModal() {
+    this.mensaje = '';
+    this.dialogRef.close();
+  }
+
 
   //validar dos nombres
   match() {
@@ -129,7 +130,10 @@ export class NombreComponent implements OnInit {
       return null;
     };
   }
-
+  
+  limpiarBusqueda() {
+    this.nombreForm.patchValue({ name: "" });
+  }
 }
 
 

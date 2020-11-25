@@ -109,7 +109,7 @@ export class EditCursoComponent implements OnInit {
             this.placeholderAula=element.aula,
             this.photoSelected=element.image
           }
-          //console.log('asjdfjsfljsdkfjsldkfjldskj',elementCursos.cursos[cont],cont);
+          console.log( this.photoSelected,'asdnjas' , element.image);
         });
       });
     })
@@ -185,21 +185,18 @@ export class EditCursoComponent implements OnInit {
       materiaNombre:this.nombreMateria,
       idMateria:this.idMateria,
       arrayGuardado: this.dataMateria[0].cursos[this.idIndexCurso],
-      indexArrayCurso:this.idIndexCurso,
       arrayCompleto:this.dataMateria,
     }
     this.openMaterial2(EditHorarioComponent, data);
   }
 
-
-
-
-
   openPhoto() {
     if (this.photoSelected != " ") {
       let data={
         image:this.photoSelected,
-        idCurso:this.dataId
+        idMateria:this.idMateria,
+        arrayGuardado: this.dataMateria[0].cursos[this.idIndexCurso],
+        arrayCompleto:this.dataMateria,
       }
       this.ventana.open(EditImageComponent,
         { width: ' 25rem', data:data}).afterClosed().subscribe(item => {
@@ -207,15 +204,15 @@ export class EditCursoComponent implements OnInit {
     } else {
       let data={
         image:' ',
-        idCurso:this.dataId
+        idMateria:this.idMateria,
+        arrayGuardado: this.dataMateria[0].cursos[this.idIndexCurso],
+        arrayCompleto:this.dataMateria,
       }
       this.ventana.open(EditImageComponent,
         { width: ' 25rem', data: data }).afterClosed().subscribe(item => {
         });
     }
   }
-
-
 
 
   
@@ -250,4 +247,9 @@ export class EditCursoComponent implements OnInit {
     }
   }
 
+  limpiarBusqueda(input) {
+    input.value = '';
+    this.dataSource2.filter = null;
+  }
 }
+

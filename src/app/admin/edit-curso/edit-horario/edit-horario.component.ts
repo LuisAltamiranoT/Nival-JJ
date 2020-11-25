@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./edit-horario.component.css']
 })
 export class EditHorarioComponent implements OnInit {
-  private stateImage: Subscription = null;
 
   public horarioVista: Horario[] = [
     { hora: '7:00', lunes: '', Lid: '', LS: false, LD: false, martes: '', Mid: '', MS: false, MD: false, miercoles: '', Miid: '', MiS: false, MiD: false, jueves: '', Jid: '', JS: false, JD: false, viernes: '', Vid: '', VS: false, VD: false },
@@ -67,7 +66,6 @@ export class EditHorarioComponent implements OnInit {
      * materiaNombre:this.nombreMateria,
       idMateria:this.uidMateria,
       arrayGuardado: this.dataMateria[0].cursos[this.idIndexCurso],
-      indexArrayCurso:this.idIndexCurso,
       arrayCompleto:this.dataMateria,
      */
 
@@ -77,13 +75,8 @@ export class EditHorarioComponent implements OnInit {
     this.idMateriaSeleccionada = this.infoUser.idMateria;
     this.materia();
 
-    //CONTROLA EL ESTADO DE GUARDADO
-    this.stateImage = this.authService.finalizoImage$.subscribe(() => {
-      this.finalizeBar();
-    })
   }
   ngOnDestroy() {
-    this.stateImage.unsubscribe();
     this.suscripcion1.unsubscribe();
   }
   displayedColumns = ['hora', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
@@ -306,12 +299,6 @@ export class EditHorarioComponent implements OnInit {
 
   dimissModal() {
     this.dialogRef.close();
-  }
-
-  finalizeBar() {
-    this.dimissModal();
-    this.validate = true;
-    this.authService.showSuccess('El horario ha sido actualizado');
   }
 
 }
