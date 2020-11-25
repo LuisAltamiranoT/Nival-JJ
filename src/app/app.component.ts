@@ -25,13 +25,16 @@ export class AppComponent implements OnInit {
     }, 3000);
   }
 
-  //permite remover el navbar de algunas direcciones
+  //permite remover el navbar de algunas direcciones y activar vista del componente
+  activar: boolean = false;
   remove() {
     let title = this.location.prepareExternalUrl(this.location.path());
     title = title.slice(1).split("/")[0];
-    if (title === "verification-email" || title === "forgot-password") {
+    if (title === "verification-email" || title === "password-forgot") {
+      this.activar = true;
       return true;
     } else {
+      this.activar = false;
       return false;
     }
   }
@@ -39,7 +42,8 @@ export class AppComponent implements OnInit {
   removeFooter() {
     let title = this.location.prepareExternalUrl(this.location.path());
     title = title.slice(1).split("/")[0];
-    if (title === "verification-email" || title === "forgot-password" || title === "vista-curso" || title === "edit-curso" || title ==="horario" || title==="curso-group") {
+    if (title === "verification-email" || title === "password-forgot" || title === "vista-curso" || 
+    title === "edit-curso" || title === "reportes" || title === "reporte-general" || title === "reporte-individual" || title ==="horario" || title==="curso-group") {
       return true;
     } else {
       return false;

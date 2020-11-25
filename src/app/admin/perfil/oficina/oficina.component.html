@@ -15,14 +15,14 @@
     </div>
     <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
-            <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
+            <button type="submit" class="btn btn-sm btn-primary fullNivalWidth"
+                [disabled]="!oficinaForm.valid">Guardar</button>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
-            <button type="submit" class="btn btn-sm btn-primary fullNivalWidth">Guardar</button>
+            <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
         </div>
     </div>
 </form>
-
 
 <ng-template #barra>
     <div class="pb-2">

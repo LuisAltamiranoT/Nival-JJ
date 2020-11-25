@@ -81,6 +81,7 @@ export class PerfilComponent implements OnInit {
     this.textoencriptado = CryptoJS.AES.encrypt(this.texto.trim(), this.clave.trim()).toString();
     this.textodesencriptado = CryptoJS.AES.decrypt(this.textoencriptado.trim(), this.clave.trim()).toString(CryptoJS.enc.Utf8);
     this.textodesencriptado_mal = CryptoJS.AES.decrypt(this.textoencriptado.trim(), this.pass_prueba.trim()).toString(CryptoJS.enc.Utf8);
+    //this.textodesencriptado_mal = CryptoJS.AES.decrypt(this.textoencriptado, this.pass_prueba).toString(CryptoJS.enc.Utf8);
     console.log('Texto ----> ', this.texto)
     console.log('Encripatdo ----> ', this.textoencriptado)
     console.log('Desencriptado_clave_verdadera ----> ', this.textodesencriptado)

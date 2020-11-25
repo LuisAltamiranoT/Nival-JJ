@@ -1,6 +1,6 @@
-import { Component, OnInit,  Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, AbstractControl, Validator } from '@angular/forms';
 
 
 import { ToastrService } from 'ngx-toastr';
@@ -12,13 +12,13 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./info.component.css']
 })
 export class InfoComponent implements OnInit {
-  validate=true;
+  validate = true;
 
-  placeholder = "Escribe algo sobre ti"
-
+  placeholder = "Escribe algo sobre ti";
+  mensaje = "";
 
   infoForm = new FormGroup({
-    info: new FormControl('')
+    info: new FormControl('', [this.match()])
   })
 
   constructor(
@@ -32,13 +32,14 @@ export class InfoComponent implements OnInit {
 
     } else {
       this.infoForm.patchValue({ info: this.infoUser });
+      this.placeholder = this.infoUser;
     }
 
   }
 
   async onClick() {
     try {
-      this.validate=false;
+      this.validate = false;
       const { info } = this.infoForm.value;
       const dat = await this.authService.updateDescripcion(info);
       if (dat) {
@@ -51,12 +52,30 @@ export class InfoComponent implements OnInit {
     }
   }
 
-  eraser(){
+  eraser() {
     this.infoForm.patchValue({ info: "" });
   }
 
   dimissModal() {
     this.dialogRef.close();
+  }
+
+  //validar informacion
+  match() {
+    return (control: AbstractControl): { [s: string]: boolean } => {
+      if (control.parent) {
+        let data = control.value;
+        //console.log(data);
+        //console.log(long)
+        if (data === this.placeholder) {
+          return {
+            match: true
+          };
+        }
+      }
+      this.mensaje = '';
+      return null;
+    };
   }
 
 }

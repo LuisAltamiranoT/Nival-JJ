@@ -75,7 +75,6 @@ export class EditEstudianteComponent implements OnInit {
         if (validacionDatos) {
   
         } else {
-
           this.array[this.infoUser.posicion]['nombre']=estudiante;
           this.array[this.infoUser.posicion]['codigoUnico']=codigoUnico;
           this.array[this.infoUser.posicion]['correo']=email;
@@ -105,6 +104,7 @@ export class EditEstudianteComponent implements OnInit {
   limpiarNombre(){
     this.estudianteForm.patchValue({ estudiante: "" });
   }
+
   limpiarNumero() {
     this.estudianteForm.patchValue({ codigoUnico: "" });
   }
@@ -148,6 +148,5 @@ export class EditEstudianteComponent implements OnInit {
       return false;
     }
   }
-
 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, AbstractControl, Validators } from '@angular/forms';
 
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -16,7 +16,7 @@ export class NombreComponent implements OnInit {
   mensaje = '';
 
   nombreForm = new FormGroup({
-    name: new FormControl('',[Validators.required, Validators.minLength(4),this.match()])
+    name: new FormControl('', [Validators.required, Validators.minLength(4), this.match()])
   })
 
   constructor(
@@ -37,20 +37,31 @@ export class NombreComponent implements OnInit {
     }
   }
 
-  /*
-  
-  if (this.horario[i].final <= inicio) {
-      console.log('el segundo if ' + this.horario[i].inicio, final);
-      console.log("puede guardarse");
-    } else {
-      console.log('el segundo if ' + this.horario[i].inicio, final);
-      this.authService.showError('La fecha no coincide if 2');
-      break;
+
+  eraser() {
+    this.nombreForm.patchValue({ name: "" });
+  }
+
+
+  IngresarSoloLetras(e) {
+    let key = e.keyCode || e.which;
+    let tecla = String.fromCharCode(key).toString();
+    //Se define todo el abecedario que se va a usar.
+    let letras = " áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+    //Es la validación del KeyCodes, que teclas recibe el campo de texto.
+    let especiales = [8, 37, 39, 46, 6, 13];
+    let tecla_especial = false
+    for (var i in especiales) {
+      if (key == especiales[i]) {
+        tecla_especial = true;
+        break;
+      }
     }
-  */
-
-
-
+    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+      this.authService.showInfo('No se admite el ingreso de números');
+      return false;
+    }
+  }
 
   async onClick() {
     try {
@@ -107,11 +118,10 @@ export class NombreComponent implements OnInit {
       return null;
     };
   }
-
+  
   limpiarBusqueda() {
     this.nombreForm.patchValue({ name: "" });
   }
-
 }
 
 

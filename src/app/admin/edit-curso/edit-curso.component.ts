@@ -252,3 +252,4 @@ export class EditCursoComponent implements OnInit {
     this.dataSource2.filter = null;
   }
 }
+

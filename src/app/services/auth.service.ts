@@ -514,7 +514,7 @@ export class AuthService extends RoleValidator {
 
   //mensaje de error de archivo excel
   showSuccess(mensaje: string) {
-    this.toastr.success(mensaje, 'Success', {
+    this.toastr.success(mensaje, 'Exitoso', {
       timeOut: 5000,
     });
   }
@@ -522,19 +522,19 @@ export class AuthService extends RoleValidator {
     this.showSuccess("Se ha actualizado su información");
   }
   showWarning(mensaje: string) {
-    this.toastr.warning(mensaje, 'Warning', {
+    this.toastr.warning(mensaje, 'Advertencia', {
       timeOut: 5000,
     });
   }
 
   showInfoExcel(mensaje: string) {
-    this.toastr.info(mensaje, 'information', {
+    this.toastr.info(mensaje, 'Información', {
       timeOut: 8000,
     });
   }
 
   showInfo(mensaje: string) {
-    this.toastr.info(mensaje, 'information', {
+    this.toastr.info(mensaje, 'Información', {
       timeOut: 4000,
     });
   }

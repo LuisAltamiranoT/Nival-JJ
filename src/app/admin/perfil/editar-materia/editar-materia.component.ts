@@ -88,9 +88,9 @@ export class EditarMateriaComponent implements OnInit {
             match: true
           };
         }
-        this.mensaje = '';
-        return null;
-      };
+      }
+      this.mensaje = '';
+      return null;
     }
   }
 

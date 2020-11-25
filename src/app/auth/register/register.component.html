@@ -9,34 +9,38 @@
 <div class="modal-body">
     <form class="pl-2" [formGroup]="registerForm" (ngSubmit)="onRegister()">
         <div class="form-group text-center">
-            <mat-form-field appearance="standard" class="input-modal">
+            <mat-form-field appearance="standard" class="input-modal" hintLabel='{{mensaje_nombre}}'>
                 <mat-label>Nombres</mat-label>
-                <input matInput [type]="'text'" spellcheck="false" formControlName="nombre">
+                <input matInput [type]="'text'" spellcheck="false" formControlName="nombre" required
+                    (keypress)="IngresarSoloLetras($event)">
                 <mat-icon matSuffix>person</mat-icon>
             </mat-form-field>
-            <mat-form-field appearance="standard" class="input-modal">
+            <mat-form-field appearance="standard" class="input-modal" hintLabel='{{mensaje_apellido}}'>
                 <mat-label>Apellidos</mat-label>
-                <input matInput [type]="'text'" spellcheck="false" formControlName="apellido">
+                <input matInput [type]="'text'" spellcheck="false" formControlName="apellido" required
+                    (keypress)="IngresarSoloLetras($event)">
                 <mat-icon matSuffix>person</mat-icon>
             </mat-form-field>
-            <mat-form-field appearance="standard" class="input-modal">
+            <mat-form-field appearance="standard" class="input-modal" hintLabel="Correo otorgado por la institución">
                 <mat-label>Correo Electrónico</mat-label>
-                <input matInput [type]="'email'" spellcheck="false" formControlName="email">
+                <input matInput [type]="'email'" spellcheck="false" formControlName="email" required>
                 <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
-            <mat-form-field appearance="standard" class="input-modal">
+            <mat-form-field appearance="standard" class="input-modal" hintLabel="Mínimo 6 Caracteres">
                 <mat-label>Password</mat-label>
-                <input matInput [type]="'password'" spellcheck="false" formControlName="password">
+                <input matInput #pass [type]="'password'" spellcheck="false" formControlName="password" required>
                 <mat-icon matSuffix>lock</mat-icon>
+                <mat-hint align="end">{{pass.value?.length || 0}}/6</mat-hint>
             </mat-form-field>
             <mat-form-field appearance="standard" class="input-modal">
                 <mat-label>Repetir Password</mat-label>
-                <input matInput [type]="'password'" spellcheck="false" formControlName="_password">
+                <input matInput [type]="'password'" spellcheck="false" formControlName="_password" required>
                 <mat-icon matSuffix>lock</mat-icon>
+                <mat-hint *ngIf="!validacionPass" style="color: red;">Las contraseñas no coinciden</mat-hint>
             </mat-form-field>
         </div>
         <div class="form-group text-center">
-            <button type="submit" class="btn btn-info">Enviar</button>
+            <button type="submit" [disabled]="!registerForm.valid" class="btn btn-info">Enviar</button>
         </div>
     </form>
     <div class="text-center">

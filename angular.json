@@ -29,7 +29,8 @@
               "qrcode",
               "@firebase/component",
               "@firebase/util",
-              "xlsx"
+              "xlsx",
+              "crypto-js"
            ],
             "outputPath": "dist/easy-ac-nival",
             "index": "src/index.html",

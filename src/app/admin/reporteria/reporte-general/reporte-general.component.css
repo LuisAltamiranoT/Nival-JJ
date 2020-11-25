@@ -1,0 +1,162 @@
+.example-container {
+    min-width: 83.5vw;
+    max-height: 77vh;
+    overflow: auto;
+  }
+  
+  table {
+    width: 100%;
+  }
+  .mat-header-cell, .mat-footer-cell, .mat-cell {
+    box-sizing: border-box;
+    text-align: center;
+    justify-content:center;
+  }
+  
+  .busqueda1{
+    font-size: 14px;
+    width: 60%;
+    padding-left: 1rem;
+    padding-top: 1rem;
+  }
+  
+  td.mat-column-fila {
+    width: 10px;
+    padding-right: 8px;
+  }
+  
+  td.mat-column-codigoUnico {
+    width: 100px;
+    padding-right: 8px;
+  }
+  td.mat-column-nombre {
+    width:300px;
+    padding-right: 8px;
+  }
+  td.mat-column-presente {
+    width: 100px;
+    padding-right: 8px;
+  }
+  td.mat-column-atraso {
+    width: 100px;
+    padding-right: 8px;
+  }
+  td.mat-column-falta {
+    width: 100px;
+    padding-right: 8px;
+  }
+  
+  /*table th td{
+      padding: .5rem;
+      text-align: center;
+      cursor: pointer !important;
+  }
+  
+  tr { text-align: center; }
+  
+  table { width: 100%; 
+      font-size: 14px;
+  }
+  
+  
+  .busqueda1{
+    font-size: 14px;
+    width: 40%;
+    padding-left: .5rem;
+    margin-right: 10%;
+  }
+  
+  
+  /*nomina*/ /*
+  table th td{
+      padding: .5rem;
+      text-align: center;
+      cursor: pointer !important;
+      
+  }
+  
+  tr { text-align: center; }
+  
+  .tdNival:hover {
+  color: white !important;
+  background-color: #5bc0de;
+  cursor: pointer;
+  }
+  
+  table { width: 100%; font-size: 14px;}
+  
+  .container-nival{
+      min-height: 80vh;
+  
+  }
+  
+  .hr-nival{
+      margin-top: 0.4rem;
+      margin-bottom: 1rem;
+      border: 0;
+      border-top: 1px solid rgba(0,0,0,.1);
+  }
+  
+  .aNival:hover{
+      opacity: 0.5 !important;
+  }
+  
+  /*material*//*
+  .example-container {
+      max-width: 100%;
+      width: 100%;
+  
+    }
+    
+    table {
+      width: 100%;
+    }
+    
+    .mat-header-cell, .mat-footer-cell, .mat-cell {
+      box-sizing: border-box;
+      text-align: center;
+      justify-content:center;
+    }
+    
+    td.mat-column-fila {
+      min-width: 5vw;
+      width: 5vw;
+      padding-right: 8px;
+    }
+  
+    td.mat-column-codigoUnico {
+      min-width: 10vw;
+      width: 10vw;
+      padding-right: 8px;
+    }
+    
+    td.mat-column-nombre {
+      min-width: 30vw;
+      width: 30vw;
+      padding-right: 8px;
+    }
+    td.mat-column-presente {
+      min-width: 200px;
+      width:120px;
+      padding-right: 8px;
+    }
+    td.mat-column-atraso {
+      min-width: 200px;
+      width: 120px;
+      padding-right: 8px;
+    }
+    td.mat-column-falta {
+      min-width: 200px;
+      width: 120px;
+      padding-right: 8px;
+    }
+  
+  
+    .col-center{
+    float: none !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  */
+  
+  

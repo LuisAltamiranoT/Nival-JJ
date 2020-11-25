@@ -16,9 +16,9 @@ export class AddEstudianteComponent implements OnInit {
   private array = [];
 
   estudianteForm = new FormGroup({
-    codigoUnico: new FormControl('',[Validators.required, Validators.minLength(9)]),
-    estudiante: new FormControl('',[Validators.required, Validators.minLength(2)]),
-    email: new FormControl('',[Validators.required, Validators.email,this.matchEmail()])
+    codigoUnico: new FormControl('', [Validators.required, Validators.minLength(9)]),
+    estudiante: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    email: new FormControl('', [Validators.required, Validators.email, this.matchEmail()])
   })
 
   constructor(
@@ -29,8 +29,8 @@ export class AddEstudianteComponent implements OnInit {
 
   ngOnInit(): void {
     //idMateria:this.idMateria,
-      //idCurso:this.idNomina,
-      //array:this.nominaVista
+    //idCurso:this.idNomina,
+    //array:this.nominaVista
     this.array = this.infoUser.array;
   }
 
@@ -38,7 +38,7 @@ export class AddEstudianteComponent implements OnInit {
     try {
       this.validate = false;
       let validacionDatos = false;
-      const { codigoUnico,estudiante,email } = this.estudianteForm.value;
+      const { codigoUnico, estudiante, email } = this.estudianteForm.value;
 
       for (let i = 0; i < this.array.length; i++) {
         if (this.array[i].nombre.toLowerCase() == estudiante.toLowerCase()) {
@@ -69,17 +69,17 @@ export class AddEstudianteComponent implements OnInit {
         let info = {
           nombre: estudiante,
           codigoUnico: codigoUnico,
-          correo:email,
-          image:'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680',
-          uidUser:'noRegister',
+          correo: email,
+          image: 'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680',
+          uidUser: 'noRegister',
           asistencia: []
         }
 
-        const dat = this.authService.addEstudiante(this.infoUser.idMateria,this.infoUser.idCurso,info);
+        const dat = this.authService.addEstudiante(this.infoUser.idMateria, this.infoUser.idCurso, info);
         if (dat) {
           this.validate=true
           this.dialogRef.close();
-        }else{
+        } else {
           this.validate = true;
         }
       }
@@ -92,13 +92,13 @@ export class AddEstudianteComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  limpiarNombre(){
+  limpiarNombre() {
     this.estudianteForm.patchValue({ estudiante: "" });
   }
   limpiarNumero() {
     this.estudianteForm.patchValue({ codigoUnico: "" });
   }
-  limpiarCorreo(){
+  limpiarCorreo() {
     this.estudianteForm.patchValue({ email: "" });
   }
 
@@ -106,7 +106,7 @@ export class AddEstudianteComponent implements OnInit {
     return (control: AbstractControl): { [s: string]: boolean } => {
       // control.parent es el FormGroup
       if (control.parent) { // en las primeras llamadas control.parent es undefined
-        let dominio=control.value.split("@", 2);
+        let dominio = control.value.split("@", 2);
         //console.log(dominio[1],dominio.length);
         if (dominio[1] !== 'epn.edu.ec') {
           //console.log(control.value,'no pertenece al dominio');
@@ -135,6 +135,26 @@ export class AddEstudianteComponent implements OnInit {
     }
     else {
       this.authService.showInfo('No se admite el ingreso de letras');
+      return false;
+    }
+  }
+
+  IngresarSoloLetras(e) {
+    let key = e.keyCode || e.which;
+    let tecla = String.fromCharCode(key).toString();
+    //Se define todo el abecedario que se va a usar.
+    let letras = " áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+    //Es la validación del KeyCodes, que teclas recibe el campo de texto.
+    let especiales = [8, 37, 39, 46, 6, 13];
+    let tecla_especial = false
+    for (var i in especiales) {
+      if (key == especiales[i]) {
+        tecla_especial = true;
+        break;
+      }
+    }
+    if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+      this.authService.showInfo('No se admite el ingreso de números');
       return false;
     }
   }

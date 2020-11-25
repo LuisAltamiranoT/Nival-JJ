@@ -1,13 +1,18 @@
 <div class="container mt-5 container-nival">
     <div class="row mt-5">
-        <div class="col-sm-6 col-md-6 col-lg-6 col-6 mt-4 pt-1 pbn-1">
+        <div class="col-sm-4 col-md-4 col-lg-4 col-4 mt-4 pt-1 pbn-1">
             <h3 class="font-weight-normal">
                 <i class="fas fa-list pr-1 pb-1 fa-nival fa-sm"></i>Asistencia</h3>
         </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 col-6 mt-4 pt-1 pbn-1">
+        <div class="col-sm-4 col-md-4 col-lg-4 col-4 mt-4 pt-1 pbn-1">
             <a class="float-right btn-nival pt-1" style="text-decoration: none;" [routerLink]="['/codigo',codigoQr]"
                 target="_blank">
                 <i class="fa fa-qrcode pr-1"></i>Generar QR
+            </a>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 col-4 mt-4 pt-1 pbn-1">
+            <a class="float-right btn-nival pt-1" style="text-decoration: none;" [routerLink]="['/reportes', dataId]">
+                <i class="fa fa-files-o pr-1"></i>Reportes
             </a>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-12 col-12" style="margin: 0px !important; padding: 0px !important;">
@@ -89,7 +94,6 @@
                         (change)="showOptionsFalta($event, f)"></mat-checkbox>
                 </td>
             </ng-container>
-
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 

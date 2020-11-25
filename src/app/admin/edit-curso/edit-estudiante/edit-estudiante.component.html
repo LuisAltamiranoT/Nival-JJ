@@ -7,45 +7,53 @@
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12 col-12 my-1">
             <div class="form-group">
-                <mat-form-field hintLabel="Codigo único otorgado por la institución" appearance="standard"  class="fullNivalWidth">
+                <mat-form-field hintLabel="Codigo único otorgado por la institución" appearance="standard"
+                    class="fullNivalWidth">
                     <mat-label>Codigo Único</mat-label>
-                    <input matInput #codigoU [type]="'text'" autocomplete="off" maxlength="9" placeholder={{placeholderCodigo}} formControlName="codigoUnico" oninput="if(this.value.length > this.maxLength) this.value=this.value.slice(0,this.maxLength);" (keypress)="IngresarSoloNumeros($event)" required>
+                    <input matInput #codigoU [type]="'text'" autocomplete="off" maxlength="9"
+                        placeholder={{placeholderCodigo}} formControlName="codigoUnico"
+                        oninput="if(this.value.length > this.maxLength) this.value=this.value.slice(0,this.maxLength);"
+                        (keypress)="IngresarSoloNumeros($event)" required>
                     <mat-hint align="end">{{codigoU.value?.length || 0}}/9</mat-hint>
                     <a class="aNival" mat-icon-button matSuffix (click)="limpiarNumero()">
                         <mat-icon matSuffix>close</mat-icon>
                     </a>
-                  </mat-form-field>
+                </mat-form-field>
             </div>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-12 col-12 my-1">
             <div class="form-group">
                 <mat-form-field appearance="standard" class="input-modal">
                     <mat-label>Nombres</mat-label>
-                    <input matInput [type]="'text'" autocomplete="off" placeholder={{placeholder}} spellcheck="false" formControlName="estudiante" required>
+                    <input matInput [type]="'text'" autocomplete="off" placeholder={{placeholder}} spellcheck="false"
+                        formControlName="estudiante" required>
                     <a class="aNival" mat-icon-button matSuffix (click)="limpiarNombre()">
                         <mat-icon matSuffix>close</mat-icon>
                     </a>
-                  </mat-form-field>
+                </mat-form-field>
             </div>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-12 col-12 my-1">
             <div class="form-group">
-                <mat-form-field hintLabel="Correo otorgado por la institución" appearance="standard"  class="fullNivalWidth">
+                <mat-form-field hintLabel="Correo otorgado por la institución" appearance="standard"
+                    class="fullNivalWidth">
                     <mat-label>Correo Electrónico</mat-label>
-                    <input matInput [type]="'email'" autocomplete="off" spellcheck="false" placeholder="{{placeholderCorreo}}" formControlName="email" required>
+                    <input matInput [type]="'email'" autocomplete="off" spellcheck="false"
+                        placeholder="{{placeholderCorreo}}" formControlName="email" required>
                     <a class="aNival" mat-icon-button matSuffix (click)="limpiarCorreo()">
                         <mat-icon matSuffix>close</mat-icon>
                     </a>
-                  </mat-form-field>
+                </mat-form-field>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
-            <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
+            <button type="submit" class="btn btn-sm btn-primary fullNivalWidth"
+                [disabled]="!estudianteForm.valid">Guardar</button>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
-            <button type="submit" class="btn btn-sm btn-primary fullNivalWidth" [disabled]="!estudianteForm.valid">Guardar</button>
+            <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
         </div>
     </div>
 </form>

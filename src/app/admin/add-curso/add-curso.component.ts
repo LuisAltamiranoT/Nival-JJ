@@ -13,10 +13,9 @@ import { Router } from '@angular/router';
 import { UploadImageService } from 'src/app/services/upload-image.service';
 
 import { MatDialog } from '@angular/material/dialog';
-import { VistaHorarioComponent } from './vista-horario/vista-horario.component';
+
 import { Horario } from "src/app/models/horario.interface";
 import { Curso } from 'src/app/models/user.interface';
-
 
 interface HtmlInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
@@ -457,7 +456,6 @@ export class AddCursoComponent implements OnInit {
     this.file = '';
   }
 }
-
 
 
 

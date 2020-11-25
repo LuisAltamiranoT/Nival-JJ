@@ -24,7 +24,7 @@ export class FotoComponent implements OnInit {
 
 
   photoForm = new FormGroup({
-    image: new FormControl('')
+    image: new FormControl('', Validators.required)
   })
 
   //image="";
