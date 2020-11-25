@@ -45,6 +45,8 @@ export class VistaCursoComponent implements OnInit {
   hora: any;
   //estado para agregar
   estado = 'presente';
+  //estado control
+  estadoControl:boolean=false;
 
   constructor(
     private authService: AuthService,
@@ -71,7 +73,9 @@ export class VistaCursoComponent implements OnInit {
     this.nombreDay = moment.weekdays(day).charAt(0).toUpperCase() + moment.weekdays(day).slice(1)
     //obtiene la hora del sistema
     this.hora = moment().format('HH:mm:ss');
+    
     //console.log('moment', this.nombreDay, this.fechaActual, this.hora);
+
   }
 
   ngOnDestroy() {
@@ -102,7 +106,7 @@ export class VistaCursoComponent implements OnInit {
             falta: false,
             estado: true
           })
-        } else if (dataMateria.asistencia[ultimoId].estado === false) {
+        } else if (dataMateria.asistencia[ultimoId].estado === this.estadoControl) {
           this.nominaVista.push({
             nombre: dataMateria.nombre,
             codigoUnico: dataMateria.codigoUnico,
@@ -195,7 +199,7 @@ export class VistaCursoComponent implements OnInit {
 
       this.agregarArray(indexArray, presente, atraso, falta,true);
 
-    } else if (this.nominaConsulta[indexArray].asistencia[tamañoArrayAsistencia].estado === false) {
+    } else if (this.nominaConsulta[indexArray].asistencia[tamañoArrayAsistencia].estado === this.estadoControl) {
 
       this.agregarArray(indexArray, presente, atraso, falta,true);
       
@@ -239,7 +243,7 @@ agregarArrayReemplazar(indexArray,presente,atraso,falta,ultimoId, estado){
       let ultimoId = elementCurso.asistencia.length-1;
       if(ultimoId === -1){
         this.agregarArray(cont, false, false, true,false);
-      }else if(elementCurso.asistencia[ultimoId].estado===false){
+      }else if(elementCurso.asistencia[ultimoId].estado===this.estadoControl){
         this.agregarArray(cont, false, false, true,false);
       }else{
         this.agregarArrayReemplazar(cont, elementCurso.asistencia[ultimoId].presente, elementCurso.asistencia[ultimoId].atraso, elementCurso.asistencia[ultimoId].falta,ultimoId,false);
