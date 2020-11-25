@@ -43,7 +43,6 @@ export class EditAulaComponent implements OnInit {
 
       const dat = await this.authService.updateCursoAula(this.infoUser.idMateria,this.infoUser.array);
       if (dat) {
-        this.authService.showUpdatedata();
         this.dialogRef.close();
       }else{
         this.validate = true;

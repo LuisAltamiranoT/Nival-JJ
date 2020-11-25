@@ -102,11 +102,6 @@ export class AuthService extends RoleValidator {
     }
   }
 
-  //getCurrent() {
-  //return this.afAuth.authState.pipe(first()).toPromise();
-  //}
-
-
   //actualiza la informacion de email verificado
   private async updateUserData(user: User) {
     if (user.emailVerified === true) {
@@ -188,6 +183,7 @@ export class AuthService extends RoleValidator {
         info: valor
       };
       const dataUpdate = await userRef.set(data, { merge: true });
+      this.showUpdatedata();
       return { dataUpdate };
 
     } catch (error) {
@@ -203,6 +199,7 @@ export class AuthService extends RoleValidator {
         nombre: valor
       };
       const dataUpdate = await userRef.set(data, { merge: true });
+      this.showUpdatedata();
       return { dataUpdate };
 
     } catch (error) {
@@ -218,6 +215,7 @@ export class AuthService extends RoleValidator {
         apellido: valor
       };
       const dataUpdate = await userRef.set(data, { merge: true });
+      this.showUpdatedata();
       return { dataUpdate };
 
     } catch (error) {
@@ -233,6 +231,7 @@ export class AuthService extends RoleValidator {
         oficina: valor
       };
       const dataUpdate = await userRef.set(data, { merge: true });
+      this.showUpdatedata();
       return { dataUpdate };
 
     } catch (error) {
@@ -250,6 +249,7 @@ export class AuthService extends RoleValidator {
         anioFin: moment(valor2).format('DD-MM-YYYY')
       };
       const dataUpdate = await userRef.set(data, { merge: true });
+      this.showUpdatedata();
       return { dataUpdate };
 
     } catch (error) {
@@ -269,19 +269,6 @@ export class AuthService extends RoleValidator {
     }
   }
 
-  // obtener materias
-
-  public getMateriaHorario() {
-    try {
-      let db = this.afs.doc<Materia>(`users/${this.dataUser}`).collection('materias').snapshotChanges();
-      return db;
-    } catch (error) {
-      this.showError(error);
-    }
-  }
-
-
-
   //crear materia
   public async createMateria(valor: any, nombre: any, image: any) {
     try {
@@ -293,6 +280,7 @@ export class AuthService extends RoleValidator {
         cursos: []
       }
       const create = await this.afs.doc<Materia>(`users/${this.dataUser}`).collection('materias').add(data);
+      this.showUpdatedata();
       return create;
     } catch (error) {
       this.showError(error);
@@ -306,6 +294,7 @@ export class AuthService extends RoleValidator {
         nombre: data
       };
       const dataUpdate = await userRef.set(update, { merge: true });
+      this.showUpdatedata();
       return { dataUpdate };
     } catch (error) {
       this.showError(error);
@@ -318,6 +307,7 @@ export class AuthService extends RoleValidator {
     try {
       const dataRef: AngularFirestoreDocument<Materia> = this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(documentId);
       const dataUpdate = await dataRef.set(data[0], { merge: true });
+      this.showUpdatedata();
       return { dataUpdate };
 
     } catch (error) {
@@ -339,11 +329,12 @@ export class AuthService extends RoleValidator {
       }
     }
 
-  public async delecteMateria(documentId: string): Promise<Number> {
+  public async delecteMateria(documentId: string) {
     let verify = 0;
     try {
       const data = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(documentId).delete();
       verify = 1;
+      this.showUpdatedata();
       return verify;
     } catch (error) {
       this.showError(error);
@@ -381,23 +372,6 @@ export class AuthService extends RoleValidator {
     }
   }
 
-  // agregar un curso se obtiene la informacion de uploadImage
-
-  public async preparateCreateCurso(valor: any, image: any, nomina: any, horario: any) {
-    try {
-      let archivoExcel = nomina;
-      let idMateria = 'asd';
-      let horarioCurso = horario;
-      //await this.createCurso(valor, image, idMateria, horarioCurso);
-      this.estadoImgenUpdate.next();
-
-    } catch (error) {
-      this.showError(error);
-    }
-
-  }
-
-
   //crear curso
   public async createCurso(listCurso: any, idMateria: any) {
     //cursos,idMateria,idCurso,nomina
@@ -422,6 +396,7 @@ export class AuthService extends RoleValidator {
         nomina: nomina
       }
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').add(nominaCurso);
+      this.showUpdatedata();
       return create;
     } catch (error) {
       this.showError(error);
@@ -432,6 +407,7 @@ export class AuthService extends RoleValidator {
   public async addEstudiante(idMateria: any,idNomina:any, valor: any){
     try {
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).update({nomina: firebase.firestore.FieldValue.arrayUnion(valor)});
+      this.showUpdatedata();
       return create;
       
     } catch (error) {
@@ -444,6 +420,7 @@ export class AuthService extends RoleValidator {
   public async deleteEstudiante(idMateria: any, idNomina: any,ArrayEstudiante:any) {
     try {
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).update({nomina: firebase.firestore.FieldValue.arrayRemove(ArrayEstudiante)});
+      this.showUpdatedata();
       return create;
     } catch (error) {
       this.showError(error);
@@ -465,62 +442,6 @@ export class AuthService extends RoleValidator {
   }
 
 
-  //obtener cursos
-  public getCurso() {
-    try {
-      let db = this.afs.doc<Materia>(`users/${this.dataUser}`).collection('cursos').snapshotChanges();
-      return db;
-    } catch (error) {
-      this.showError(error);
-    }
-  }
-
-  //obtener 
-
-  //obtener el horario
-  public getHorario() {
-    try {
-      let db = this.afs.doc<Materia>(`users/${this.dataUser}`).collection('horario').snapshotChanges();
-      return db;
-    } catch (error) {
-      this.showError(error);
-    }
-  }
-
-
-
-  //cursos
-  public getDataCurso() {
-    try {
-      let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').snapshotChanges();
-      return db;
-    } catch (error) {
-      this.showError(error);
-    }
-  }
-
-
-  //Obtener el curso con el id
-  public getCursoId(id: any) {
-    try {
-      let db = this.afs.doc<Curso>(`users/${this.dataUser}`).collection('cursos').doc(id).snapshotChanges();
-      return db;
-    } catch (error) {
-      this.showError(error);
-    }
-  }
-
-  //Obtener horario por el curso
-  public getHorarioCursoId(idCurso: any) {
-    try {
-      let consulta = this.afs.doc(`users/${this.dataUser}`).collection('horario', ref => ref.where('uidCurso', '==', idCurso)).snapshotChanges();
-      return consulta;
-
-    } catch (error) {
-      this.showError(error);
-    }
-  }
-
   //Obtener la materia con el id
   public getMateriaId(id: any) {
     try {
@@ -540,6 +461,7 @@ export class AuthService extends RoleValidator {
         nomina: array
       }
       let db = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).set(data, { merge: true });
+      this.showUpdatedata();
       return db;
     } catch (error) {
       this.showError(error);
@@ -553,6 +475,7 @@ export class AuthService extends RoleValidator {
         nomina: array
       }
       let db = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).set(data, { merge: true });
+      this.showUpdatedata();
       return db;
     } catch (error) {
       this.showError(error);

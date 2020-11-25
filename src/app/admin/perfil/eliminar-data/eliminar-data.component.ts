@@ -36,12 +36,12 @@ export class EliminarDataComponent implements OnInit {
     this.materia= this.infoUser.nombre;
   }
 
-  async onClick(){
+  onClick(){
     try{
       this.validate=false;
-      const dat = await this.authService.delecteMateria(this.idData);
+      const dat = this.authService.delecteMateria(this.idData);
 
-        if (dat!=1) {
+        if (dat) {
           this.validate=true;
         }else{
           this.dialogRef.close();

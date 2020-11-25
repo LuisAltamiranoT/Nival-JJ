@@ -30,7 +30,6 @@ export class DeleteEstudianteComponent implements OnInit {
       const dat = this.authService.deleteEstudiante(this.infoUser.idMateria, this.infoUser.idNomina,this.infoUser.array);
       ////idMateria: any, idNomina: any,ArrayEstudiante:any
       if (dat) {
-        this.authService.showSuccess('El registro ha sido eliminado');
         this.dialogRef.close();
       }else{
         this.validate = true;

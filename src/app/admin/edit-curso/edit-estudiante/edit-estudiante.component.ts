@@ -87,7 +87,6 @@ export class EditEstudianteComponent implements OnInit {
           //idNomina: any, idMateria: any, array: any
           if(update){
             this.validate=true
-            this.authService.showUpdatedata()
             this.dialogRef.close();
           }else{
             this.validate=true

@@ -41,7 +41,6 @@ export class EditarMateriaComponent implements OnInit {
       const { materia } = this.materiaForm.value;
       const dat = await this.authService.updateMateria(this.idData, materia);
       if (dat) {
-        this.authService.showUpdatedata();
         this.dialogRef.close();
         this.validate = true;
       } else {

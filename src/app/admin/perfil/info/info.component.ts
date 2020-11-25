@@ -42,10 +42,8 @@ export class InfoComponent implements OnInit {
       const { info } = this.infoForm.value;
       const dat = await this.authService.updateDescripcion(info);
       if (dat) {
-        this.authService.showUpdatedata();
         this.dialogRef.close();
-      }
-      if(!dat){
+      }else{
         this.validate=true;
       }
     } catch (error) {

@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from 'src/app/services/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-materia',
@@ -16,6 +17,9 @@ export class MateriaComponent implements OnInit {
   materias = [];
   nombreProfesor='';
   image="../../../assets/perfil.jpg";
+
+  //control de suscripciones
+  private suscripcion1: Subscription;
 
   materiaForm = new FormGroup({
     materia: new FormControl('', [Validators.required, Validators.minLength(4),this.match()])
@@ -33,13 +37,16 @@ export class MateriaComponent implements OnInit {
     this.materia();
   }
 
+  ngOnDestroy() {
+    this.suscripcion1.unsubscribe();
+  }
+
   async onClick() {
     try {
       this.validate = false;
       const { materia } = this.materiaForm.value;
       const dat = await this.authService.createMateria(materia,this.nombreProfesor,this.image);
         if (dat) {
-          this.authService.showUpdatedata();
           this.materiaForm.patchValue({ materia: "" });
           this.validate = true;
         }
@@ -50,7 +57,7 @@ export class MateriaComponent implements OnInit {
 
 
   materia() {
-    this.authService.getDataMateria().subscribe((data) => {
+    this.suscripcion1 = this.authService.getDataMateria().subscribe((data) => {
       this.materias = [];
       data.forEach((dataMateria: any) => {
         this.materias.push(

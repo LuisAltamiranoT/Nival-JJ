@@ -78,7 +78,6 @@ export class AddEstudianteComponent implements OnInit {
         const dat = this.authService.addEstudiante(this.infoUser.idMateria,this.infoUser.idCurso,info);
         if (dat) {
           this.validate=true
-          this.authService.showUpdatedata();
           this.dialogRef.close();
         }else{
           this.validate = true;

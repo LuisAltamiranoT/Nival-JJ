@@ -59,7 +59,6 @@ export class NombreComponent implements OnInit {
       const { name } = this.nombreForm.value;
       const dat = await this.authService.updateName(name);
       if (dat) {
-        this.authService.showUpdatedata();
         this.dialogRef.close();
       } else {
         this.validate = true;

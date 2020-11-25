@@ -224,14 +224,7 @@ agregarArrayReemplazar(indexArray,presente,atraso,falta,ultimoId, estado){
 
   almacenarDatos() {
     //idNomina, idMateria, array, fechaHora, estado
-    try {
       let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, this.estado);
-      if (data) {
-        this.authService.showUpdatedata();
-      }
-    } catch (error) {
-      this.authService.showError(error);
-    }
   }
 
   almacenarNominaFinalizado() {
@@ -273,9 +266,6 @@ agregarArrayReemplazar(indexArray,presente,atraso,falta,ultimoId, estado){
 
   async agregarArrayFinalizado() {
     let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, this.estado);
-    if (data) {
-      this.authService.showUpdatedata();
-    }
   }
 
   applyFilter(event: Event) {

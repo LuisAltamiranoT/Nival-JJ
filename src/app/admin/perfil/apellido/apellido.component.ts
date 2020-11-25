@@ -42,10 +42,8 @@ export class ApellidoComponent implements OnInit {
       if (lastName!="") {
         const dat = await this.authService.updateLastName(lastName);
         if (dat) {
-          this.authService.showUpdatedata();
           this.dialogRef.close();
-        }
-        if(!dat){
+        }else{
           this.validate=true;
         }
       }else{

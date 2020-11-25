@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 
 import { ViewImageComponent } from '../curso-group/view-image/view-image.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -23,6 +24,8 @@ export class CursoGroupComponent implements OnInit {
   //colores para cada materia
   private color = ['DARKSLATEGRAY', 'CADETBLUE', 'CORAL', 'FIREBRICK', 'TEAL', 'INDIANRED', 'DARKSLATEBLUE', 'SEAGREEN', 'BROWN', 'LIGHTSLATEGRAY'];
 
+  //control de suscripciones
+  private suscripcion1: Subscription;
 
   constructor(
     public router: Router,
@@ -34,8 +37,12 @@ export class CursoGroupComponent implements OnInit {
     this.getMateria();
   }
 
+  ngOnDestroy() {
+    this.suscripcion1.unsubscribe();
+  }
+
   getMateria() {
-    this.authService.getDataMateria().subscribe((data) => {
+    this.suscripcion1 =this.authService.getDataMateria().subscribe((data) => {
       this.materias.length = 0;
       data.forEach((dataMateria: any) => {
         this.materias.push({

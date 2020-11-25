@@ -37,10 +37,8 @@ export class OficinaComponent implements OnInit {
       const { office } = this.oficinaForm.value;
       const dat = await this.authService.updateOficina(office);
       if (dat) {
-        this.authService.showUpdatedata();
         this.dialogRef.close();
-      }
-      if(!dat){
+      }else{
         this.validate=true;
       }
     } catch (error) {
