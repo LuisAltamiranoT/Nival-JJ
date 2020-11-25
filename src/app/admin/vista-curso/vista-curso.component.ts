@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-
+// Libreria para encriptar y desencriptar //
+import * as CryptoJS from 'crypto-js'
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Nomina } from 'src/app/models/user.interface';
@@ -37,7 +38,7 @@ export class VistaCursoComponent implements OnInit {
   //manejar las suscripciones
   private suscripcion1: Subscription;
   //manejo de codigo qr
-  public codigoQr = 'kajshdkjahsdkjhaskdhugdyueggdvshfvdgvfsdvfhdvsf';
+  public codigoQr = '';
   //datos del tiempo
   nombre: any;
   fechaActual: any;
@@ -46,7 +47,7 @@ export class VistaCursoComponent implements OnInit {
   //estado para agregar
   estado = 'presente';
   //estado control
-  estadoControl:boolean=false;
+  estadoControl: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -57,29 +58,40 @@ export class VistaCursoComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataId = this._route.snapshot.paramMap.get('data');
-    //console.log(this.dataId);
     let splitted = this.dataId.split("//");
     this.idNomina = splitted[0];
     this.idMateria = splitted[1];
-    //console.log('id de la materia seleccionada', this.dataId, this.idNomina, this.idMateria);
+    // Función para obtener nómina
     this.obtenerNomina(this.idMateria, this.idNomina);
-    //funcion moment
+    // Función moment
     let f = moment();
-    //fecha actual en string
+    // Fecha actual en string
     this.fechaActual = f.format('DD-MM-YYYY');
-    //funcion day
+    // Función day
     var day = moment(this.fechaActual).day();
-    //obtiene el nombre de dia del sistema
+    // Obtiene el nombre de día del sistema
     this.nombreDay = moment.weekdays(day).charAt(0).toUpperCase() + moment.weekdays(day).slice(1)
-    //obtiene la hora del sistema
+    // Obtiene la hora del sistema
     this.hora = moment().format('HH:mm:ss');
     
-    //console.log('moment', this.nombreDay, this.fechaActual, this.hora);
-
+    // Encriptar  QR
+    this.EncriptarData();
   }
 
   ngOnDestroy() {
     this.suscripcion1.unsubscribe();
+  }
+
+  /** ************************************************** */
+  /**      ENCRIPTACION DE CADENA DE CÓDIGO QR           */
+  /** ************************************************** */
+  EncriptarData() {
+    // variable que almacena los datos a encriptar --- poner los datos a enviar
+    var cadena = 'kajshdkjahsdkjhaskdhugdyueggdvshfvdgvfsdvfhdvsf';
+    // variable que se usa como clave para encriptar
+    var codigo = 'encritar@codigo';
+    // encriptar data
+    this.codigoQr = CryptoJS.AES.encrypt(cadena.trim(), codigo.trim()).toString();
   }
 
   public obtenerNomina(idMateria: any, idNomina: any) {
@@ -100,7 +112,7 @@ export class VistaCursoComponent implements OnInit {
             codigoUnico: dataMateria.codigoUnico,
             correo: dataMateria.correo,
             image: dataMateria.image,
-            uidUser:dataMateria.uidUser,
+            uidUser: dataMateria.uidUser,
             presente: false,
             atraso: false,
             falta: false,
@@ -112,7 +124,7 @@ export class VistaCursoComponent implements OnInit {
             codigoUnico: dataMateria.codigoUnico,
             correo: dataMateria.correo,
             image: dataMateria.image,
-            uidUser:dataMateria.uidUser,
+            uidUser: dataMateria.uidUser,
             presente: false,
             atraso: false,
             falta: false,
@@ -125,7 +137,7 @@ export class VistaCursoComponent implements OnInit {
             codigoUnico: dataMateria.codigoUnico,
             correo: dataMateria.correo,
             image: dataMateria.image,
-            uidUser:dataMateria.uidUser,
+            uidUser: dataMateria.uidUser,
             presente: dataMateria.asistencia[ultimoId].presente,
             atraso: dataMateria.asistencia[ultimoId].atraso,
             falta: dataMateria.asistencia[ultimoId].falta,
@@ -138,7 +150,7 @@ export class VistaCursoComponent implements OnInit {
           codigoUnico: dataMateria.codigoUnico,
           correo: dataMateria.correo,
           image: dataMateria.image,
-          uidUser:dataMateria.uidUser,
+          uidUser: dataMateria.uidUser,
           asistencia: dataMateria.asistencia
         })
       });
@@ -197,20 +209,20 @@ export class VistaCursoComponent implements OnInit {
 
     if (tamañoArrayAsistencia === -1) {
 
-      this.agregarArray(indexArray, presente, atraso, falta,true);
+      this.agregarArray(indexArray, presente, atraso, falta, true);
 
     } else if (this.nominaConsulta[indexArray].asistencia[tamañoArrayAsistencia].estado === this.estadoControl) {
 
-      this.agregarArray(indexArray, presente, atraso, falta,true);
-      
-    }else{
-      this.agregarArrayReemplazar(indexArray, presente, atraso, falta,tamañoArrayAsistencia,true);
+      this.agregarArray(indexArray, presente, atraso, falta, true);
+
+    } else {
+      this.agregarArrayReemplazar(indexArray, presente, atraso, falta, tamañoArrayAsistencia, true);
     }
-    
+
   }
 
-agregarArrayReemplazar(indexArray,presente,atraso,falta,ultimoId, estado){
-    this.nominaConsulta[indexArray].asistencia[ultimoId]={
+  agregarArrayReemplazar(indexArray, presente, atraso, falta, ultimoId, estado) {
+    this.nominaConsulta[indexArray].asistencia[ultimoId] = {
       fecha: this.fechaActual,
       dia: this.nombreDay,
       presente: presente,
@@ -235,18 +247,18 @@ agregarArrayReemplazar(indexArray,presente,atraso,falta,ultimoId, estado){
   }
 
   almacenarNominaFinalizado() {
-    let cont =-1;
+    let cont = -1;
     this.estado = 'presente';
     this.nominaConsulta.forEach(elementCurso => {
-      cont=cont+1;
-      console.log('se imprime',elementCurso.asistencia.length);
-      let ultimoId = elementCurso.asistencia.length-1;
-      if(ultimoId === -1){
-        this.agregarArray(cont, false, false, true,false);
-      }else if(elementCurso.asistencia[ultimoId].estado===this.estadoControl){
-        this.agregarArray(cont, false, false, true,false);
-      }else{
-        this.agregarArrayReemplazar(cont, elementCurso.asistencia[ultimoId].presente, elementCurso.asistencia[ultimoId].atraso, elementCurso.asistencia[ultimoId].falta,ultimoId,false);
+      cont = cont + 1;
+      console.log('se imprime', elementCurso.asistencia.length);
+      let ultimoId = elementCurso.asistencia.length - 1;
+      if (ultimoId === -1) {
+        this.agregarArray(cont, false, false, true, false);
+      } else if (elementCurso.asistencia[ultimoId].estado === this.estadoControl) {
+        this.agregarArray(cont, false, false, true, false);
+      } else {
+        this.agregarArrayReemplazar(cont, elementCurso.asistencia[ultimoId].presente, elementCurso.asistencia[ultimoId].atraso, elementCurso.asistencia[ultimoId].falta, ultimoId, false);
       }
 
 
@@ -259,7 +271,7 @@ agregarArrayReemplazar(indexArray,presente,atraso,falta,ultimoId, estado){
 
 
 
-  async agregarArray(indexArray, presente, atraso, falta,estado) {
+  async agregarArray(indexArray, presente, atraso, falta, estado) {
     console.log('datos que se insertaran', indexArray, this.nominaConsulta[indexArray].asistencia)
     await this.nominaConsulta[indexArray].asistencia.push({
       fecha: this.fechaActual,
