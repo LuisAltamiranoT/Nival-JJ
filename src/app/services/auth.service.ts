@@ -562,9 +562,11 @@ export class AuthService extends RoleValidator {
       timeOut: 5000,
     });
   }
+
   showUpdatedata() {
-    this.showSuccess("Se ha actualizado su información");
+    this.showSuccess("Se ha eliminado la información");
   }
+
   showWarning(mensaje: string) {
     this.toastr.warning(mensaje, 'Advertencia', {
       timeOut: 5000,
@@ -582,8 +584,5 @@ export class AuthService extends RoleValidator {
       timeOut: 4000,
     });
   }
-
-
-
 
 }
