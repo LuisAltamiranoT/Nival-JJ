@@ -198,7 +198,7 @@ export class PerfilComponent implements OnInit {
   }
 
   openPhoto() {
-    if (this.perfil != "../../../assets/perfil.jpg") {
+    if (this.perfil != 'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680') {
       this.ventana.open(FotoComponent,
         { width: ' 25rem', data: this.perfil }).afterClosed().subscribe(item => {
         });
