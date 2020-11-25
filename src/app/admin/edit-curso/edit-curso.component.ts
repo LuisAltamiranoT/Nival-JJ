@@ -247,4 +247,8 @@ export class EditCursoComponent implements OnInit {
     }
   }
 
+  limpiarBusqueda(input) {
+    input.value = '';
+    this.dataSource2.filter = null;
+  }
 }

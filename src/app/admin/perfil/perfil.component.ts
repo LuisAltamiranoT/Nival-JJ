@@ -111,18 +111,19 @@ export class PerfilComponent implements OnInit {
   cargarData() {
     this.cursoCompleto.length=0;
     this.materias.forEach(elementMateria => {
-      //console.log('llega',elementMateria);
-      console.log('datos de curs',elementMateria.data.cursos.length)
-      if(elementMateria.data.cursos.length!=0){
-        elementMateria.data.cursos.forEach(elementCurso => {
-            this.cursoCompleto.push({
-              idCurso: elementCurso.id,
-              nombre: elementMateria.data.nombre + ' ' + elementCurso.aula
-            })
-        });
-      }  
+      elementMateria.data.cursos.forEach(elementCurso => {
+        console.log(elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id);
+        if ([elementCurso].length != 0) {
+          this.cursoCompleto.push({
+            idCurso:elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id,
+            nombre: elementMateria.data.nombre + ' ' + elementCurso.aula,
+          })
+        }
+      });
     });
   }
+
+
 
   materia() {
     this.suscripcion3 = this.authService.getDataMateria().subscribe((data) => {
@@ -135,7 +136,7 @@ export class PerfilComponent implements OnInit {
       })
       this.cargarData();
     });
-  }
+  }  
 
   //eliminar curso
   eliminarCurso(idCurso: any) {

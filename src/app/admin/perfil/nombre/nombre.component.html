@@ -5,19 +5,19 @@
         </div>
     </div>
     <div class="form-group">
-        <mat-form-field class="fullNivalWidth">
+        <mat-form-field appearance="standard" class="fullNivalWidth">
             <mat-label>Nombres</mat-label>
             <input matInput [type]="'text'" autocomplete="off" placeholder="{{placeholder}}" formControlName="name">
+            <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda()">
+                <mat-icon matSuffix>close</mat-icon>
+            </a>
         </mat-form-field>
     </div>
     <div class="row">
-        <div class="col-sm-4 col-md-4 col-lg-4 col-12 my-1">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
             <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
         </div>
-        <div class="col-sm-4 col-md-4 col-lg-4 col-12 my-1">
-            <a class="btn btn-sm btn-warning text-white fullNivalWidth" (click)="eraser()">Borrar</a>
-        </div>
-        <div class="col-sm-4 col-md-4 col-lg-4 col-12 my-1">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
             <button type="submit" class="btn btn-sm btn-primary fullNivalWidth">Guardar</button>
         </div>
     </div>

@@ -64,10 +64,13 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-12 col-12">
                             <div class="example-container mat-elevation-z1">
-                                <mat-form-field class="busqueda1">
+                                <mat-form-field appearance="standard" class="busqueda1">
                                     <mat-label>Buscar</mat-label>
                                     <input matInput autocomplete="off" (keyup)="applyFilter($event)"
                                         placeholder="Ejemplo 201720 o Pepito Perez" #input>
+                                        <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda(input)">
+                                            <mat-icon matSuffix>close</mat-icon>
+                                        </a>
                                 </mat-form-field>
                                 <table mat-table [dataSource]="dataSource2" #tabla1>
                                     <!-- Numero de fila -->

@@ -69,11 +69,6 @@ export class NombreComponent implements OnInit {
     }
   }
 
-  eraser() {
-    this.nombreForm.patchValue({ name: "" });
-  }
-
-
   dimissModal() {
     this.mensaje = '';
     this.dialogRef.close();
@@ -114,6 +109,9 @@ export class NombreComponent implements OnInit {
     };
   }
 
+  limpiarBusqueda() {
+    this.nombreForm.patchValue({ name: "" });
+  }
 
 }
 

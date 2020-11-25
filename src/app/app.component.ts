@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
   removeFooter() {
     let title = this.location.prepareExternalUrl(this.location.path());
     title = title.slice(1).split("/")[0];
-    if (title === "verification-email" || title === "forgot-password" || title === "vista-curso" || title === "edit-curso") {
+    if (title === "verification-email" || title === "forgot-password" || title === "vista-curso" || title === "edit-curso" || title ==="horario" || title==="curso-group") {
       return true;
     } else {
       return false;
