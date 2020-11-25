@@ -9,13 +9,14 @@ import * as xlsx from 'xlsx';
 import { UploadExcelService } from 'src/app/services/upload-excel.service'
 
 import { AuthService } from 'src/app/services/auth.service';
-import { Router } from '@angular/router';
 import { UploadImageService } from 'src/app/services/upload-image.service';
 
 import { MatDialog } from '@angular/material/dialog';
 
 import { Horario } from "src/app/models/horario.interface";
-import { Curso } from 'src/app/models/user.interface';
+
+import * as moment from 'moment';
+moment.locale('es');
 
 interface HtmlInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
@@ -33,8 +34,7 @@ export class AddCursoComponent implements OnInit {
   public materias = [];
   //array temporal del cursos guardados
   cursoGuardado = [];
-  //validar si selecciono una imagen ya guardada en el storage
-  imagenSelectStorage = '';
+
   //Validar archivo
   validFile = false;
   //Array de codigo unico
@@ -61,6 +61,14 @@ export class AddCursoComponent implements OnInit {
   //valida la imagen
   public validImage: boolean = false;
   private validateSize: boolean = false;
+  //id generado a partir de la hora utilizado para el curso
+  public idCursoGenerate:any;
+
+  //datos del tiempo
+  nombre: any;
+  fechaActual: any;
+  nombreDay: any;
+  hora: any;
 
   //control de suscripciones
   private suscripcion1: Subscription;
@@ -114,6 +122,7 @@ export class AddCursoComponent implements OnInit {
     this.stateImage = this.authService.finalizoImage$.subscribe(() => {
       this.finalizeBar();
     })
+    this.actualizarHora();
   }
 
 
@@ -138,44 +147,44 @@ export class AddCursoComponent implements OnInit {
     });
   }
 
-  setHoraDiaLunes(posicionActual,hora) {
+  setHoraDiaLunes(posicionActual, hora) {
     if (this.horarioVista[posicionActual]['lunes'] != '') {
     } else {
       this.horarioVista[posicionActual]['LS'] = true;
       this.horarioVista[posicionActual]['lunes'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'lunes',hora);
+      this.agregarDataArrayNuevaMateria(posicionActual, 'lunes', hora);
     }
   }
-  setHoraDiaMartes(posicionActual,hora) {
+  setHoraDiaMartes(posicionActual, hora) {
     if (this.horarioVista[posicionActual]['martes'] != '') {
     } else {
       this.horarioVista[posicionActual]['MS'] = true;
       this.horarioVista[posicionActual]['martes'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'martes',hora);
+      this.agregarDataArrayNuevaMateria(posicionActual, 'martes', hora);
     }
   }
-  setHoraDiaMiercoles(posicionActual,hora) {
+  setHoraDiaMiercoles(posicionActual, hora) {
     if (this.horarioVista[posicionActual]['miercoles'] != '') {
     } else {
       this.horarioVista[posicionActual]['MiS'] = true;
       this.horarioVista[posicionActual]['miercoles'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'miercoles',hora);
+      this.agregarDataArrayNuevaMateria(posicionActual, 'miercoles', hora);
     }
   }
-  setHoraDiaJueves(posicionActual,hora) {
+  setHoraDiaJueves(posicionActual, hora) {
     if (this.horarioVista[posicionActual]['jueves'] != '') {
     } else {
       this.horarioVista[posicionActual]['JS'] = true;
       this.horarioVista[posicionActual]['jueves'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'jueves',hora);
+      this.agregarDataArrayNuevaMateria(posicionActual, 'jueves', hora);
     }
   }
-  setHoraDiaViernes(posicionActual,hora) {
+  setHoraDiaViernes(posicionActual, hora) {
     if (this.horarioVista[posicionActual]['viernes'] != '') {
     } else {
       this.horarioVista[posicionActual]['VS'] = true;
       this.horarioVista[posicionActual]['viernes'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'viernes',hora);
+      this.agregarDataArrayNuevaMateria(posicionActual, 'viernes', hora);
     }
   }
 
@@ -209,8 +218,8 @@ export class AddCursoComponent implements OnInit {
   replaceHorario() {
     this.materias.forEach(element => {
       element.data.cursos.forEach(elementCurso => {
-        console.log('cursos',[elementCurso]);
-        if ([elementCurso].length!=0) {
+        console.log('cursos', [elementCurso]);
+        if ([elementCurso].length != 0) {
           elementCurso.horario.forEach(elementHorario => {
             //console.log('segundo foreach',elementHorario.dia)
             this.horarioVista[elementHorario.posicion][elementHorario.dia] = element.data.nombre + ' - ' + elementCurso.aula;
@@ -275,11 +284,11 @@ export class AddCursoComponent implements OnInit {
     console.log('horario nuev ', this.nuevoHorario);
   }
 
-  private agregarDataArrayNuevaMateria(posicion: any, dia: any,hora:any) {
+  private agregarDataArrayNuevaMateria(posicion: any, dia: any, hora: any) {
     let data = {
       posicion: posicion,
       dia: dia,
-      hora:hora
+      hora: hora
     }
     this.nuevoHorario.push(data);
     console.log(this.nuevoHorario);
@@ -291,12 +300,13 @@ export class AddCursoComponent implements OnInit {
       if (this.nuevoHorario[i].posicion === posicion && this.nuevoHorario[i].dia === dia) {
         this.nuevoHorario.splice(i, 1);
         break;
-      } 
+      }
     }
   }
 
 
   addCurso(data: any) {
+    this.actualizarHora()
     try {
       this.validate = false;
       const { aula } = this.cursoForm.value;
@@ -305,7 +315,7 @@ export class AddCursoComponent implements OnInit {
           //guardar con imagen
           if (this.validImage) {
             //aula,idMateria,image,Nomina,Horario,cursos
-            this.uploadImage.preAddAndUpdate(aula, this.idMateriaSeleccionada, this.file, this.archivoExcel, this.nuevoHorario, this.materias[this.indexArray].data.cursos);
+            this.uploadImage.preAddAndUpdate(aula, this.idMateriaSeleccionada, this.file, this.archivoExcel, this.nuevoHorario, this.materias[this.indexArray].data.cursos,this.idCursoGenerate);
           } else {
             //sguardar sin imagen
             this.guardarWhitoutImage();
@@ -327,10 +337,9 @@ export class AddCursoComponent implements OnInit {
   async guardarWhitoutImage() {
     const { aula } = this.cursoForm.value;
     this.cursoGuardado = this.materias[this.indexArray].data.cursos;
-    let id = this.cursoGuardado.length + 1;
-    let idCurso = this.idMateriaSeleccionada + id;
-    
-   let cursoNuevo = await this.authService.createNomina(this.archivoExcel, idCurso, this.idMateriaSeleccionada);
+    let idCurso = this.idCursoGenerate;
+
+    let cursoNuevo = await this.authService.createNomina(this.archivoExcel, idCurso, this.idMateriaSeleccionada);
 
     this.cursoGuardado.push({
       id: idCurso,
@@ -408,9 +417,9 @@ export class AddCursoComponent implements OnInit {
               let data = {
                 nombre: Nombre,
                 codigoUnico: CodigoUnico,
-                correo:Correo,
-                image:'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680',
-                uidUser:'noRegister',
+                correo: Correo,
+                image: 'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680',
+                uidUser: 'noRegister',
                 asistencia: []
               }
               this.archivoExcel.push(data);
@@ -437,6 +446,21 @@ export class AddCursoComponent implements OnInit {
     } else {
       //console.log("esta en el else");
     }
+  }
+
+  actualizarHora() {
+    // Función moment
+    let f = moment();
+    // Fecha actual en string
+    this.fechaActual = f.format('DDMMYYYY');
+    // Función day
+    var day = moment(this.fechaActual).day();
+    // Obtiene el nombre de día del sistema
+    this.nombreDay = moment.weekdays(day).charAt(0).toUpperCase() + moment.weekdays(day).slice(1)
+    // Obtiene la hora del sistema
+    this.hora = moment().format('HHmmss');
+    this.idCursoGenerate=this.fechaActual+this.hora;
+    console.log('hora  id generado ' ,this.idCursoGenerate);
   }
 
 
