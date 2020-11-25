@@ -68,10 +68,8 @@ export class AuthService extends RoleValidator {
 
   async login(email: string, password: string): Promise<User> {
     try {
-      const { user } = await this.afAuth.signInWithEmailAndPassword(
-        email,
-        password
-      );
+      await this.afAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+      const { user } = await this.afAuth.signInWithEmailAndPassword(email,password);
       await this.updateUserData(user);
       return user;
     } catch (error) {
@@ -79,20 +77,6 @@ export class AuthService extends RoleValidator {
     }
   }
 
-  //Registro profesor
-  async register(email: string, password: string, nombre: string, apellido: string): Promise<User> {
-    try {
-      const { user } = await this.afAuth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-      await this.registerDataUser(user, nombre, apellido);
-      await this.sendVerificationEmail();
-      return user;
-    } catch (error) {
-      this.showError(error);
-    }
-  }
 
   async logout() {
     try {
@@ -104,19 +88,28 @@ export class AuthService extends RoleValidator {
 
   //actualiza la informacion de email verificado
   private async updateUserData(user: User) {
-    if (user.emailVerified === true) {
-
-    } else {
-      const userRef: AngularFirestoreDocument<User> = this.afs.doc(
-        `users/${user.uid}`
-      );
+      const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
       const data: User = {
+        uid: user.uid,
+        email: user.email,
         emailVerified: user.emailVerified
       };
-
+      //si existe que realixe merge
       return await userRef.set(data, { merge: true });
-    }
   }
+    //Registro profesor
+    async register(email: string, password: string, nombre: string, apellido: string): Promise<User> {
+      try {
+        const { user } = await this.afAuth.createUserWithEmailAndPassword(email,password);
+        if(user){
+          await this.registerDataUser(user, nombre, apellido);
+        }
+        await this.sendVerificationEmail();
+        return user;
+      } catch (error) {
+        this.showError(error);
+      }
+    }
 
   private async registerDataUser(user: User, nombre: string, apellido: string) {
     try {
@@ -166,14 +159,46 @@ export class AuthService extends RoleValidator {
     try {
       await this.reauthenticate(oldPass);
       await user.updatePassword(newPass);
+      this.showSuccess("Su contraseña ha sido actualizada");
       data = 1;
-      console.log(data + "se ha actualizado");
       return data;
     } catch (error) {
       this.showError(error);
       return data = 0;
     }
   }
+
+   //Delete user
+   public async updateAcoountUser(oldPass: string): Promise<Number> {
+    //estado cero no se logro, estado 1 se ha logrado 
+    let data:number;
+    try{
+      let userAccount = firebase.auth().currentUser;
+      await this.reauthenticate(oldPass);
+
+      await userAccount.delete();
+      console.log(data + "se ha actualizado");
+      return data=1;
+    }catch(error){
+      this.showError(error);
+      return data = 0;
+    }
+  }
+
+    //nombre
+    public async updateEstado(valor: string) {
+      try {
+        const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.dataUser}`);
+      
+        //const dataUpdate = await userRef.set(data, { merge: true });
+        this.showUpdatedata();
+      //  return { dataUpdate };
+  
+      } catch (error) {
+        this.showError(error);
+      }
+    }
+   
 
   //descripcion
   public async updateDescripcion(valor: string) {
@@ -289,7 +314,7 @@ export class AuthService extends RoleValidator {
 
   public async updateMateria(documentId: string, data: any) {
     try {
-      const userRef: AngularFirestoreDocument<Materia> = this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(documentId);
+      const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(documentId);
       const update: Materia = {
         nombre: data
       };
@@ -329,18 +354,38 @@ export class AuthService extends RoleValidator {
       }
     }
 
-  public async delecteMateria(documentId: string) {
-    let verify = 0;
+  public async delecteMateria(documentId:any):Promise<number>{
     try {
-      const data = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(documentId).delete();
-      verify = 1;
+      await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(documentId).delete();
       this.showUpdatedata();
-      return verify;
+      return 1;
     } catch (error) {
       this.showError(error);
-      return verify = 0;
     }
   }
+
+   //eliminar estudiante
+   public async deleteCurso(idMateria: any,ArrayCurso:any) {
+    try {
+      const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).update({cursos: firebase.firestore.FieldValue.arrayRemove(ArrayCurso)});
+      this.showUpdatedata();
+      return create;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+//deleteNomina
+  public async deleteNomina(documentId:any,idNomina:any):Promise<number>{
+    try {
+      await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(documentId).collection('nomina').doc(idNomina).delete();
+      return 1;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+
 
   //imagen
   public async updatePhoto(valor: any) {
@@ -396,7 +441,6 @@ export class AuthService extends RoleValidator {
         nomina: nomina
       }
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').add(nominaCurso);
-      this.showUpdatedata();
       return create;
     } catch (error) {
       this.showError(error);

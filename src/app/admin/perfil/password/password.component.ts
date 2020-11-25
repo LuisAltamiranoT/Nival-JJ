@@ -45,11 +45,10 @@ export class PasswordComponent implements OnInit {
         this.validate = true;
       } else {
         this.dimissModal();
-        this.authService.showSuccess("Su contraseña ha sido actualizada");
       }
     }
   }
-
+  
   dimissModal() {
     this.dialogRef.close();
   }

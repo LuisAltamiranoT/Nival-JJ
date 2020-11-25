@@ -13,13 +13,14 @@ import { AuthService } from 'src/app/services/auth.service';
 export class EditarMateriaComponent implements OnInit {
   validate = true;
   materias = [];
+  content=[];
   idData: any;
   mensaje = '';
 
   placeholder = "";
 
   materiaForm = new FormGroup({
-    materia: new FormControl('', [Validators.required, Validators.minLength(4), this.match(), this.matchNombre()])
+    materia: new FormControl('', [Validators.required, Validators.minLength(4), this.match()])
   })
 
   constructor(
@@ -29,17 +30,37 @@ export class EditarMateriaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    /**
+     *nombre: nombre,
+      id: idMateria,
+      array: this.materias
+     */
+
     this.placeholder = this.infoUser.nombre;
-    this.materias = this.infoUser.array;
+    this.content = this.infoUser.array;
     this.idData = this.infoUser.id;
     this.materiaForm.patchValue({ materia: this.infoUser.nombre });
+
+    this.createArray();
+    
   }
 
-  async onClick() {
+  createArray(){
+    this.content.forEach((dataMateria: any) => {
+      this.materias.push(
+        dataMateria.data.nombre.toUpperCase()
+      );
+      console.log(this.materias);
+    })
+  }
+
+  onClick() {
     try {
       this.validate = false;
       const { materia } = this.materiaForm.value;
-      const dat = await this.authService.updateMateria(this.idData, materia);
+
+      let dat = this.authService.updateMateria(this.idData, materia);
+                                            /////////documentId: string, data: any                       
       if (dat) {
         this.dialogRef.close();
         this.validate = true;
@@ -64,8 +85,6 @@ export class EditarMateriaComponent implements OnInit {
     return (control: AbstractControl): { [s: string]: boolean } => {
       if (control.parent) {
         let data = control.value;
-        //console.log(this.materias);
-        //console.log(data.toUpperCase())
         if (this.materias.includes(data.toUpperCase())) {
           this.mensaje = 'Esta materia ya exite en tu lista';
           return {
@@ -76,22 +95,6 @@ export class EditarMateriaComponent implements OnInit {
       this.mensaje = '';
       return null;
     };
-  }
-
-  //validar dos nombres
-  matchNombre() {
-    return (control: AbstractControl): { [s: string]: boolean } => {
-      if (control.parent) {
-        let data = control.value.toUpperCase();
-        if (data === this.placeholder.toUpperCase()) {
-          return {
-            match: true
-          };
-        }
-      }
-      this.mensaje = '';
-      return null;
-    }
   }
 
 }

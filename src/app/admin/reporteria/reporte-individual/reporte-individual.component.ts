@@ -70,12 +70,12 @@ export class ReporteIndividualComponent implements OnInit {
   }
 
   getCurso(idCurso: any) {
-    this.suscripcion1 = this.authService.getCursoId(idCurso).subscribe((data) => {
+   /* this.suscripcion1 = this.authService.getCursoId(idCurso).subscribe((data) => {
       let dataCurso: any = [data.payload.data()];
       this.uidMateria = dataCurso[0].uidMateria;
       this.getMateria(this.uidMateria);
     });
-
+*/
   }
 
   getMateria(idMateria: any) {
@@ -86,9 +86,9 @@ export class ReporteIndividualComponent implements OnInit {
   }
 
   public obtenerNomina(id) {
-    this.suscripcion1 = this.authService.getCursoId(id).subscribe((data) => {
+  /*  this.suscripcion1 = this.authService.getCursoId(id).subscribe((data) => {
       this.nominaVista.length = 0;
-     /* data.forEach((dataMateria: any) => {
+      data.forEach((dataMateria: any) => {
         this.nominaVista.push({
           id: dataMateria.payload.doc.id,
           codigoUnico: dataMateria.payload.doc.data().codigoUnico,
@@ -96,7 +96,7 @@ export class ReporteIndividualComponent implements OnInit {
         })
       });*/
       this.tabla1.renderRows();
-    });
+    //});
   }
 
 }

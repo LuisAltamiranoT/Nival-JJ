@@ -98,10 +98,14 @@ export class UploadImageService extends ImageValidator {
   }
 
   public deleteImageCurso(imageName: string) {
-    let splitted = imageName.split("imageCurso%2F")[1];
-    let name = splitted.split("?alt")[0];
-    const fileref = this.storage.ref(`${this.MEDIA_STORAGE_PATH}/${name}`);
-    fileref.delete();
+    try{
+      let splitted = imageName.split("imageCurso%2F")[1];
+      let name = splitted.split("?alt")[0];
+      const fileref = this.storage.ref(`${this.MEDIA_STORAGE_PATH}/${name}`);
+      fileref.delete();
+    }catch(error){
+
+    }
   }
 
   public async updateImageCurso(idCurso: any) {

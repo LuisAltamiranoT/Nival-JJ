@@ -15,6 +15,7 @@ import { EditarMateriaComponent } from './editar-materia/editar-materia.componen
 import { EliminarDataComponent } from './eliminar-data/eliminar-data.component';
 import { EditarAnioComponent } from './editar-anio/editar-anio.component';
 import { FotoComponent } from './foto/foto.component';
+import { EliminarCursoComponent } from './eliminar-curso/eliminar-curso.component';
 
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
@@ -108,18 +109,22 @@ export class PerfilComponent implements OnInit {
       console.log(data);
     });
   }
+
+  //curso completo
   
   cargarData() {
     this.cursoCompleto.length=0;
     this.materias.forEach(elementMateria => {
       elementMateria.data.cursos.forEach(elementCurso => {
-        console.log(elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id);
-        if ([elementCurso].length != 0) {
+        //console.log(elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id);
           this.cursoCompleto.push({
             idCurso:elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id,
             nombre: elementMateria.data.nombre + ' ' + elementCurso.aula,
+            image: elementCurso.image,
+            array: elementCurso,
+            uidNomina: elementCurso.uidNomina,
+            idMateria:elementMateria.id
           })
-        }
       });
     });
   }
@@ -139,10 +144,6 @@ export class PerfilComponent implements OnInit {
     });
   }  
 
-  //eliminar curso
-  eliminarCurso(idCurso: any) {
-
-  }
   //editar curso
   editarCurso(idCurso: any) {
     this.router.navigate(['edit-curso', idCurso]);
@@ -169,7 +170,7 @@ export class PerfilComponent implements OnInit {
   }
 
   openPasswordModal() {
-    this.openMaterial1(PasswordComponent, this.password);
+    this.openMaterial(PasswordComponent);
   }
 
   openMateriaModal() {
@@ -180,21 +181,41 @@ export class PerfilComponent implements OnInit {
     this.openMaterial1(MateriaComponent,data);
   }
 
-  openEditMateriaModal(data: any, idData: any) {
+  openEditMateriaModal(nombre: any, idMateria: any) {
     let dataMateria = {
-      nombre: data,
-      id: idData,
+      nombre: nombre,
+      id: idMateria,
       array: this.materias
     }
     this.openMaterial1(EditarMateriaComponent, dataMateria);
   }
 
-  openEliminarMateriaModal(data: any, idData: any) {
+  openEliminarMateriaModal(data: any, idData: any,dataArray:any) {
     let dataMateria = {
       nombre: data,
-      id: idData
+      id: idData,
+      array:dataArray,
     }
     this.openMaterial1(EliminarDataComponent, dataMateria);
+  }
+
+/*
+ idCurso:elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id,
+  nombre: elementMateria.data.nombre + ' ' + elementCurso.aula,
+  image: elementCurso.image,
+ array:array el array de la amteria
+ */
+
+  openEliminarCursoModal(nombre: any,uidNomina: any,image:any, idMateria:any,array:any) {
+    console.log(array)
+    let dataMateria = {
+      nombre:nombre,
+      uidNomina: uidNomina,
+      image:image,
+      idMateria: idMateria,
+      array:array
+    }
+    this.openMaterial1(EliminarCursoComponent, dataMateria);
   }
 
   openPhoto() {
@@ -210,7 +231,7 @@ export class PerfilComponent implements OnInit {
   }
 
   openDeleteModal() {
-    console.log("hay que borar datos");
+    this.openMaterial(DeleteComponent);
   }
 
   openMaterial(component: any) {
@@ -225,6 +246,7 @@ export class PerfilComponent implements OnInit {
   openMaterial1(component: any, info: any) {
     this.ventana.open(component,
       { width: ' 25rem', data: info }).afterClosed().subscribe(item => {
+        this.materia();
       });
   }
 

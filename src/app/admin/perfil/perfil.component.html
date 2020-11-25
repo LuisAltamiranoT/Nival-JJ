@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-5 container-nival">
     <div class="row mt-5">
         <div class="col-sm-12 col-md-12  col-lg-12 col-12 mx-auto mt-4">
             <div class="mx-auto rounded-circle" [ngStyle]="{'background-image':'url('+perfil+')'}" id="imagePerfil">
@@ -96,7 +96,7 @@
                 <div class="bg-light" *ngFor="let materia of materias; let i = index">
                     <p class="font-weight-light pl-1" id="fontNival-p"><strong>{{i+1+'.'}}</strong>
                         {{materia.data.nombre}}
-                        <a class="float-right text-danger" (click)="openEliminarMateriaModal(materia.data.nombre,materia.id)"
+                        <a class="float-right text-danger" (click)="openEliminarMateriaModal(materia.data.nombre,materia.id,materia.data)"
                             *ngIf="val">
                             <i class="fas fa-trash-alt"></i>
                         </a>
@@ -116,7 +116,7 @@
                 <div class="bg-light" *ngFor="let curso of cursoCompleto; let i = index">
                     <p class="font-weight-light pl-1" id="fontNival-p"><strong>{{i+1+'.'}}</strong>
                         {{curso.nombre}}
-                        <a class="float-right text-danger" (click)="eliminarCurso(curso.id)"
+                        <a class="float-right text-danger" (click)="openEliminarCursoModal(curso.nombre,curso.uidNomina,curso.image,curso.idMateria,curso.array)"
                             *ngIf="val">
                             <i class="fas fa-trash-alt"></i>
                         </a>

@@ -1,17 +1,37 @@
-<div class="modal-header">
-    <h5 class="modal-title mt-3 mx-3">Eliminar Cuenta:</h5>
-    <button type="button" class="close" aria-label="Close" (click)="dimissModal()">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
-<div class="modal-body mtn-2">
-    <form [formGroup]="deleteForm" (ngSubmit)="onDelete()">
-        <div class="form-group">
-            <input type="text" class="form-control" placeholder="Contraseña" formControlName="password">
+<form [formGroup]="passwordForm" (ngSubmit)="onClick()">
+    <h2 mat-dialog-title class="pb-1">Eliminar Cuenta:</h2>
+    <div class="text-center">
+        <div *ngIf="validate else barra">
         </div>
-        <div class="form-group text-center">
-            <button type="submit" class="btn btn-sm btn-info ml-3">Confirmar</button>
-            <a class="btn btn-sm btn-danger mr-3 text-white" (click)="dimissModal()">Cancelar</a>
+    </div>
+    <div class="form-group">
+        <mat-form-field class="fullNivalWidth" appearance="standard">
+            <mat-label>Contraseña Actual</mat-label>
+            <input matInput #pass [type]="hide ? 'password' : 'text'" formControlName="oldPassword" spellcheck="false"
+                autocomplete="off" placeholder="**********">
+            <a mat-icon-button matSuffix (click)="hide = !hide" [attr.arial-label]="'Hide password'"
+                [attr.arial-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </a>
+        </mat-form-field>
+    </div>
+    
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
+            <button type="submit" class="btn btn-sm btn-primary fullNivalWidth"
+                [disabled]="!passwordForm.valid">Guardar</button>
         </div>
-    </form>
-</div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
+            <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
+        </div>
+    </div>
+
+</form>
+
+
+
+<ng-template #barra>
+    <div class="pb-2">
+        <mat-progress-bar class="input-modal" id="progreesbar" mode="indeterminate"></mat-progress-bar>
+    </div>
+</ng-template>

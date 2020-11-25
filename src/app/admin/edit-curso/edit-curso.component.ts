@@ -137,7 +137,7 @@ export class EditCursoComponent implements OnInit {
     console.log(this.nominaVista);
   }
 
-  openDeleteEstudianteModal(idEstudiante:any,nombre:any,posicion:any) {
+  openDeleteEstudianteModal(nombre:any,posicion:any) {
     let data={
       idMateria:this.idMateria,
       idNomina:this.idNomina,
@@ -224,11 +224,14 @@ export class EditCursoComponent implements OnInit {
   openMaterial1(component: any, info: any) {
     this.ventana.open(component,
       { width: ' 25rem', data: info }).afterClosed().subscribe(item => {
+        
       });
   }
   openMaterial2(component: any, info: any) {
     this.ventana.open(component,
       {data: info }).afterClosed().subscribe(item => {
+        this.getMateria(this.idMateria);
+        this.getNominaCurso(this.idMateria,this.idNomina);
       });
   }
 

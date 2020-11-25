@@ -84,6 +84,7 @@ import { PasswordForgotComponent } from './auth/password-forgot/password-forgot.
 import { ReporteGeneralComponent } from './admin/reporteria/reporte-general/reporte-general.component';
 import { ReporteIndividualComponent } from './admin/reporteria/reporte-individual/reporte-individual.component';
 import { VistaReportesComponent } from './admin/reporteria/vista-reportes/vista-reportes.component';
+import { EliminarCursoComponent } from './admin/perfil/eliminar-curso/eliminar-curso.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { VistaReportesComponent } from './admin/reporteria/vista-reportes/vista-
     ReporteGeneralComponent,
     ReporteIndividualComponent,
     VistaReportesComponent,
+    EliminarCursoComponent,
 
   ],
   imports: [

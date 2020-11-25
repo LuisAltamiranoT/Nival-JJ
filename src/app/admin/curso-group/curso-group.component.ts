@@ -21,6 +21,8 @@ export class CursoGroupComponent implements OnInit {
   public curso = [];
   //carga horario guardado
   public cursosGuardados = [];
+  //controla imagen de fondo
+  public stateImage:boolean=false;
   //colores para cada materia
   private color = ['DARKSLATEGRAY', 'CADETBLUE', 'CORAL', 'FIREBRICK', 'TEAL', 'INDIANRED', 'DARKSLATEBLUE', 'SEAGREEN', 'BROWN', 'LIGHTSLATEGRAY'];
 
@@ -42,7 +44,7 @@ export class CursoGroupComponent implements OnInit {
   }
 
   getMateria() {
-    this.suscripcion1 =this.authService.getDataMateria().subscribe((data) => {
+    this.suscripcion1 = this.authService.getDataMateria().subscribe((data) => {
       this.materias.length = 0;
       data.forEach((dataMateria: any) => {
         this.materias.push({
@@ -59,19 +61,24 @@ export class CursoGroupComponent implements OnInit {
   replaceCursos() {
     this.cursoVista.length = 0;
     this.materias.forEach(elementMateria => {
-      elementMateria.data.cursos.forEach(elementCurso => {
-        console.log(elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id);
-        if ([elementCurso].length != 0) {
-          let idCurso=elementCurso.uidNomina+ '//' + elementMateria.id;
+        elementMateria.data.cursos.forEach(elementCurso => {
+          //console.log(elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id);
+          let idCurso = elementCurso.uidNomina + '//' + elementMateria.id;
           this.cursoVista.push({
-            idCursoEdit:elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id,
+            idCursoEdit: elementCurso.uidNomina + '//' + elementMateria.id + '//' + elementCurso.id,
             idCurso: idCurso,
             nombre: elementMateria.data.nombre + ' ' + elementCurso.aula,
             image: elementCurso.image
           })
           console.log('carga de datos', this.cursoVista, this.materias);
+        });
+        console.log('tamñano del curso',this.cursoVista.length);
+        if(this.cursoVista.length!=0){
+          this.stateImage=false;
+        }else{
+          this.stateImage=true;
         }
-      });
+        
     });
   }
 

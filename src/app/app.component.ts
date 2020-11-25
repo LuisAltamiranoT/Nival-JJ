@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
     let title = this.location.prepareExternalUrl(this.location.path());
     title = title.slice(1).split("/")[0];
     if (title === "verification-email" || title === "password-forgot" || title === "vista-curso" || 
-    title === "edit-curso" || title === "reportes" || title === "reporte-general" || title === "reporte-individual" || title ==="horario" || title==="curso-group") {
+    title === "edit-curso" || title === "reportes" || title === "reporte-general" || title === "reporte-individual" || title ==="horario" || title==="curso-group"|| title==="curso") {
       return true;
     } else {
       return false;

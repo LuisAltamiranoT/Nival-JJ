@@ -447,6 +447,7 @@ export class AddCursoComponent implements OnInit {
     this.replaceHorario();
     this.eraserAll();
     this.photoQuit();
+    this.materia();
   }
 
   photoQuit() {
