@@ -103,8 +103,8 @@ export class VistaCursoComponent implements OnInit {
 
       const dataNomina: any = data.payload.data();
       dataNomina.nomina.forEach((dataMateria: any) => {
-        this.idQr = dataNomina.uidProfesor+'//'+dataNomina.uidMateria+'//'+dataNomina.uidCurso;
-        console.log('tamaño array  asdnfjdsfn', this.idQr)
+        this.idQr = dataNomina.uidProfesor+'//'+dataNomina.uidMateria+'//'+dataNomina.uidCurso+'//'+data.payload.id;
+        console.log('tamaño array', this.idQr,data.payload.id)
         let ultimoId = dataMateria.asistencia.length - 1;
 
         //console.log('ultimo index', ultimoId),
