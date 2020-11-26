@@ -48,6 +48,8 @@ export class VistaCursoComponent implements OnInit {
   estado = 'presente';
   //estado control
   estadoControl: boolean = false;
+   //variable para el qr
+   idQr:any;
 
   constructor(
     private authService: AuthService,
@@ -101,7 +103,8 @@ export class VistaCursoComponent implements OnInit {
 
       const dataNomina: any = data.payload.data();
       dataNomina.nomina.forEach((dataMateria: any) => {
-        //console.log('tamaño array', dataMateria.asistencia.length)
+        this.idQr = dataNomina.uidProfesor+'//'+dataNomina.uidMateria+'//'+dataNomina.uidCurso;
+        console.log('tamaño array  asdnfjdsfn', this.idQr)
         let ultimoId = dataMateria.asistencia.length - 1;
 
         //console.log('ultimo index', ultimoId),
