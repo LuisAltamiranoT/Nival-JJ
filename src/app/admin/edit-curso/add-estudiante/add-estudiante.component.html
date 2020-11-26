@@ -12,7 +12,7 @@
                     <input matInput #codigoU [type]="'text'" autocomplete="off" maxlength="9" placeholder="Ej: 200109780" formControlName="codigoUnico" oninput="if(this.value.length > this.maxLength) this.value=this.value.slice(0,this.maxLength);" (keypress)="IngresarSoloNumeros($event)" required>
                     <mat-hint align="end">{{codigoU.value?.length || 0}}/9</mat-hint>
                     <a class="aNival" mat-icon-button matSuffix (click)="limpiarNumero()">
-                        <mat-icon matSuffix>close</mat-icon>
+                        <mat-icon matSuffix>backspace</mat-icon>
                     </a>
                   </mat-form-field>
             </div>
@@ -23,7 +23,7 @@
                     <mat-label>Nombres</mat-label>
                     <input matInput [type]="'text'" autocomplete="off" placeholder="Ej: Pepito" spellcheck="false" formControlName="estudiante" required>
                     <a class="aNival" mat-icon-button matSuffix (click)="limpiarNombre()">
-                        <mat-icon matSuffix>close</mat-icon>
+                        <mat-icon matSuffix>backspace</mat-icon>
                     </a>
                   </mat-form-field>
             </div>
@@ -34,7 +34,7 @@
                     <mat-label>Correo Electrónico</mat-label>
                     <input matInput [type]="'email'" autocomplete="off" spellcheck="false" placeholder="Ej: pepito.perez@epn.edu.ec" formControlName="email" required>
                     <a class="aNival" mat-icon-button matSuffix (click)="limpiarCorreo()">
-                        <mat-icon matSuffix>close</mat-icon>
+                        <mat-icon matSuffix>backspace</mat-icon>
                     </a>
                   </mat-form-field>
             </div>

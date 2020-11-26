@@ -16,7 +16,7 @@
                         (keypress)="IngresarSoloNumeros($event)" required>
                     <mat-hint align="end">{{codigoU.value?.length || 0}}/9</mat-hint>
                     <a class="aNival" mat-icon-button matSuffix (click)="limpiarNumero()">
-                        <mat-icon matSuffix>close</mat-icon>
+                        <mat-icon matSuffix>backspace</mat-icon>
                     </a>
                 </mat-form-field>
             </div>
@@ -28,7 +28,7 @@
                     <input matInput [type]="'text'" autocomplete="off" placeholder={{placeholder}} spellcheck="false"
                         formControlName="estudiante" required (keypress)="IngresarSoloLetras($event)">
                     <a class="aNival" mat-icon-button matSuffix (click)="limpiarNombre()">
-                        <mat-icon matSuffix>close</mat-icon>
+                        <mat-icon matSuffix>backspace</mat-icon>
                     </a>
                 </mat-form-field>
             </div>
@@ -41,7 +41,7 @@
                     <input matInput [type]="'email'" autocomplete="off" spellcheck="false"
                         placeholder="{{placeholderCorreo}}" formControlName="email" required>
                     <a class="aNival" mat-icon-button matSuffix (click)="limpiarCorreo()">
-                        <mat-icon matSuffix>close</mat-icon>
+                        <mat-icon matSuffix>backspace</mat-icon>
                     </a>
                 </mat-form-field>
             </div>

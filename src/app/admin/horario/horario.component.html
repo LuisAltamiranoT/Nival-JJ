@@ -15,7 +15,7 @@
                         <input matInput autocomplete="off" (keyup)="applyFilter($event)"
                             placeholder="Ejemplo GR3 o Filosofía" #input>
                             <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda(input)">
-                                <mat-icon matSuffix>close</mat-icon>
+                                <mat-icon matSuffix>backspace</mat-icon>
                             </a>
                     </mat-form-field>
                     <table mat-table [dataSource]="dataSource">
