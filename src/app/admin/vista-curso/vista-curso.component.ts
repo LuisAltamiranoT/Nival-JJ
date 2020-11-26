@@ -48,6 +48,7 @@ export class VistaCursoComponent implements OnInit {
   estado = 'presente';
   //estado control
   estadoControl: boolean = false;
+  idQr: any;
 
   constructor(
     private authService: AuthService,
@@ -73,9 +74,6 @@ export class VistaCursoComponent implements OnInit {
     this.nombreDay = moment.weekdays(day).charAt(0).toUpperCase() + moment.weekdays(day).slice(1)
     // Obtiene la hora del sistema
     this.hora = moment().format('HH:mm:ss');
-    
-    // Encriptar  QR
-    this.EncriptarData();
   }
 
   ngOnDestroy() {
@@ -85,9 +83,9 @@ export class VistaCursoComponent implements OnInit {
   /** ************************************************** */
   /**      ENCRIPTACION DE CADENA DE CÓDIGO QR           */
   /** ************************************************** */
-  EncriptarData() {
+  EncriptarData(valor) {
     // variable que almacena los datos a encriptar --- poner los datos a enviar
-    var cadena = 'kajshdkjahsdkjhaskdhugdyueggdvshfvdgvfsdvfhdvsf';
+    var cadena = valor;
     // variable que se usa como clave para encriptar
     var codigo = 'encritar@codigo';
     // encriptar data
@@ -100,6 +98,9 @@ export class VistaCursoComponent implements OnInit {
       this.nominaConsulta.length = 0;
 
       const dataNomina: any = data.payload.data();
+      this.idQr = dataNomina.uidProfesor + '//' + dataNomina.uidMateria + '//' + dataNomina.uidCurso;
+      // Encriptar  QR
+      this.EncriptarData(this.idQr);
       dataNomina.nomina.forEach((dataMateria: any) => {
         //console.log('tamaño array', dataMateria.asistencia.length)
         let ultimoId = dataMateria.asistencia.length - 1;
@@ -236,7 +237,7 @@ export class VistaCursoComponent implements OnInit {
 
   almacenarDatos() {
     //idNomina, idMateria, array, fechaHora, estado
-      let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, this.estado);
+    let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, this.estado);
   }
 
   almacenarNominaFinalizado() {
