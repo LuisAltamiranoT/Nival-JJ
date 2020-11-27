@@ -103,6 +103,10 @@ export class VistaReportesComponent implements OnInit {
     return false;
   }
 
+  onclick(fecha:any,index:any,discol:any){
+    console.log(fecha,index,discol);
+  }
+
   openPhoto(image: any) {
     if (image != 'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680') {
       this.ventana.open(ViewImageComponent,
