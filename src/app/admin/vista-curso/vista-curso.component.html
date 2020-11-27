@@ -9,7 +9,7 @@
                     <mat-icon>
                         format_list_bulleted
                     </mat-icon>
-                    Asistencia {{NombreMateria}}
+                    Asistencia
                 </button>
                 <button mat-button>
                     <mat-icon>
@@ -30,18 +30,19 @@
                     Ver asistencia  Anterior
                 </button>
 
-            
-                <a mat-button [routerLink]="['/codigo',codigoQr]" style="text-decoration: none;">
+                <button mat-button (click)='onQr()'>
                     <mat-icon>
-                        qr_code_2</mat-icon>
+                        qr_code_2
+                    </mat-icon>
                     Generar QR
-                </a>
+                </button>
 
-                <a mat-button[routerLink]="['/reportes', dataId]" style="text-decoration: none;">
+                <button mat-button (click)='onReportes()'>
                     <mat-icon>
-                        list_alt</mat-icon>
+                        list_alt
+                    </mat-icon>
                     Reportes
-                </a>
+                </button>                
             </div>
         </section>
         <div class="col-sm-12 col-md-12 col-lg-12 col-12" style="margin: 0px !important; padding: 0px !important;">

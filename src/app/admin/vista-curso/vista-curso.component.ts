@@ -29,7 +29,7 @@ export class VistaCursoComponent implements OnInit {
   //array de la nomina de los estudiantes 
   public nominaVista: any[] = [];
   //dato que almacenara el id de la materia
-  public dataId: any;
+  public dataId: any='';
   //CODIGO NUEVO TABLA
   displayedColumns: string[] = ['fila', 'codigoUnico', 'image', 'nombre', 'presente', 'atraso', 'falta'];
   dataSource = new MatTableDataSource(this.nominaVista);
@@ -50,7 +50,7 @@ export class VistaCursoComponent implements OnInit {
   estadoControl: boolean = false;
    //variable para el qr
    idQr:any;
-   NombreMateria:any;
+   NombreMateria:any='';
 
   constructor(
     private authService: AuthService,
@@ -303,6 +303,12 @@ console.log(this.dataId)
     } else {
       this.authService.showInfo('El estudiante no dispone de una imagen de perfil');
     }
+  }
+  onQr(){
+    this.router.navigate(['codigo', this.codigoQr])
+  }
+  onReportes(){
+    this.router.navigate(['reportes', this.dataId])
   }
 
 }
