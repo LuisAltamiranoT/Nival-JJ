@@ -103,7 +103,7 @@ export class VistaCursoComponent implements OnInit {
       // Encriptar  QR
       this.EncriptarData(this.idQr);
       dataNomina.nomina.forEach((dataMateria: any) => {
-        this.idQr = dataNomina.uidProfesor+'//'+dataNomina.uidMateria+'//'+dataNomina.uidCurso;
+        this.idQr = dataNomina.uidProfesor+'//'+dataNomina.uidMateria+'//'+dataNomina.uidCurso+'//'+data.payload.id;
         console.log('tamaño array  asdnfjdsfn', this.idQr)
         let ultimoId = dataMateria.asistencia.length - 1;
 
