@@ -393,6 +393,7 @@ export class AddCursoComponent implements OnInit {
     this.nuevoHorario = [];
     this.cursoForm.patchValue({ aula: '' });
     this.cursoForm.patchValue({ image: '' });
+    this.cursoForm.reset();
   }
 
   //lector dde archivos excel
