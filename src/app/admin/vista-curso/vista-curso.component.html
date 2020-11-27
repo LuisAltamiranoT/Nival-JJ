@@ -17,25 +17,20 @@
                     </mat-icon>
                     Guardar Asistencia
                 </button>
-                <button mat-button>
+                <button mat-button (click)="changeBack()">
                     <mat-icon>
                         find_in_page
                     </mat-icon>
-                    Ver Asistencia Anterior
+                    Ver Asistencia {{!estadoControl ? 'Anterior' : 'Actual'}}
                 </button>
-                <button mat-button>
+
+                <button mat-button (click)="changeState()">
                     <mat-icon>
                         settings
                     </mat-icon>
-                    Cambiar Atraso
-                </button>
-
-                <mat-button-toggle-group appearance="legacy" name="fontStyle" aria-label="Font Style">
-                    <mat-button-toggle value="bold">Bold</mat-button-toggle>
-                    <mat-button-toggle value="italic">Italic</mat-button-toggle>
-                    <mat-button-toggle value="underline">Underline</mat-button-toggle>
-                  </mat-button-toggle-group>
-
+                    Cambiar {{!toggle ? 'Presente' : 'Atraso'}}
+                  </button>
+             
                 <button mat-button (click)='onQr()'>
                     <mat-icon>
                         qr_code_2
