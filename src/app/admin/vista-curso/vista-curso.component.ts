@@ -50,6 +50,7 @@ export class VistaCursoComponent implements OnInit {
   estadoControl: boolean = false;
    //variable para el qr
    idQr:any;
+   NombreMateria:any;
 
   constructor(
     private authService: AuthService,
@@ -60,9 +61,11 @@ export class VistaCursoComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataId = this._route.snapshot.paramMap.get('data');
+console.log(this.dataId)
     let splitted = this.dataId.split("//");
     this.idNomina = splitted[0];
     this.idMateria = splitted[1];
+    this.NombreMateria=splitted[2];
     // Función para obtener nómina
     this.obtenerNomina(this.idMateria, this.idNomina);
     // Función moment
@@ -104,9 +107,8 @@ export class VistaCursoComponent implements OnInit {
       const dataNomina: any = data.payload.data();
       dataNomina.nomina.forEach((dataMateria: any) => {
         this.idQr = dataNomina.uidProfesor+'//'+dataNomina.uidMateria+'//'+dataNomina.uidCurso+'//'+data.payload.id;
-        console.log('tamaño array', this.idQr,data.payload.id)
+        //console.log('tamaño array', this.idQr,data.payload.id)
         let ultimoId = dataMateria.asistencia.length - 1;
-
         //console.log('ultimo index', ultimoId),
         //console.log('este es el estado anterior', estado)
         if (ultimoId === -1) {

@@ -1,12 +1,12 @@
-import { MatButtonToggleGroup } from '@angular/material/button-toggle';
-
 import { Component, OnInit, ViewChild, ɵConsole } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { ViewImageComponent } from '../../curso-group/view-image/view-image.component';
+import { MatDialog } from '@angular/material/dialog';
+
 
 
 
@@ -66,47 +66,31 @@ export class VistaReportesComponent implements OnInit {
           if (element.presente === true) {
             cont = cont + 1;
             console.log(element)
-            obj[cont + ') ' + element.fecha] = 'Presente';
+            obj[cont + ') ' + element.fecha+' '+element.dia] = 'Presente';
           }
           if (element.atraso === true) {
             cont = cont + 1;
             console.log(element)
-            obj[cont + ') ' + element.fecha] = 'Atraso';
+            obj[cont + ') ' + element.fecha+' '+element.dia] = 'Atraso';
           }
           if (element.falta === true) {
             cont = cont + 1;
             console.log(element)
-            obj[cont + ') ' + element.fecha] = 'Falta';
+            obj[cont + ') ' + element.fecha+' '+element.dia] = 'Falta';
           }
         });
         this.ejemplo.push(obj);
         obj = {};
       });
-      console.log(this.ejemplo);
+      //console.log(this.ejemplo);
 
       for (let v in this.ejemplo[0]) {
         this.displayedColumns.push(v);
       }
       
-      console.log(this.displayedColumns);
+      //console.log(this.displayedColumns);
 
       this.dataSource = new MatTableDataSource(this.ejemplo);
-
-      /*
-      var obj = {};
-for (let i in this.listecidenKisi ){
-    for( let v of this.listecidenVazife[i].vazifeSonuclar){
-        obj[v.name] = v.value;
-    }
-    this.vzfPuanTablo.push(obj);
-    obj={};
-}
-       */
-
-      //console.log('ultimo index', ultimoId),
-      //console.log('este es el estado anterior', estado)
-
-
 
     });
     //console.log(this.nominaVista);
@@ -114,19 +98,28 @@ for (let i in this.listecidenKisi ){
 
   }
 
+  isSticky(colIndex:any) {
+    console.log(colIndex)
+    if(colIndex==='Numero'){
+      return true;
+    }
+    return false;
+  }
 
+  openPhoto(image: any) {
+    if (image != 'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680') {
+      this.ventana.open(ViewImageComponent,
+        { data: image }).afterClosed().subscribe(item => {
+        });
+    } else {
+      this.authService.showInfo('El estudiante no dispone de una imagen de perfil');
+    }
+  }
 }
 
 
 
 
-
-
-
-
-/*
-const randomColumn = Math.floor(Math.random() * this.displayedColumns.length);
-        this.columnsToDisplay.push(this.displayedColumns[randomColumn]); */
 
 
 

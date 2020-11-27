@@ -63,7 +63,7 @@ export class CursoGroupComponent implements OnInit {
     this.materias.forEach(elementMateria => {
         elementMateria.data.cursos.forEach(elementCurso => {
           //console.log(elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id);
-          let idCurso = elementCurso.uidNomina + '//' + elementMateria.id;
+          let idCurso = elementCurso.uidNomina + '//' + elementMateria.id+'//'+elementMateria.data.nombre + ' ' + elementCurso.aula;
           this.cursoVista.push({
             idCursoEdit: elementCurso.uidNomina + '//' + elementMateria.id + '//' + elementCurso.id,
             idCurso: idCurso,
