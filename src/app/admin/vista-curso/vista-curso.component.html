@@ -9,9 +9,9 @@
                     <mat-icon>
                         format_list_bulleted
                     </mat-icon>
-                    Asistencia
+                    Asistencia {{NombreMateria}}
                 </button>
-                <button mat-button>
+                <button mat-button (click)="almacenarNominaFinalizado()">
                     <mat-icon>
                         save
                     </mat-icon>
@@ -19,9 +19,9 @@
                 </button>
                 <button mat-button>
                     <mat-icon>
-                        save
+                    find_in_page
                     </mat-icon>
-                    Guardar Asistencia
+                    Ver Asistencia Anterior
                 </button>
                 <button mat-button>
                     <mat-icon>
