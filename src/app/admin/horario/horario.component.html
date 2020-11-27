@@ -17,9 +17,9 @@
                         <mat-label>Buscar</mat-label>
                         <input matInput autocomplete="off" (keyup)="applyFilter($event)"
                             placeholder="Ejemplo GR3 o Filosofía" #input>
-                            <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda(input)">
-                                <mat-icon matSuffix>close</mat-icon>
-                            </a>
+                        <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda(input)">
+                            <mat-icon matSuffix>close</mat-icon>
+                        </a>
                     </mat-form-field>
                     <table mat-table [dataSource]="dataSource">
 
@@ -88,8 +88,7 @@
                             <th mat-header-cell *matHeaderCellDef> viernes </th>
                             <td class="px-1" mat-cell *matCellDef="let element, let v = index;">
                                 <a class="text-center" (click)="openCurso(element.Vid)">
-                                    <p class=" rounded p-1 text-white mt-2 aNival"
-                                        [style.background-color]="element.VC">
+                                    <p class=" rounded p-1 text-white mt-2 aNival" [style.background-color]="element.VC">
                                         {{element.viernes}}
                                     </p>
                                 </a>

@@ -1,6 +1,6 @@
 .example-container {
   min-width: 83.5vw;
-  max-height: 77vh;
+  max-height: 75vh;
   overflow: auto;
 }
 
@@ -12,8 +12,16 @@ table {
   box-sizing: border-box;
   text-align: center;
   justify-content:center;
-  min-width: 90px;
+  min-width: 100px;
+  padding:2px;
 }
+
+::ng-deep .mat-form-field-wrapper{
+  margin-bottom: -1.25em;
+}
+
+
+
 
 .busqueda1{
   font-size: 14px;
