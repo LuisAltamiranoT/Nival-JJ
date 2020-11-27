@@ -310,4 +310,6 @@ console.log(this.dataId)
     this.router.navigate(['reportes', this.dataId])
   }
 
+  
+
 }

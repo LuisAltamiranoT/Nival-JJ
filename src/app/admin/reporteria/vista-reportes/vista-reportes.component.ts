@@ -30,11 +30,11 @@ export class VistaReportesComponent implements OnInit {
   private suscripcion1: Subscription;
   private suscripcion2: Subscription;
   //validacion de botones
-  ValidateButton=false;
+  ValidateButton = false;
 
   fechaForm = new FormGroup({
-    inicio: new FormControl({ value: '', disabled: this.ValidateButton}, Validators.required),
-    fin: new FormControl({ value: '', disabled: this.ValidateButton}, Validators.required)
+    inicio: new FormControl({ value: '', disabled: this.ValidateButton }, Validators.required),
+    fin: new FormControl({ value: '', disabled: this.ValidateButton }, Validators.required)
   })
 
   //manejor de tablas 
@@ -95,16 +95,16 @@ export class VistaReportesComponent implements OnInit {
 
       if (dataNomina.nomina[0].asistencia.length != 0) {
         this.fechaInicioNomina = dataNomina.nomina[0].asistencia[0].fecha;
-        this.ValidateButton=true;
+        this.ValidateButton = true;
       } else {
-        this.ValidateButton=false;
+        this.ValidateButton = false;
         //desactivar los calendarios y el boton buscar y descargar
       }
 
       dataNomina.nomina.forEach((dataMateria: any) => {
         filas = filas + 1;
         let cont = 0;
-        let porcentaje=0;
+        let porcentaje = 0;
 
         obj = {
           Numero: filas,
@@ -125,13 +125,13 @@ export class VistaReportesComponent implements OnInit {
             cont = cont + 1;
             obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Presente';
             objExcel[cont + ') ' + element.fecha] = 1;
-            porcentaje=porcentaje+1;
+            porcentaje = porcentaje + 1;
           }
           if (element.atraso === true) {
             cont = cont + 1;
             obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Atraso';
             objExcel[cont + ') ' + element.fecha] = 0.5;
-            porcentaje=porcentaje+0.5;
+            porcentaje = porcentaje + 0.5;
           }
           if (element.falta === true) {
             cont = cont + 1;
@@ -139,10 +139,10 @@ export class VistaReportesComponent implements OnInit {
             objExcel[cont + ') ' + element.fecha] = 0;
           }
         });
-        obj['Porcentaje'] = ((porcentaje/cont)*100).toFixed(0)+'%';
-        objExcel['Porcentaje'] = ((porcentaje/cont)*100).toFixed(0)+'%';
+        obj['Porcentaje'] = ((porcentaje / cont) * 100).toFixed(0) + '%';
+        objExcel['Porcentaje'] = ((porcentaje / cont) * 100).toFixed(0) + '%';
 
-        console.log('llega hasta aqui', cont,porcentaje);
+        console.log('llega hasta aqui', cont, porcentaje);
 
         this.ejemplo.push(obj);
         this.excel.push(objExcel);
@@ -162,8 +162,8 @@ export class VistaReportesComponent implements OnInit {
   filtrar() {
     const { inicio, fin } = this.fechaForm.value;
     console.log(inicio, fin)
-    console.log('inicio', inicio,  Date.parse(String(moment(inicio).format("YYYY-MM-DD"))))
-    console.log('fin', fin,  Date.parse(String(moment(fin).format("YYYY-MM-DD"))))
+    console.log('inicio', inicio, Date.parse(String(moment(inicio).format("YYYY-MM-DD"))))
+    console.log('fin', fin, Date.parse(String(moment(fin).format("YYYY-MM-DD"))))
 
 
 
@@ -299,6 +299,31 @@ export class VistaReportesComponent implements OnInit {
     const day = (d || new Date()).getDay();
     // Prevent Saturday and Sunday from being selected.
     return day !== 0 && day !== 6;
+  }
+
+  fecha_fin: any;
+  fecha_inicio: any;
+  validarFecha(event, form) {
+    var f = moment();
+    var fechaActual = f.format('YYYY-MM-DD');
+    var fecha_fin = moment(event.value).format("YYYY-MM-DD");
+    if (form.inicio === '') {
+      this.authService.showInfo('Ingrese fecha de inicio de periodo');
+      this.fechaForm.patchValue({
+        fin: ''
+      })
+    } else {
+      if (Date.parse(moment(form.inicio).format("YYYY-MM-DD")) <= Date.parse(fecha_fin) &&
+        Date.parse(moment(form.inicio).format("YYYY-MM-DD")) <= Date.parse(fechaActual) &&
+        Date.parse(fecha_fin) <= Date.parse(fechaActual)) {
+      }
+      else {
+        this.authService.showInfo('La fecha fin de periodo debe ser posterior a la fecha de inicio y recuerde que no puede seleccionar fechas posteriores a la actual');
+        this.fechaForm.patchValue({
+          fin: ''
+        })
+      }
+    }
   }
 
 }
