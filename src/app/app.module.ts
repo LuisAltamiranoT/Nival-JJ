@@ -34,6 +34,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatChipsModule} from '@angular/material/chips';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -166,7 +167,8 @@ import { EliminarCursoComponent } from './admin/perfil/eliminar-curso/eliminar-c
     NgxSpinnerModule,
     MatCardModule,
     FlexLayoutModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatChipsModule
   ],
   providers: [
     AuthService,

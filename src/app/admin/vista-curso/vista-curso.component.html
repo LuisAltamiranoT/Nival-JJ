@@ -6,32 +6,42 @@
         <section class="example-spacer" style="width: 100%; margin-left: 30px;">
             <div class="example-button-row">
                 <span class="with-icon">
-                    <mat-icon>format_list_bulleted</mat-icon>
+                    <mat-icon>
+                        format_list_bulleted
+                    </mat-icon>
                     Asistencia {{NombreMateria}}
                 </span>
                 <button mat-button (click)="almacenarNominaFinalizado()">
-                    <mat-icon>save</mat-icon>
+                    <mat-icon>
+                        save
+                    </mat-icon>
                     Guardar Asistencia
                 </button>
-                <button mat-button>
-                    <mat-icon>find_in_page</mat-icon>
-                    Ver Asistencia Anterior
+                <button mat-button (click)="changeBack()">
+                    <mat-icon>
+                        find_in_page
+                    </mat-icon>
+                    Ver Asistencia {{!estadoControl ? 'Anterior' : 'Actual'}}
                 </button>
-                <button mat-button>
-                    <mat-icon>settings</mat-icon>
-                    Cambiar Atraso
+
+                <button mat-button (click)="changeState()">
+                    <mat-icon>
+                        settings
+                    </mat-icon>
+                    Cambiar {{!toggle ? 'Presente' : 'Atraso'}}
                 </button>
-                <mat-button-toggle-group appearance="legacy" name="fontStyle" aria-label="Font Style">
-                    <mat-button-toggle value="bold">Bold</mat-button-toggle>
-                    <mat-button-toggle value="italic">Italic</mat-button-toggle>
-                    <mat-button-toggle value="underline">Underline</mat-button-toggle>
-                  </mat-button-toggle-group>
+
                 <button mat-button (click)='onQr()'>
-                    <mat-icon>qr_code_2</mat-icon>
+                    <mat-icon>
+                        qr_code_2
+                    </mat-icon>
                     Generar QR
                 </button>
+
                 <button mat-button (click)='onReportes()'>
-                    <mat-icon>list_alt</mat-icon>
+                    <mat-icon>
+                        list_alt
+                    </mat-icon>
                     Reportes
                 </button>
             </div>
@@ -48,7 +58,7 @@
         <input matInput autocomplete="off" (keyup)="applyFilter($event)" placeholder="Ejemplo 201720 o Pepito Perez"
             #input>
         <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda(input)">
-            <mat-icon matSuffix>backspace</mat-icon>
+            <mat-icon matSuffix>close</mat-icon>
         </a>
     </mat-form-field>
 

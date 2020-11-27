@@ -46,6 +46,7 @@ export class VistaCursoComponent implements OnInit {
   hora: any;
   //estado para agregar
   estado = 'presente';
+  toggle:any;
   //estado control
   estadoControl: boolean = false;
    //variable para el qr
@@ -308,6 +309,21 @@ console.log(this.dataId)
   }
   onReportes(){
     this.router.navigate(['reportes', this.dataId])
+  }
+  changeState(){
+    if(this.estado==='presente'){
+      this.estado='atraso';
+    }else{
+      this.estado='presente';
+    }
+    console.log(this.estado);
+    this.toggle = ! this.toggle;
+  }
+
+  changeBack(){
+    this.estadoControl= !this.estadoControl;
+    this.obtenerNomina(this.idMateria, this.idNomina);
+    console.log('estado contorl',this.estadoControl)
   }
 
   
