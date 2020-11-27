@@ -29,16 +29,16 @@ export class VistaReportesComponent implements OnInit {
   //control de suscripciones
   private suscripcion1: Subscription;
   private suscripcion2: Subscription;
+  //validacion de botones
+  ValidateButton=false;
 
   fechaForm = new FormGroup({
-    inicio: new FormControl('', Validators.required),
-    fin: new FormControl('', Validators.required)
+    inicio: new FormControl({ value: '', disabled: this.ValidateButton}, Validators.required),
+    fin: new FormControl({ value: '', disabled: this.ValidateButton}, Validators.required)
   })
 
   //manejor de tablas 
   @ViewChild(MatTable) tabla1: MatTable<any>;
-
-
 
   displayedColumns: string[] = [];
   //columnsToDisplay: string[] = this.displayedColumns.slice();
@@ -80,7 +80,6 @@ export class VistaReportesComponent implements OnInit {
 
   ngOnDestroy() {
     this.suscripcion1.unsubscribe();
-    this.suscripcion2.unsubscribe();
   }
 
   cargar() {
@@ -96,13 +95,16 @@ export class VistaReportesComponent implements OnInit {
 
       if (dataNomina.nomina[0].asistencia.length != 0) {
         this.fechaInicioNomina = dataNomina.nomina[0].asistencia[0].fecha;
+        this.ValidateButton=true;
       } else {
+        this.ValidateButton=false;
         //desactivar los calendarios y el boton buscar y descargar
       }
 
       dataNomina.nomina.forEach((dataMateria: any) => {
         filas = filas + 1;
         let cont = 0;
+        let porcentaje=0;
 
         obj = {
           Numero: filas,
@@ -123,11 +125,13 @@ export class VistaReportesComponent implements OnInit {
             cont = cont + 1;
             obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Presente';
             objExcel[cont + ') ' + element.fecha] = 1;
+            porcentaje=porcentaje+1;
           }
           if (element.atraso === true) {
             cont = cont + 1;
             obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Atraso';
             objExcel[cont + ') ' + element.fecha] = 0.5;
+            porcentaje=porcentaje+0.5;
           }
           if (element.falta === true) {
             cont = cont + 1;
@@ -135,6 +139,11 @@ export class VistaReportesComponent implements OnInit {
             objExcel[cont + ') ' + element.fecha] = 0;
           }
         });
+        obj['Porcentaje'] = ((porcentaje/cont)*100).toFixed(0)+'%';
+        objExcel['Porcentaje'] = ((porcentaje/cont)*100).toFixed(0)+'%';
+
+        console.log('llega hasta aqui', cont,porcentaje);
+
         this.ejemplo.push(obj);
         this.excel.push(objExcel);
         obj = {};
@@ -161,7 +170,7 @@ export class VistaReportesComponent implements OnInit {
     let obj = {};
     let objExcel = {};
 
-    this.suscripcion2 = this.authService.getDataNominaCursoId(this.idMateria, this.idNomina).subscribe((data) => {
+    this.suscripcion1 = this.authService.getDataNominaCursoId(this.idMateria, this.idNomina).subscribe((data) => {
 
       this.ejemplo.length = 0;
       this.excel.length = 0;
