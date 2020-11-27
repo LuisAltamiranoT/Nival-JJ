@@ -357,7 +357,7 @@ export class AuthService extends RoleValidator {
   public async delecteMateria(documentId:any):Promise<number>{
     try {
       await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(documentId).delete();
-      this.showUpdatedata();
+      this.showDeletedata();
       return 1;
     } catch (error) {
       this.showError(error);
@@ -368,7 +368,7 @@ export class AuthService extends RoleValidator {
    public async deleteCurso(idMateria: any,ArrayCurso:any) {
     try {
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).update({cursos: firebase.firestore.FieldValue.arrayRemove(ArrayCurso)});
-      this.showUpdatedata();
+      this.showDeletedata();
       return create;
     } catch (error) {
       this.showError(error);
@@ -464,7 +464,7 @@ export class AuthService extends RoleValidator {
   public async deleteEstudiante(idMateria: any, idNomina: any,ArrayEstudiante:any) {
     try {
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).update({nomina: firebase.firestore.FieldValue.arrayRemove(ArrayEstudiante)});
-      this.showUpdatedata();
+      this.showDeletedata();
       return create;
     } catch (error) {
       this.showError(error);
@@ -564,6 +564,10 @@ export class AuthService extends RoleValidator {
   }
 
   showUpdatedata() {
+    this.showSuccess("Se ha actualizado su información");
+  }
+
+  showDeletedata() {
     this.showSuccess("Se ha eliminado la información");
   }
 

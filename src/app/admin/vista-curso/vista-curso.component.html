@@ -1,16 +1,16 @@
 <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand mt-4"></a>
 </nav>
-<div class="container container-nival mt-5">
+<div class="container container-nival mt-4">
     <div class="row">
         <section class="example-spacer" style="width: 100%;">
             <div class="example-button-row">
-                <button mat-button>
+                <span class="with-icon">
                     <mat-icon>
                         format_list_bulleted
                     </mat-icon>
                     Asistencia {{NombreMateria}}
-                </button>
+                </span>
                 <button mat-button (click)="almacenarNominaFinalizado()">
                     <mat-icon>
                         save
@@ -19,7 +19,7 @@
                 </button>
                 <button mat-button>
                     <mat-icon>
-                    find_in_page
+                        find_in_page
                     </mat-icon>
                     Ver Asistencia Anterior
                 </button>
@@ -27,7 +27,7 @@
                     <mat-icon>
                         settings
                     </mat-icon>
-                    Ver asistencia  Anterior
+                    Cambiar Atraso
                 </button>
 
                 <button mat-button (click)='onQr()'>
@@ -42,7 +42,7 @@
                         list_alt
                     </mat-icon>
                     Reportes
-                </button>                
+                </button>
             </div>
         </section>
         <div class="col-sm-12 col-md-12 col-lg-12 col-12" style="margin: 0px !important; padding: 0px !important;">
