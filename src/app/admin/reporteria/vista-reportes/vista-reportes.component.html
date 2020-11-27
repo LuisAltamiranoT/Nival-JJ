@@ -1,118 +1,40 @@
+<div style="margin-top: 120px;"></div>
+<div class="container-fluid">
+  <div class="example-container mat-elevation-z2">
+    <mat-table #table [dataSource]="dataSource">
 
-<div class="container mt-5 container-nival">
-    <div class="row mt-5">
-        <div class="col-sm-4 col-md-4 col-lg-4 col-4 mt-4 pt-1 pbn-1">
-            <h3 class="font-weight-normal">
-                <i class="fas fa-list pr-1 pb-1 fa-nival fa-sm"></i>Asistencia</h3>
-        </div>
-        <div class="col-sm-4 col-md-4 col-lg-4 col-4 mt-4 pt-1 pbn-1">
-            <a class="float-right btn-nival pt-1" style="text-decoration: none;" [routerLink]="['/codigo',codigoQr]"
-                target="_blank">
-                <i class="fa fa-qrcode pr-1"></i>Generar QR
+      <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" [ngSwitch]="disCol" matColumnDef="{{disCol}}" [sticky]="isSticky(disCol)">
+        <th mat-header-cell *matHeaderCellDef>{{disCol}}</th>
+
+        <ng-container *ngSwitchCase="'Numero'">
+          <td class="number" mat-cell *matCellDef="let element "> {{element[disCol]}}</td>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'Nombre'">
+          <td mat-cell *matCellDef="let element "> {{element[disCol]}}</td>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'Imagen'">
+          <td mat-cell *matCellDef="let element, let i = index;">
+            <a (click)="openPhoto(element[disCol])">
+              <img mat-card-image class="avatarNival" src={{element[disCol]}} alt="noImage">
             </a>
-        </div>
-        <div class="col-sm-4 col-md-4 col-lg-4 col-4 mt-4 pt-1 pbn-1">
-            <a class="float-right btn-nival pt-1" style="text-decoration: none;" [routerLink]="['/reportes',idQr]">
-                <i class="fa fa-files-o pr-1"></i>Reportes
-            </a>
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-12 col-12" style="margin: 0px !important; padding: 0px !important;">
-            <hr class="hr-nival">
-        </div>
-    </div>
+          </td>
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          <td mat-cell *matCellDef="let element "> {{element[disCol]}}</td>
+        </ng-container>
+
+
+
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </mat-table>
+  </div>
 </div>
-<div class="container">
-    <div class="example-container mat-elevation-z2">
-        <mat-form-field appearance="standard" class="busqueda1" style="padding-top: 0px !important;">
-            <mat-label>Buscar</mat-label>
-            <input matInput autocomplete="off" (keyup)="applyFilter($event)" placeholder="Ejemplo 201720 o Pepito Perez"
-                #input>
-            <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda(input)">
-                <mat-icon matSuffix>backspace</mat-icon>
-            </a>
-        </mat-form-field>
-        <table mat-table [dataSource]="dataSource" #tabla1>
 
-            <!-- Numero de fila -->
-            <ng-container matColumnDef="fila">
-                <th mat-header-cell *matHeaderCellDef> N° </th>
-                <td mat-cell *matCellDef="let element ,let i = index;"> {{i+1}}
-                </td>
-            </ng-container>
-            <!-- Position Column -->
-            <ng-container matColumnDef="codigoUnico">
-                <th mat-header-cell *matHeaderCellDef> Codigo único </th>
-                <td mat-cell *matCellDef="let element"> {{element.codigoUnico}}
-                </td>
-            </ng-container>
-
-            <!-- image colunm -->
-            <ng-container matColumnDef="image" sticky>
-                <th mat-header-cell *matHeaderCellDef> Imagen </th>
-                <td class="px-1" mat-cell *matCellDef="let element, let i = index;">
-                    <a (click)='openPhoto(element.image)'>
-                        <img mat-card-image class="avatarNival" src={{element.image}} alt="noImage">
-                    </a>
-                </td>
-            </ng-container>
-
-
-            <!-- Name Column -->
-            <ng-container matColumnDef="nombre" sticky>
-                <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                <td class="px-1" mat-cell *matCellDef="let element, let l = index;">
-
-                    <a class="text-left">
-                        <p class=" rounded p-1 mt-2">
-                            {{element.nombre}}
-                        </p>
-                    </a>
-                </td>
-            </ng-container>
-
-            <!-- Weight Column -->
-            <ng-container matColumnDef="presente">
-                <th mat-header-cell *matHeaderCellDef> Presente </th>
-                <td class="px-1" mat-cell *matCellDef="let element, let p = index;">
-                    <mat-checkbox [checked]=element.presente [disabled]=element.presente
-                        (change)="showOptionsPresente($event, p)"></mat-checkbox>
-                </td>
-            </ng-container>
-
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="atraso">
-                <th mat-header-cell *matHeaderCellDef> Atraso </th>
-                <td class="px-1" mat-cell *matCellDef="let element, let a = index;">
-                    <mat-checkbox [checked]=element.atraso [disabled]=element.atraso
-                        (change)="showOptionsAtraso($event, a)"></mat-checkbox>
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="falta">
-                <th mat-header-cell *matHeaderCellDef> Falta </th>
-                <td class="px-1" mat-cell *matCellDef="let element, let f = index;">
-                    <mat-checkbox [checked]=element.falta [disabled]=element.falta
-                        (change)="showOptionsFalta($event, f)"></mat-checkbox>
-                </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-            <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="5">No se ha encontrado: "{{input.value}}"</td>
-            </tr>
-        </table>
-    </div>
-</div>
-<div class="container">
-    <div class="form-group">
-        <div class="row" class="text-center mt-3">
-            <a class="text-white bg-info rounded px-2 py-1 mr-2" (click)="almacenarNominaFinalizado()">
-                <i class="fas fa-file-excel pb-1 fa-nival fa-sm"></i>
-                Guardar
-            </a>
-        </div>
-    </div>
-</div>
 
 <!--div style="margin-top: 90px;">
 

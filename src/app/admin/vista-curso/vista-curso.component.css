@@ -1,6 +1,5 @@
 .example-container {
   max-height: 70vh;
-  overflow: auto;
 }
 
 
@@ -12,4 +11,12 @@ table {
 .mat-header-cell {
   text-align: center;
   padding: 5px;
+}
+
+mat-form-field {
+  margin-right: 12px;
+}
+
+.example-spacer {
+  float:right;
 }

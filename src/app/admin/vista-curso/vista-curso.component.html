@@ -1,35 +1,66 @@
-<div class="container mt-5 container-nival">
-    <div class="row mt-5">
-        <div class="col-sm-4 col-md-4 col-lg-4 col-4 mt-4 pt-1 pbn-1">
-            <h3 class="font-weight-normal">
-                <i class="fas fa-list pr-1 pb-1 fa-nival fa-sm"></i>Asistencia</h3>
-        </div>
-        <div class="col-sm-4 col-md-4 col-lg-4 col-4 mt-4 pt-1 pbn-1">
-            <a class="float-right btn-nival pt-1" style="text-decoration: none;" [routerLink]="['/codigo',codigoQr]"
-                target="_blank">
-                <i class="fa fa-qrcode pr-1"></i>Generar QR
-            </a>
-        </div>
-        <div class="col-sm-4 col-md-4 col-lg-4 col-4 mt-4 pt-1 pbn-1">
-            <a class="float-right btn-nival pt-1" style="text-decoration: none;" [routerLink]="['/reportes', dataId]">
-                <i class="fa fa-files-o pr-1"></i>Reportes
-            </a>
-        </div>
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand mt-4"></a>
+</nav>
+<div class="container container-nival mt-5">
+    <div class="row">
+        <section class="example-spacer" style="width: 100%;">
+            <div class="example-button-row">
+                <button mat-button>
+                    <mat-icon>
+                        format_list_bulleted
+                    </mat-icon>
+                    Asistencia
+                </button>
+                <button mat-button>
+                    <mat-icon>
+                        save
+                    </mat-icon>
+                    Guardar Asistencia
+                </button>
+                <button mat-button>
+                    <mat-icon>
+                        save
+                    </mat-icon>
+                    Guardar Asistencia
+                </button>
+                <button mat-button>
+                    <mat-icon>
+                        settings
+                    </mat-icon>
+                    Ver asistencia  Anterior
+                </button>
+
+                <button mat-button (click)='onQr()'>
+                    <mat-icon>
+                        qr_code_2
+                    </mat-icon>
+                    Generar QR
+                </button>
+
+                <button mat-button (click)='onReportes()'>
+                    <mat-icon>
+                        list_alt
+                    </mat-icon>
+                    Reportes
+                </button>                
+            </div>
+        </section>
         <div class="col-sm-12 col-md-12 col-lg-12 col-12" style="margin: 0px !important; padding: 0px !important;">
             <hr class="hr-nival">
         </div>
     </div>
 </div>
 <div class="container">
+    <mat-form-field appearance="standard" class="busqueda1" style="padding-top: 0px !important;">
+        <mat-label>Buscar</mat-label>
+        <input matInput autocomplete="off" (keyup)="applyFilter($event)" placeholder="Ejemplo 201720 o Pepito Perez"
+            #input>
+        <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda(input)">
+            <mat-icon matSuffix>backspace</mat-icon>
+        </a>
+    </mat-form-field>
+
     <div class="example-container mat-elevation-z2">
-        <mat-form-field appearance="standard" class="busqueda1" style="padding-top: 0px !important;">
-            <mat-label>Buscar</mat-label>
-            <input matInput autocomplete="off" (keyup)="applyFilter($event)" placeholder="Ejemplo 201720 o Pepito Perez"
-                #input>
-            <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda(input)">
-                <mat-icon matSuffix>backspace</mat-icon>
-            </a>
-        </mat-form-field>
         <table mat-table [dataSource]="dataSource" #tabla1>
 
             <!-- Numero de fila -->
@@ -47,7 +78,7 @@
             </ng-container>
 
             <!-- image colunm -->
-            <ng-container matColumnDef="image" sticky>
+            <ng-container matColumnDef="image">
                 <th mat-header-cell *matHeaderCellDef> Imagen </th>
                 <td class="px-1" mat-cell *matCellDef="let element, let i = index;">
                     <a (click)='openPhoto(element.image)'>
@@ -101,15 +132,5 @@
                 <td class="mat-cell" colspan="5">No se ha encontrado: "{{input.value}}"</td>
             </tr>
         </table>
-    </div>
-</div>
-<div class="container">
-    <div class="form-group">
-        <div class="row" class="text-center mt-3">
-            <a class="text-white bg-info rounded px-2 py-1 mr-2" (click)="almacenarNominaFinalizado()">
-                <i class="fas fa-file-excel pb-1 fa-nival fa-sm"></i>
-                Guardar
-            </a>
-        </div>
     </div>
 </div>

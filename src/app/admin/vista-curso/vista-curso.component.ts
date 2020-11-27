@@ -29,7 +29,7 @@ export class VistaCursoComponent implements OnInit {
   //array de la nomina de los estudiantes 
   public nominaVista: any[] = [];
   //dato que almacenara el id de la materia
-  public dataId: any;
+  public dataId: any='';
   //CODIGO NUEVO TABLA
   displayedColumns: string[] = ['fila', 'codigoUnico', 'image', 'nombre', 'presente', 'atraso', 'falta'];
   dataSource = new MatTableDataSource(this.nominaVista);
@@ -48,8 +48,9 @@ export class VistaCursoComponent implements OnInit {
   estado = 'presente';
   //estado control
   estadoControl: boolean = false;
-  idQr: any;
-
+   //variable para el qr
+   idQr:any;
+   NombreMateria:any='';
 
   constructor(
     private authService: AuthService,
@@ -60,9 +61,11 @@ export class VistaCursoComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataId = this._route.snapshot.paramMap.get('data');
+console.log(this.dataId)
     let splitted = this.dataId.split("//");
     this.idNomina = splitted[0];
     this.idMateria = splitted[1];
+    this.NombreMateria=splitted[2];
     // Función para obtener nómina
     this.obtenerNomina(this.idMateria, this.idNomina);
     // Función moment
@@ -104,9 +107,7 @@ export class VistaCursoComponent implements OnInit {
       this.EncriptarData(this.idQr);
       dataNomina.nomina.forEach((dataMateria: any) => {
         this.idQr = dataNomina.uidProfesor+'//'+dataNomina.uidMateria+'//'+dataNomina.uidCurso+'//'+data.payload.id;
-        console.log('tamaño array  asdnfjdsfn', this.idQr)
         let ultimoId = dataMateria.asistencia.length - 1;
-
         //console.log('ultimo index', ultimoId),
         //console.log('este es el estado anterior', estado)
         if (ultimoId === -1) {
@@ -301,6 +302,12 @@ export class VistaCursoComponent implements OnInit {
     } else {
       this.authService.showInfo('El estudiante no dispone de una imagen de perfil');
     }
+  }
+  onQr(){
+    this.router.navigate(['codigo', this.codigoQr])
+  }
+  onReportes(){
+    this.router.navigate(['reportes', this.dataId])
   }
 
 }
