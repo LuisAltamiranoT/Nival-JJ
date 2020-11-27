@@ -23,12 +23,18 @@ export class VistaReportesComponent implements OnInit {
 
   displayedColumns: string[] = [];
   //columnsToDisplay: string[] = this.displayedColumns.slice();
-
+//carga la inforamcion que se presentara en la vista
   ejemplo = [];
+  //la inforamcion que se va imprimir
   dataSource;
+
+//obtiene el id pasado desdde el otra ventana
   dataId;
+  //almacena el id de la nomina
   idNomina;
+  //almacena el id de la materia
   idMateria;
+//almacena la informacion  de la consulta
   dataNomina: any;
 
   constructor(
@@ -53,9 +59,9 @@ export class VistaReportesComponent implements OnInit {
     var obj = {};
     this.authService.getDataNominaCursoId(this.idMateria, this.idNomina).subscribe((data) => {
       const dataNomina: any = data.payload.data();
-      let filas=0;
+      let filas = 0;
       dataNomina.nomina.forEach((dataMateria: any) => {
-        filas=filas+1;
+        filas = filas + 1;
         let cont = 0;
         obj = {
           Numero: filas,
@@ -65,42 +71,33 @@ export class VistaReportesComponent implements OnInit {
         dataMateria.asistencia.forEach(element => {
           if (element.presente === true) {
             cont = cont + 1;
-            console.log(element)
-            obj[cont + ') ' + element.fecha+' '+element.dia] = 'Presente';
+            obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Presente';
           }
           if (element.atraso === true) {
             cont = cont + 1;
-            console.log(element)
-            obj[cont + ') ' + element.fecha+' '+element.dia] = 'Atraso';
+            obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Atraso';
           }
           if (element.falta === true) {
             cont = cont + 1;
-            console.log(element)
-            obj[cont + ') ' + element.fecha+' '+element.dia] = 'Falta';
+            obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Falta';
           }
         });
         this.ejemplo.push(obj);
         obj = {};
       });
-      //console.log(this.ejemplo);
-
       for (let v in this.ejemplo[0]) {
         this.displayedColumns.push(v);
       }
-      
-      //console.log(this.displayedColumns);
 
       this.dataSource = new MatTableDataSource(this.ejemplo);
+      console.log(this.ejemplo);
 
     });
-    //console.log(this.nominaVista);
-
-
   }
 
-  isSticky(colIndex:any) {
-    console.log(colIndex)
-    if(colIndex==='Numero'){
+  isSticky(colIndex: any) {
+    //console.log(colIndex)
+    if (colIndex === 'Numero') {
       return true;
     }
     return false;

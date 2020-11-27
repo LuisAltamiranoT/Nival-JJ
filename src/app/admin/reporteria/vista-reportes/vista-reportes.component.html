@@ -1,9 +1,22 @@
-<div style="margin-top: 120px;"></div>
-<div class="container-fluid">
-  <div class="example-container mat-elevation-z2">
-    <mat-table #table [dataSource]="dataSource">
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand mt-4"></a>
+</nav>
+<div class="container container-nival mt-4">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 pt-1">
+      <h3 class="font-weight-normal">
+        <i class="fas fa-list-ul pr-1 fa-nival fa-sm"></i>Reportes</h3>
+      <hr class="hr-nival">
+  </div>
+</div>
+<div class="container">
 
-      <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" [ngSwitch]="disCol" matColumnDef="{{disCol}}" [sticky]="isSticky(disCol)">
+
+  <div class="example-container mat-elevation-z2">
+    <table mat-table #table [dataSource]="dataSource">
+
+      <ng-container *ngFor="let disCol of displayedColumns; let colIndex = index" [ngSwitch]="disCol"
+        matColumnDef="{{disCol}}" [sticky]="isSticky(disCol)">
         <th mat-header-cell *matHeaderCellDef>{{disCol}}</th>
 
         <ng-container *ngSwitchCase="'Numero'">
@@ -30,9 +43,19 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </mat-table>
+    </table>
+
   </div>
 </div>
+
+
+
+
+
+
+
+
+
 
 
 <!--div style="margin-top: 90px;">

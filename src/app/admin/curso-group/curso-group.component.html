@@ -1,12 +1,16 @@
-<div class="container mt-5 container-nival">
-    <div class="row mt-5" *ngIf="!stateImage else reeplace">
-        <div class="col-sm-6 col-md-6 col-lg-6 col-6 mt-4 pt-1 pbn-1">
-            <h3 class="font-weight-normal"><i class="fas fa-chalkboard-teacher pr-1 pb-1 fa-nival fa-xs"></i>Mis Clases
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand mt-4"></a>
+</nav>
+<div class="container mt-4 container-nival">
+    <div class="row" *ngIf="!stateImage else reeplace">
+        
+        <div class="col-sm-6 col-md-6 col-lg-6 col-6 pt-1 pbn-1">
+            <h3 class="font-weight-normal"><i class="fas fa-chalkboard-teacher pr-1 fa-nival fa-sm"></i>Mis Clases
             </h3>
         </div>
-        <div class="col-sm-6 col-md-6 col-lg-6 col-6 mt-4 pt-1 pbn-1">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-6 pt-1 pbn-1">
             <a [routerLink]="['/curso']" class="float-right btn-nival pt-1">
-                <i class="far fa-plus-square pr-1"></i>Agregar Clase
+                <i class="far fa-plus-square pr-1 fa-nival fa-sm"></i>Agregar Clase
             </a>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-12 col-12" style="margin: 0px !important; padding: 0px !important;">
