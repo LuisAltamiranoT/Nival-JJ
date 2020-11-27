@@ -3,53 +3,40 @@
 </nav>
 <div class="container container-nival mt-4">
     <div class="row">
-        <section class="example-spacer" style="width: 100%;">
+        <section class="example-spacer" style="width: 100%; margin-left: 30px;">
             <div class="example-button-row">
                 <span class="with-icon">
-                    <mat-icon>
-                        format_list_bulleted
-                    </mat-icon>
+                    <mat-icon>format_list_bulleted</mat-icon>
                     Asistencia {{NombreMateria}}
                 </span>
                 <button mat-button (click)="almacenarNominaFinalizado()">
-                    <mat-icon>
-                        save
-                    </mat-icon>
+                    <mat-icon>save</mat-icon>
                     Guardar Asistencia
                 </button>
                 <button mat-button>
-                    <mat-icon>
-                        find_in_page
-                    </mat-icon>
+                    <mat-icon>find_in_page</mat-icon>
                     Ver Asistencia Anterior
                 </button>
                 <button mat-button>
-                    <mat-icon>
-                        settings
-                    </mat-icon>
+                    <mat-icon>settings</mat-icon>
                     Cambiar Atraso
                 </button>
-
                 <button mat-button (click)='onQr()'>
-                    <mat-icon>
-                        qr_code_2
-                    </mat-icon>
+                    <mat-icon>qr_code_2</mat-icon>
                     Generar QR
                 </button>
-
                 <button mat-button (click)='onReportes()'>
-                    <mat-icon>
-                        list_alt
-                    </mat-icon>
+                    <mat-icon>list_alt</mat-icon>
                     Reportes
                 </button>
             </div>
         </section>
-        <div class="col-sm-12 col-md-12 col-lg-12 col-12" style="margin: 0px !important; padding: 0px !important;">
+        <div class="col-sm-12 col-md-12 col-lg-12 pt-1">
             <hr class="hr-nival">
         </div>
     </div>
 </div>
+
 <div class="container">
     <mat-form-field appearance="standard" class="busqueda1" style="padding-top: 0px !important;">
         <mat-label>Buscar</mat-label>
