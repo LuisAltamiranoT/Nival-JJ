@@ -161,7 +161,8 @@ export class VistaReportesComponent implements OnInit {
       console.log('consulra ', dataNomina);
       console.log('datos de excel', objExcel, this.excel);
       /// IMPRESION DEL EXCEL ---UBICARLE DONDE DEBE SER JEJEJJEJEJEJEEJJEJEJEJJEJEJJEJEJEJJEJ
-      this.exportToExcel(this.excel)
+      //descomentar
+      //this.exportToExcel(this.excel)
     });
   }
 
