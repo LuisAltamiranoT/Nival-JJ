@@ -20,8 +20,6 @@ import { EliminarCursoComponent } from './eliminar-curso/eliminar-curso.componen
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
-// Libreria para encriptar y desencriptar //
-import * as CryptoJS from 'crypto-js'
 
 @Component({
   selector: 'app-perfil',
@@ -70,25 +68,8 @@ export class PerfilComponent implements OnInit {
     this.dataUser();
     this.materia();
 
-    //prueba de encriptacion
-    this.pruebaEncriptar();
   }
 
-  // Funcion para encriptar //
-  pruebaEncriptar() {
-    this.texto = 'Mi materia favorita';
-    this.clave = 'NivalAPP';
-    this.pass_prueba = 'Jenny';
-    this.textoencriptado = CryptoJS.AES.encrypt(this.texto.trim(), this.clave.trim()).toString();
-    this.textodesencriptado = CryptoJS.AES.decrypt(this.textoencriptado.trim(), this.clave.trim()).toString(CryptoJS.enc.Utf8);
-    this.textodesencriptado_mal = CryptoJS.AES.decrypt(this.textoencriptado.trim(), this.pass_prueba.trim()).toString(CryptoJS.enc.Utf8);
-    //this.textodesencriptado_mal = CryptoJS.AES.decrypt(this.textoencriptado, this.pass_prueba).toString(CryptoJS.enc.Utf8);
-    console.log('Texto ----> ', this.texto)
-    console.log('Encripatdo ----> ', this.textoencriptado)
-    console.log('Desencriptado_clave_verdadera ----> ', this.textodesencriptado)
-    console.log('Desencriptar_clave_falsa ----> ', this.textodesencriptado_mal)
-
-  }
 
   ngOnDestroy() {
     this.suscripcion1.unsubscribe();

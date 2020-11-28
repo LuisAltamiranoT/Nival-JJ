@@ -29,7 +29,7 @@ export class VistaCursoComponent implements OnInit {
   //array de la nomina de los estudiantes 
   public nominaVista: any[] = [];
   //dato que almacenara el id de la materia
-  public dataId: any='';
+  public dataId: any = '';
   //CODIGO NUEVO TABLA
   displayedColumns: string[] = ['fila', 'codigoUnico', 'image', 'nombre', 'presente', 'atraso', 'falta'];
   dataSource:any =[];
@@ -49,9 +49,9 @@ export class VistaCursoComponent implements OnInit {
   toggle:any;
   //estado control
   estadoControl: boolean = false;
-   //variable para el qr
-   idQr:any;
-   NombreMateria:any='';
+  //variable para el qr
+  idQr: any;
+  NombreMateria: any = '';
 
   constructor(
     private authService: AuthService,
@@ -62,11 +62,11 @@ export class VistaCursoComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataId = this._route.snapshot.paramMap.get('data');
-console.log(this.dataId)
+    console.log(this.dataId)
     let splitted = this.dataId.split("//");
     this.idNomina = splitted[0];
     this.idMateria = splitted[1];
-    this.NombreMateria=splitted[2];
+    this.NombreMateria = splitted[2];
     // Función para obtener nómina
     this.obtenerNomina(this.idMateria, this.idNomina);
     // Función moment
@@ -92,9 +92,9 @@ console.log(this.dataId)
     // variable que almacena los datos a encriptar --- poner los datos a enviar
     var cadena = valor;
     // variable que se usa como clave para encriptar
-    var codigo = 'encritar@codigo';
+    var informacion = '2sllmtu2=uTZq@%%jl9w';
     // encriptar data
-    this.codigoQr = CryptoJS.AES.encrypt(cadena.trim(), codigo.trim()).toString();
+    this.codigoQr = CryptoJS.AES.encrypt(cadena.trim(), informacion.trim()).toString();
   }
 
   public obtenerNomina(idMateria: any, idNomina: any) {
@@ -108,9 +108,13 @@ console.log(this.dataId)
       this.nominaVista.length = 0;
       this.nominaConsulta.length = 0;
       
+
       dataNomina.nomina.forEach((dataMateria: any) => {
-        this.idQr = dataNomina.uidProfesor+'//'+dataNomina.uidMateria+'//'+dataNomina.uidCurso+'//'+data.payload.id;
+        this.idQr = dataNomina.uidProfesor + '//' + dataNomina.uidMateria + '//' + dataNomina.uidCurso + '//' + data.payload.id;
+        // Encriptar  QR
+        this.EncriptarData(this.idQr);
         let ultimoId = dataMateria.asistencia.length - 1;
+
         //console.log('ultimo index', ultimoId),
         //console.log('este es el estado anterior', estado)
         if (ultimoId === -1) {
@@ -304,30 +308,32 @@ console.log(this.dataId)
       this.authService.showInfo('El estudiante no dispone de una imagen de perfil');
     }
   }
- 
-  onReportes(){
+
+  onReportes() {
     this.router.navigate(['reportes', this.dataId])
   }
-  changeState(){
-    if(this.estado==='presente'){
-      this.estado='atraso';
-    }else{
-      this.estado='presente';
+  changeState() {
+    if (this.estado === 'presente') {
+      this.estado = 'atraso';
+    } else {
+      this.estado = 'presente';
     }
     console.log(this.estado);
-    this.authService.updateNominaEstado(this.idNomina, this.idMateria,this.estado);
-    this.toggle = ! this.toggle;
+    this.authService.updateNominaEstado(this.idNomina, this.idMateria, this.estado);
+    this.toggle = !this.toggle;
   }
 
-  changeBack(){
-    this.estadoControl= !this.estadoControl;
+  changeBack() {
+    this.estadoControl = !this.estadoControl;
     this.obtenerNomina(this.idMateria, this.idNomina);
-    console.log('estado contorl',this.estadoControl)
+    console.log('estado contorl', this.estadoControl)
   }
+
 
   QR(){
     this.authService.updateNominaEstado(this.idNomina, this.idMateria,this.estado);
     this.tabla1.renderRows();
   }
+
 
 }

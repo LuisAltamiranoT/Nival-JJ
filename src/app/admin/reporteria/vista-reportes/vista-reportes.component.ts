@@ -8,16 +8,12 @@ import { ViewImageComponent } from '../../curso-group/view-image/view-image.comp
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 moment.locale('es');
-
+// Librería para generar reportes en formato EXCEL
+import * as xlsx from 'xlsx';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-
-
-
 
 @Component({
   selector: 'app-vista-reportes',
@@ -158,6 +154,10 @@ export class VistaReportesComponent implements OnInit {
       console.log(this.excel);
 
       console.log('consulra ', dataNomina);
+      console.log('datos de excel', objExcel, this.excel);
+      /// IMPRESION DEL EXCEL ---UBICARLE DONDE DEBE SER JEJEJJEJEJEJEEJJEJEJEJJEJEJJEJEJEJJEJ
+      //descomentar
+      //this.exportToExcel(this.excel)
     });
   }
 
@@ -393,6 +393,25 @@ export class VistaReportesComponent implements OnInit {
         })
       }
     }
+  }
+
+  exportToExcel(datos) {
+    datos.forEach(obj => {
+      if (obj === 0) {
+        obj = 'Presente';
+      }
+      console.log('verificar', obj)
+    });
+    const wse: xlsx.WorkSheet = xlsx.utils.json_to_sheet(datos);
+    const headerE = Object.keys(datos[0]); // columns name
+    var wscolsE = [];
+    for (var i = 0; i < headerE.length; i++) {  // columns length added
+      wscolsE.push({ wpx: 75 })
+    }
+    wse["!cols"] = wscolsE;
+    const wb: xlsx.WorkBook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, wse, 'excel');
+    xlsx.writeFile(wb, "excel" + '.xlsx');
   }
 
 }
