@@ -307,6 +307,7 @@ console.log(this.dataId)
   }
   onQr(){
     this.router.navigate(['codigo', this.codigoQr])
+
   }
   onReportes(){
     this.router.navigate(['reportes', this.dataId])
