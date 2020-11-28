@@ -92,9 +92,9 @@ export class VistaCursoComponent implements OnInit {
     // variable que almacena los datos a encriptar --- poner los datos a enviar
     var cadena = valor;
     // variable que se usa como clave para encriptar
-    var codigo = 'encritar@codigo';
+    var informacion = '2sllmtu2=uTZq@%%jl9w';
     // encriptar data
-    this.codigoQr = CryptoJS.AES.encrypt(cadena.trim(), codigo.trim()).toString();
+    this.codigoQr = CryptoJS.AES.encrypt(cadena.trim(), informacion.trim()).toString();
   }
 
   public obtenerNomina(idMateria: any, idNomina: any) {
