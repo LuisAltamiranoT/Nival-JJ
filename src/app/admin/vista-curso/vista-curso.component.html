@@ -11,39 +11,38 @@
                     </mat-icon>
                     Asistencia {{NombreMateria}}
                 </span>
-                <button mat-button (click)="almacenarNominaFinalizado()">
+                <a mat-button (click)="almacenarNominaFinalizado()">
                     <mat-icon>
                         save
                     </mat-icon>
                     Guardar Asistencia
-                </button>
-                <button mat-button (click)="changeBack()">
+                </a>
+                <a mat-button (click)="changeBack()">
                     <mat-icon>
                         find_in_page
                     </mat-icon>
                     Ver Asistencia {{!estadoControl ? 'Anterior' : 'Actual'}}
-                </button>
+                </a>
 
-                <button mat-button (click)="changeState()">
+                <a mat-button (click)="changeState()">
                     <mat-icon>
                         settings
                     </mat-icon>
-                    Cambiar {{!toggle ? 'Presente' : 'Atraso'}}
-                </button>
+                    Cambiar {{!toggle ? 'Atraso' : 'Presente'}}
+                </a>
 
-                <button mat-button (click)='onQr()'>
-                    <mat-icon>
-                        qr_code_2
-                    </mat-icon>
-                    Generar QR
-                </button>
-
-                <button mat-button (click)='onReportes()'>
+                <a mat-button (click)='onReportes()'>
                     <mat-icon>
                         list_alt
                     </mat-icon>
                     Reportes
-                </button>
+                </a>
+                <a mat-button (click)="QR()" [routerLink]="['/codigo',codigoQr]" target="_blank">
+                    <mat-icon>
+                        qr_code_2
+                    </mat-icon>
+                    Generar QR
+                </a>
             </div>
         </section>
         <div class="col-sm-12 col-md-12 col-lg-12 pt-1">

@@ -19,7 +19,7 @@ import { ReporteIndividualComponent } from './admin/reporteria/reporte-individua
 
 const routes: Routes = [
   {
-    path: '',
+    path:' ',
     redirectTo: '/home',
     pathMatch: 'full'
   },
