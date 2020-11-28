@@ -28,7 +28,7 @@
                     <mat-icon>
                         settings
                     </mat-icon>
-                    Cambiar {{!toggle ? 'Presente' : 'Atraso'}}
+                    Cambiar {{!toggle ? 'Atraso' : 'Presente'}}
                 </a>
 
                 <a mat-button (click)='onReportes()'>
@@ -37,7 +37,7 @@
                     </mat-icon>
                     Reportes
                 </a>
-                <a mat-button [routerLink]="['/codigo',codigoQr]" target="_blank">
+                <a mat-button (click)="QR()" [routerLink]="['/codigo',codigoQr]" target="_blank">
                     <mat-icon>
                         qr_code_2
                     </mat-icon>

@@ -46,7 +46,7 @@ export class VistaCursoComponent implements OnInit {
   hora: any;
   //estado para agregar
   estado = 'presente';
-  toggle:any;
+  toggle:boolean=false;
   //estado control
   estadoControl: boolean = false;
    //variable para el qr
@@ -227,26 +227,17 @@ console.log(this.dataId)
   }
 
   agregarArrayReemplazar(indexArray, presente, atraso, falta, ultimoId, estado) {
-    this.nominaConsulta[indexArray].asistencia[ultimoId] = {
-      fecha: this.fechaActual,
-      dia: this.nombreDay,
-      presente: presente,
-      atraso: atraso,
-      falta: falta,
-      estado: estado,
-    }
+    
+    this.nominaConsulta[indexArray].asistencia[ultimoId].presente=presente
+    this.nominaConsulta[indexArray].asistencia[ultimoId].falta=falta,
+    this.nominaConsulta[indexArray].asistencia[ultimoId].estado=estado,
     console.log(this.nominaConsulta);
   }
 
 
-  almacenarDatos() {
-    //idNomina, idMateria, array, fechaHora, estado
-    let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, this.estado);
-  }
 
   almacenarNominaFinalizado() {
     let cont = -1;
-    this.estado = 'presente';
     this.nominaConsulta.forEach(elementCurso => {
       cont = cont + 1;
       console.log('se imprime', elementCurso.asistencia.length);
@@ -282,7 +273,11 @@ console.log(this.dataId)
   }
 
   async agregarArrayFinalizado() {
-    let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, this.estado);
+    this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, 'finalizado');
+    this.estadoControl=false;
+    this.toggle=false;
+    this.estado='presente';
+    this.tabla1.renderRows();
     this.obtenerNomina(this.idMateria, this.idNomina);
   }
 
@@ -326,6 +321,9 @@ console.log(this.dataId)
     console.log('estado contorl',this.estadoControl)
   }
 
+  QR(){
+    this.authService.updateNominaEstado(this.idNomina, this.idMateria,'presente');
+  }
   
 
 }

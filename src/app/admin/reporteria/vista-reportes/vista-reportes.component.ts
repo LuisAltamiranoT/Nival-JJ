@@ -88,6 +88,9 @@ export class VistaReportesComponent implements OnInit {
     this.suscripcion1 = this.authService.getDataNominaCursoId(this.idMateria, this.idNomina).subscribe((data) => {
       const dataNomina: any = data.payload.data();
       let filas = 0;
+      this.ejemplo.length = 0;
+      this.excel.length = 0;
+      this.displayedColumns.length = 0;
 
       //contiene la primera fecha que se tomo la lista asi que es el inicio 
       this.fechaInicioNomina = dataNomina.nomina[0].asistencia[0].fecha;
@@ -177,7 +180,7 @@ export class VistaReportesComponent implements OnInit {
       const dataNomina: any = data.payload.data();
       let filas = 0;
       dataNomina.nomina.forEach((dataMateria: any) => {
-        console.log(dataMateria.uidUser);
+        //obtiene la inforamcion a presentar
 
         filas = filas + 1;
         let cont = 0;
@@ -194,10 +197,14 @@ export class VistaReportesComponent implements OnInit {
           CodigoUnico: dataMateria.codigoUnico,
           uidUser: dataMateria.uidUser
         }
-
-
         dataMateria.asistencia.forEach(element => {
 
+          var formato_fecha = element.fecha.split('-')[2] + '-' + element.fecha.split('-')[1] + '-' + element.fecha.split('-')[0] + 'T00:00:00';
+          let newDate = moment(formato_fecha)
+          //console.log('fecha', element.fecha);
+          //console.log('parse',Date.parse(String(moment(newDate).format("YYYY-MM-DD"))))
+
+      
 
           if (element.presente === true) {
             cont = cont + 1;
@@ -214,11 +221,7 @@ export class VistaReportesComponent implements OnInit {
             obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Falta';
             objExcel[cont + ') ' + element.fecha] = 0;
           }
-          var formato_fecha = element.fecha.split('-')[2] + '-' + element.fecha.split('-')[1] + '-' + element.fecha.split('-')[0] + 'T00:00:00'
-          //  let newDate = new Date(formato_fecha);
-          let newDate = moment(formato_fecha)
-          console.log('fecha', element.fecha);
-          console.log('parse',Date.parse(String(moment(newDate).format("YYYY-MM-DD"))))
+          
 
 
 
