@@ -32,7 +32,7 @@ export class VistaCursoComponent implements OnInit {
   public dataId: any = '';
   //CODIGO NUEVO TABLA
   displayedColumns: string[] = ['fila', 'codigoUnico', 'image', 'nombre', 'presente', 'atraso', 'falta'];
-  dataSource = new MatTableDataSource(this.nominaVista);
+  dataSource:any =[];
   //array original de nomina de estudiante
   private nominaConsulta: any = [];
   //manejar las suscripciones
@@ -46,7 +46,7 @@ export class VistaCursoComponent implements OnInit {
   hora: any;
   //estado para agregar
   estado = 'presente';
-  toggle: boolean = false;
+  toggle:any;
   //estado control
   estadoControl: boolean = false;
   //variable para el qr
@@ -99,10 +99,12 @@ export class VistaCursoComponent implements OnInit {
 
   public obtenerNomina(idMateria: any, idNomina: any) {
     this.suscripcion1 = this.authService.getDataNominaCursoId(idMateria, idNomina).subscribe((data) => {
-      this.nominaVista.length = 0;
-      this.nominaConsulta.length = 0;
 
       const dataNomina: any = data.payload.data();
+
+      this.nominaVista.length = 0;
+      this.nominaConsulta.length = 0;
+      
 
       dataNomina.nomina.forEach((dataMateria: any) => {
         this.idQr = dataNomina.uidProfesor + '//' + dataNomina.uidMateria + '//' + dataNomina.uidCurso + '//' + data.payload.id;
@@ -160,6 +162,7 @@ export class VistaCursoComponent implements OnInit {
           asistencia: dataMateria.asistencia
         })
       });
+      this.dataSource = new MatTableDataSource(this.nominaVista);
       this.tabla1.renderRows();
     });
     //console.log(this.nominaVista);
@@ -228,17 +231,18 @@ export class VistaCursoComponent implements OnInit {
   }
 
   agregarArrayReemplazar(indexArray, presente, atraso, falta, ultimoId, estado) {
-
-    this.nominaConsulta[indexArray].asistencia[ultimoId].presente = presente
-    this.nominaConsulta[indexArray].asistencia[ultimoId].falta = falta,
-      this.nominaConsulta[indexArray].asistencia[ultimoId].estado = estado,
-      console.log(this.nominaConsulta);
+    this.nominaConsulta[indexArray].asistencia[ultimoId].presente= presente
+    this.nominaConsulta[indexArray].asistencia[ultimoId].atraso= atraso
+    this.nominaConsulta[indexArray].asistencia[ultimoId].falta= falta
+    this.nominaConsulta[indexArray].asistencia[ultimoId].estado= estado
+    console.log(this.nominaConsulta);
   }
 
 
 
   almacenarNominaFinalizado() {
     let cont = -1;
+    this.estado = 'presente';
     this.nominaConsulta.forEach(elementCurso => {
       cont = cont + 1;
       console.log('se imprime', elementCurso.asistencia.length);
@@ -275,11 +279,9 @@ export class VistaCursoComponent implements OnInit {
 
   async agregarArrayFinalizado() {
     this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, 'finalizado');
-    this.estadoControl = false;
-    this.toggle = false;
-    this.estado = 'presente';
-    this.tabla1.renderRows();
-    this.obtenerNomina(this.idMateria, this.idNomina);
+    this.estado='presente';
+    this.estadoControl=false;
+    this.toggle=false;
   }
 
   applyFilter(event: Event) {
@@ -322,8 +324,9 @@ export class VistaCursoComponent implements OnInit {
     console.log('estado contorl', this.estadoControl)
   }
 
-  QR() {
-    this.authService.updateNominaEstado(this.idNomina, this.idMateria, 'presente');
+
+  QR(){
+    this.authService.updateNominaEstado(this.idNomina, this.idMateria,this.estado);
   }
 
 
