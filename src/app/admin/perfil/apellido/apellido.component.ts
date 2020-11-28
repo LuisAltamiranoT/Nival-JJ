@@ -114,7 +114,7 @@ export class ApellidoComponent implements OnInit {
       }
     }
     if (letras.indexOf(tecla) == -1 && !tecla_especial) {
-      this.authService.showInfo('No se admite el ingreso de números');
+      this.authService.showInfo('No se admite el ingreso de números.');
       return false;
     }
   }

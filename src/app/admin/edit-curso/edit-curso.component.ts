@@ -246,7 +246,7 @@ export class EditCursoComponent implements OnInit {
         { data: image }).afterClosed().subscribe(item => {
         });
     } else {
-      this.authService.showInfo('El estudiante no dispone de una imagen de perfil');
+      this.authService.showInfo('El estudiante no dispone de una imagen de perfil.');
     }
   }
 

@@ -79,9 +79,6 @@ console.log(this.dataId)
     this.nombreDay = moment.weekdays(day).charAt(0).toUpperCase() + moment.weekdays(day).slice(1)
     // Obtiene la hora del sistema
     this.hora = moment().format('HH:mm:ss');
-    
-    // Encriptar  QR
-    this.EncriptarData();
   }
 
   ngOnDestroy() {
@@ -91,9 +88,9 @@ console.log(this.dataId)
   /** ************************************************** */
   /**      ENCRIPTACION DE CADENA DE CÓDIGO QR           */
   /** ************************************************** */
-  EncriptarData() {
+  EncriptarData(valor) {
     // variable que almacena los datos a encriptar --- poner los datos a enviar
-    var cadena = 'kajshdkjahsdkjhaskdhugdyueggdvshfvdgvfsdvfhdvsf';
+    var cadena = valor;
     // variable que se usa como clave para encriptar
     var codigo = 'encritar@codigo';
     // encriptar data
@@ -106,9 +103,11 @@ console.log(this.dataId)
       this.nominaConsulta.length = 0;
 
       const dataNomina: any = data.payload.data();
+      this.idQr = dataNomina.uidProfesor + '//' + dataNomina.uidMateria + '//' + dataNomina.uidCurso;
+      // Encriptar  QR
+      this.EncriptarData(this.idQr);
       dataNomina.nomina.forEach((dataMateria: any) => {
         this.idQr = dataNomina.uidProfesor+'//'+dataNomina.uidMateria+'//'+dataNomina.uidCurso+'//'+data.payload.id;
-        //console.log('tamaño array', this.idQr,data.payload.id)
         let ultimoId = dataMateria.asistencia.length - 1;
         //console.log('ultimo index', ultimoId),
         //console.log('este es el estado anterior', estado)
@@ -242,7 +241,7 @@ console.log(this.dataId)
 
   almacenarDatos() {
     //idNomina, idMateria, array, fechaHora, estado
-      let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, this.estado);
+    let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, this.estado);
   }
 
   almacenarNominaFinalizado() {
@@ -328,5 +327,7 @@ console.log(this.dataId)
     this.obtenerNomina(this.idMateria, this.idNomina);
     console.log('estado contorl',this.estadoControl)
   }
+
+  
 
 }
