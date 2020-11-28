@@ -8,7 +8,8 @@ import { ViewImageComponent } from '../../curso-group/view-image/view-image.comp
 import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 moment.locale('es');
-
+// Librería para generar reportes en formato EXCEL
+import * as xlsx from 'xlsx';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -215,6 +216,9 @@ export class VistaReportesComponent implements OnInit {
             obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Falta';
             objExcel[cont + ') ' + element.fecha] = 0;
           }
+         
+         
+         
           var formato_fecha = element.fecha.split('-')[2] + '-' + element.fecha.split('-')[1] + '-' + element.fecha.split('-')[0] + 'T00:00:00'
           //  let newDate = new Date(formato_fecha);
           let newDate = moment(formato_fecha)
@@ -227,9 +231,12 @@ export class VistaReportesComponent implements OnInit {
         });
         this.ejemplo.push(obj);
         this.excel.push(objExcel);
-        obj = {};
-        objExcel = {};
+
       });
+      console.log('datos de excel', objExcel, this.excel);
+      this.exportToExcel(this.excel)
+      obj = {};
+      objExcel = {};
 
       for (let v in this.ejemplo[0]) {
         this.displayedColumns.push(v);
@@ -324,6 +331,25 @@ export class VistaReportesComponent implements OnInit {
         })
       }
     }
+  }
+
+  exportToExcel(datos) {
+    datos.forEach(obj => {
+      if (obj === 0) {
+        obj = 'Presente';
+      }
+      console.log('verificar', obj)
+    });
+    const wse: xlsx.WorkSheet = xlsx.utils.json_to_sheet(datos);
+    const headerE = Object.keys(datos[0]); // columns name
+    var wscolsE = [];
+    for (var i = 0; i < headerE.length; i++) {  // columns length added
+      wscolsE.push({ wpx: 75 })
+    }
+    wse["!cols"] = wscolsE;
+    const wb: xlsx.WorkBook = xlsx.utils.book_new();
+    xlsx.utils.book_append_sheet(wb, wse, 'excel');
+    xlsx.writeFile(wb, "excel" + '.xlsx');
   }
 
 }
