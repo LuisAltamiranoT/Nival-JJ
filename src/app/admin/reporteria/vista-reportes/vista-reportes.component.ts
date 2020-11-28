@@ -25,6 +25,9 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./vista-reportes.component.css']
 })
 export class VistaReportesComponent implements OnInit {
+  //fecha
+  date = new FormControl(new Date());
+  serializedDate = new FormControl((new Date()).toISOString());
 
   //control de suscripciones
   private suscripcion1: Subscription;
@@ -41,7 +44,6 @@ export class VistaReportesComponent implements OnInit {
   @ViewChild(MatTable) tabla1: MatTable<any>;
 
   displayedColumns: string[] = [];
-  //columnsToDisplay: string[] = this.displayedColumns.slice();
   //carga la inforamcion que se presentara en la vista
   ejemplo = [];
   //cargar la infromacion para el excel
@@ -219,8 +221,7 @@ export class VistaReportesComponent implements OnInit {
           //  let newDate = new Date(formato_fecha);
           let newDate = moment(formato_fecha)
           console.log('fecha', element.fecha);
-          console.log('parse',
-            Date.parse(String(moment(newDate).format("YYYY-MM-DD"))))
+          console.log('parse',Date.parse(String(moment(newDate).format("YYYY-MM-DD"))))
 
 
 
@@ -303,6 +304,7 @@ export class VistaReportesComponent implements OnInit {
 
   fecha_fin: any;
   fecha_inicio: any;
+
   validarFecha(event, form) {
     var f = moment();
     var fechaActual = f.format('YYYY-MM-DD');
