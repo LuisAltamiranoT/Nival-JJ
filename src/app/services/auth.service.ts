@@ -500,7 +500,6 @@ export class AuthService extends RoleValidator {
   public async updateNomina(idNomina: any, idMateria: any, array: any, estado: any): Promise<void> {
     try {
       let data = {
-
         estado: estado,
         nomina: array
       }
@@ -511,6 +510,21 @@ export class AuthService extends RoleValidator {
       this.showError(error);
     }
   }
+
+   //actualizar estado actual
+   public async updateNominaEstado(idNomina: any, idMateria: any,estado: any): Promise<void> {
+    try {
+      let data = {
+        estado: estado
+      }
+      let db = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).set(data, { merge: true });
+      this.showUpdatedata();
+      return db;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
 
    //actualizar estudiante
    public async updateNominaEstudiante(idNomina: any, idMateria: any, array: any): Promise<void>{

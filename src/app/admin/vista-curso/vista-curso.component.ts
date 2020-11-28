@@ -222,7 +222,7 @@ console.log(this.dataId)
       this.agregarArray(indexArray, presente, atraso, falta, true);
 
     } else {
-      this.agregarArrayReemplazar(indexArray, presente, atraso, falta, tamañoArrayAsistencia, true);
+      this.agregarArrayReemplazar(indexArray, presente, atraso, falta, tamañoArrayAsistencia, false);
     }
 
   }
@@ -284,6 +284,7 @@ console.log(this.dataId)
 
   async agregarArrayFinalizado() {
     let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, this.estado);
+    this.obtenerNomina(this.idMateria, this.idNomina);
   }
 
   applyFilter(event: Event) {
@@ -318,6 +319,7 @@ console.log(this.dataId)
       this.estado='presente';
     }
     console.log(this.estado);
+    this.authService.updateNominaEstado(this.idNomina, this.idMateria,this.estado);
     this.toggle = ! this.toggle;
   }
 
