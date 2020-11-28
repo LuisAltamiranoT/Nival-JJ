@@ -29,7 +29,7 @@ export class VistaCursoComponent implements OnInit {
   //array de la nomina de los estudiantes 
   public nominaVista: any[] = [];
   //dato que almacenara el id de la materia
-  public dataId: any='';
+  public dataId: any = '';
   //CODIGO NUEVO TABLA
   displayedColumns: string[] = ['fila', 'codigoUnico', 'image', 'nombre', 'presente', 'atraso', 'falta'];
   dataSource = new MatTableDataSource(this.nominaVista);
@@ -46,12 +46,12 @@ export class VistaCursoComponent implements OnInit {
   hora: any;
   //estado para agregar
   estado = 'presente';
-  toggle:boolean=false;
+  toggle: boolean = false;
   //estado control
   estadoControl: boolean = false;
-   //variable para el qr
-   idQr:any;
-   NombreMateria:any='';
+  //variable para el qr
+  idQr: any;
+  NombreMateria: any = '';
 
   constructor(
     private authService: AuthService,
@@ -62,11 +62,11 @@ export class VistaCursoComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataId = this._route.snapshot.paramMap.get('data');
-console.log(this.dataId)
+    console.log(this.dataId)
     let splitted = this.dataId.split("//");
     this.idNomina = splitted[0];
     this.idMateria = splitted[1];
-    this.NombreMateria=splitted[2];
+    this.NombreMateria = splitted[2];
     // Función para obtener nómina
     this.obtenerNomina(this.idMateria, this.idNomina);
     // Función moment
@@ -103,12 +103,13 @@ console.log(this.dataId)
       this.nominaConsulta.length = 0;
 
       const dataNomina: any = data.payload.data();
-      this.idQr = dataNomina.uidProfesor + '//' + dataNomina.uidMateria + '//' + dataNomina.uidCurso;
-      // Encriptar  QR
-      this.EncriptarData(this.idQr);
+
       dataNomina.nomina.forEach((dataMateria: any) => {
-        this.idQr = dataNomina.uidProfesor+'//'+dataNomina.uidMateria+'//'+dataNomina.uidCurso+'//'+data.payload.id;
+        this.idQr = dataNomina.uidProfesor + '//' + dataNomina.uidMateria + '//' + dataNomina.uidCurso + '//' + data.payload.id;
+        // Encriptar  QR
+        this.EncriptarData(this.idQr);
         let ultimoId = dataMateria.asistencia.length - 1;
+
         //console.log('ultimo index', ultimoId),
         //console.log('este es el estado anterior', estado)
         if (ultimoId === -1) {
@@ -227,11 +228,11 @@ console.log(this.dataId)
   }
 
   agregarArrayReemplazar(indexArray, presente, atraso, falta, ultimoId, estado) {
-    
-    this.nominaConsulta[indexArray].asistencia[ultimoId].presente=presente
-    this.nominaConsulta[indexArray].asistencia[ultimoId].falta=falta,
-    this.nominaConsulta[indexArray].asistencia[ultimoId].estado=estado,
-    console.log(this.nominaConsulta);
+
+    this.nominaConsulta[indexArray].asistencia[ultimoId].presente = presente
+    this.nominaConsulta[indexArray].asistencia[ultimoId].falta = falta,
+      this.nominaConsulta[indexArray].asistencia[ultimoId].estado = estado,
+      console.log(this.nominaConsulta);
   }
 
 
@@ -274,9 +275,9 @@ console.log(this.dataId)
 
   async agregarArrayFinalizado() {
     this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, 'finalizado');
-    this.estadoControl=false;
-    this.toggle=false;
-    this.estado='presente';
+    this.estadoControl = false;
+    this.toggle = false;
+    this.estado = 'presente';
     this.tabla1.renderRows();
     this.obtenerNomina(this.idMateria, this.idNomina);
   }
@@ -301,29 +302,29 @@ console.log(this.dataId)
     }
   }
 
-  onReportes(){
+  onReportes() {
     this.router.navigate(['reportes', this.dataId])
   }
-  changeState(){
-    if(this.estado==='presente'){
-      this.estado='atraso';
-    }else{
-      this.estado='presente';
+  changeState() {
+    if (this.estado === 'presente') {
+      this.estado = 'atraso';
+    } else {
+      this.estado = 'presente';
     }
     console.log(this.estado);
-    this.authService.updateNominaEstado(this.idNomina, this.idMateria,this.estado);
-    this.toggle = ! this.toggle;
+    this.authService.updateNominaEstado(this.idNomina, this.idMateria, this.estado);
+    this.toggle = !this.toggle;
   }
 
-  changeBack(){
-    this.estadoControl= !this.estadoControl;
+  changeBack() {
+    this.estadoControl = !this.estadoControl;
     this.obtenerNomina(this.idMateria, this.idNomina);
-    console.log('estado contorl',this.estadoControl)
+    console.log('estado contorl', this.estadoControl)
   }
 
-  QR(){
-    this.authService.updateNominaEstado(this.idNomina, this.idMateria,'presente');
+  QR() {
+    this.authService.updateNominaEstado(this.idNomina, this.idMateria, 'presente');
   }
-  
+
 
 }
