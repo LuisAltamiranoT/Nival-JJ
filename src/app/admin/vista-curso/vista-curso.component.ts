@@ -308,6 +308,8 @@ console.log(this.dataId)
   onQr(){
     this.router.navigate(['codigo', this.codigoQr])
 
+    //this.router.navigate([]).then(result => {  window.open('codigo/' + this.codigoQr, '_blank'); });
+
   }
   onReportes(){
     this.router.navigate(['reportes', this.dataId])
