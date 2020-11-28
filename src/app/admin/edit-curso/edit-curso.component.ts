@@ -31,7 +31,7 @@ import { ViewImageComponent } from '../curso-group/view-image/view-image.compone
 })
 export class EditCursoComponent implements OnInit {
   //manejor de tablas 
-  @ViewChild(MatTable) tabla1: MatTable<Nomina>;
+  @ViewChild(MatTable) tabla1: MatTable<any>;
   //array de la nomina de los estudiantes 
   public nominaVista = [];
   //contiene el nombre de la materia
@@ -41,7 +41,7 @@ export class EditCursoComponent implements OnInit {
   //dato que almacenara el id de la materia
   public dataId: any;
   //almacenar nomina del estudiante
-  public idIndexCurso:any;
+  public idIndexCurso: any;
 
 
   public dataNominaCurso: any;
@@ -50,9 +50,9 @@ export class EditCursoComponent implements OnInit {
   //almacena la imagen del curso
   photoSelected = '';
 
-  idNomina:any;
-  idMateria:any;
-  idCurso:any;
+  idNomina: any;
+  idMateria: any;
+  idCurso: any;
 
 
   private suscripcion1: Subscription;
@@ -79,7 +79,7 @@ export class EditCursoComponent implements OnInit {
     this.idMateria = splitted[1];
     this.idCurso = splitted[2];
     this.getMateria(this.idMateria);
-    this.getNominaCurso(this.idMateria,this.idNomina);
+    this.getNominaCurso(this.idMateria, this.idNomina);
   }
 
   ngOnDestroy() {
@@ -88,28 +88,28 @@ export class EditCursoComponent implements OnInit {
   }
 
   //CODIGO NUEVO TABLA
-  displayedColumns2:string[] = ['fila', 'codigoUnico','image','correo','nombre', 'opciones'];
-  dataSource2 = new MatTableDataSource(this.nominaVista);
+  displayedColumns2: string[] = ['fila', 'codigoUnico', 'image', 'correo', 'nombre', 'opciones'];
+  dataSource2:any=[];
 
 
   getMateria(idMateria: any) {
     this.suscripcion2 = this.authService.getMateriaId(idMateria).subscribe((data) => {
       //dataMateria variable para actualizacion de datos
       this.dataMateria = [data.payload.data()];
-      let cont =-1;
+      let cont = -1;
       this.nombreMateria = this.dataMateria[0].nombre;
-      console.log('data materia',this.dataMateria);
+      console.log('data materia', this.dataMateria);
       this.dataMateria.forEach(elementCursos => {
         console.log(elementCursos);
         elementCursos.cursos.forEach(element => {
-          cont = cont+1;
+          cont = cont + 1;
           console.log(element, cont)
-          if(this.idCurso == element.id){
-            this.idIndexCurso=cont;
-            this.placeholderAula=element.aula,
-            this.photoSelected=element.image
+          if (this.idCurso == element.id) {
+            this.idIndexCurso = cont;
+            this.placeholderAula = element.aula,
+              this.photoSelected = element.image
           }
-          console.log( this.photoSelected,'asdnjas' , element.image);
+          console.log(this.photoSelected, 'asdnjas', element.image);
         });
       });
     })
@@ -123,90 +123,91 @@ export class EditCursoComponent implements OnInit {
       const dataNomina: any = data.payload.data();
       //'codigoUnico','image','correo','nombre'
       dataNomina.nomina.forEach((dataMateria: any) => {
-          this.nominaVista.push({
-            nombre: dataMateria.nombre,
-            codigoUnico: dataMateria.codigoUnico,
-            correo: dataMateria.correo,
-            image: dataMateria.image,
-            uidUser:dataMateria.uidUser,
-            asistencia:dataMateria.asistencia
-          })
+        this.nominaVista.push({
+          nombre: dataMateria.nombre,
+          codigoUnico: dataMateria.codigoUnico,
+          correo: dataMateria.correo,
+          image: dataMateria.image,
+          uidUser: dataMateria.uidUser,
+          asistencia: dataMateria.asistencia
+        })
       });
+      this.dataSource2 = new MatTableDataSource(this.nominaVista);
       this.tabla1.renderRows();
     });
     console.log(this.nominaVista);
   }
 
-  openDeleteEstudianteModal(nombre:any,posicion:any) {
-    let data={
-      idMateria:this.idMateria,
-      idNomina:this.idNomina,
-      nombre:nombre,
-      array:this.nominaVista[posicion]
+  openDeleteEstudianteModal(nombre: any, posicion: any) {
+    let data = {
+      idMateria: this.idMateria,
+      idNomina: this.idNomina,
+      nombre: nombre,
+      array: this.nominaVista[posicion]
     }
     this.openMaterial1(DeleteEstudianteComponent, data);
   }
 
 
-  openEditEstudianteModal(nombre:any,correo:any,codigoUnico:any,posicion:any) {
-    let data={
-      idMateria:this.idMateria,
-      idNomina:this.idNomina,
-      nombre:nombre,
-      numero:codigoUnico,
-      correo:correo,
-      posicion:posicion,
-      array:this.nominaVista,
+  openEditEstudianteModal(nombre: any, correo: any, codigoUnico: any, posicion: any) {
+    let data = {
+      idMateria: this.idMateria,
+      idNomina: this.idNomina,
+      nombre: nombre,
+      numero: codigoUnico,
+      correo: correo,
+      posicion: posicion,
+      array: this.nominaVista,
     }
     this.openMaterial1(EditEstudianteComponent, data);
   }
 
   openAddEstudianteModal() {
-    let data={
-      idMateria:this.idMateria,
-      idCurso:this.idNomina,
-      array:this.nominaVista
+    let data = {
+      idMateria: this.idMateria,
+      idCurso: this.idNomina,
+      array: this.nominaVista
     }
     this.openMaterial1(AddEstudianteComponent, data);
   }
 
   openEditAulaModal() {
-    let data={
-      idMateria:this.idMateria,
-      array:this.dataMateria,
-      index:this.idIndexCurso,
+    let data = {
+      idMateria: this.idMateria,
+      array: this.dataMateria,
+      index: this.idIndexCurso,
       nombreAula: this.placeholderAula
     }
     this.openMaterial1(EditAulaComponent, data);
   }
 
   openEditHorarioModal() {
-    let data={
-      materiaNombre:this.nombreMateria,
-      idMateria:this.idMateria,
+    let data = {
+      materiaNombre: this.nombreMateria,
+      idMateria: this.idMateria,
       arrayGuardado: this.dataMateria[0].cursos[this.idIndexCurso],
-      arrayCompleto:this.dataMateria,
+      arrayCompleto: this.dataMateria,
     }
     this.openMaterial2(EditHorarioComponent, data);
   }
 
   openPhoto() {
     if (this.photoSelected != " ") {
-      let data={
-        image:this.photoSelected,
-        idMateria:this.idMateria,
+      let data = {
+        image: this.photoSelected,
+        idMateria: this.idMateria,
         arrayGuardado: this.dataMateria[0].cursos[this.idIndexCurso],
-        arrayCompleto:this.dataMateria,
+        arrayCompleto: this.dataMateria,
       }
       this.ventana.open(EditImageComponent,
-        { width: ' 25rem', data:data}).afterClosed().subscribe(item => {
+        { width: ' 25rem', data: data }).afterClosed().subscribe(item => {
         });
     } else {
-      let data={
-        image:' ',
-        idMateria:this.idMateria,
+      let data = {
+        image: ' ',
+        idMateria: this.idMateria,
         arrayGuardado: this.dataMateria[0].cursos[this.idIndexCurso],
-        arrayCompleto:this.dataMateria,
+        arrayCompleto: this.dataMateria,
       }
       this.ventana.open(EditImageComponent,
         { width: ' 25rem', data: data }).afterClosed().subscribe(item => {
@@ -215,7 +216,7 @@ export class EditCursoComponent implements OnInit {
   }
 
 
-  
+
   openMaterial(component: any) {
     this.ventana.open(component,
       { width: ' 25rem' }).afterClosed().subscribe(item => { });
@@ -224,14 +225,13 @@ export class EditCursoComponent implements OnInit {
   openMaterial1(component: any, info: any) {
     this.ventana.open(component,
       { width: ' 25rem', data: info }).afterClosed().subscribe(item => {
-        
       });
   }
   openMaterial2(component: any, info: any) {
     this.ventana.open(component,
-      {data: info }).afterClosed().subscribe(item => {
+      { data: info }).afterClosed().subscribe(item => {
         this.getMateria(this.idMateria);
-        this.getNominaCurso(this.idMateria,this.idNomina);
+        this.getNominaCurso(this.idMateria, this.idNomina);
       });
   }
 
