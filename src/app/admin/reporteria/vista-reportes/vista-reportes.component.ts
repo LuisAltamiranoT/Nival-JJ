@@ -302,13 +302,6 @@ export class VistaReportesComponent implements OnInit {
     }
   }
 
-  /*
-  filtrar() {
-   
-  }
-*/
-
-
   isSticky(colIndex: any) {
     //console.log(colIndex)
     if (colIndex === 'Numero') {
@@ -395,15 +388,15 @@ export class VistaReportesComponent implements OnInit {
     }
   }
 
-  exportToExcel(datos) {
-    datos.forEach(obj => {
+  exportToExcel() {
+    this.excel.forEach(obj => {
       if (obj === 0) {
         obj = 'Presente';
       }
       console.log('verificar', obj)
     });
-    const wse: xlsx.WorkSheet = xlsx.utils.json_to_sheet(datos);
-    const headerE = Object.keys(datos[0]); // columns name
+    const wse: xlsx.WorkSheet = xlsx.utils.json_to_sheet(this.excel);
+    const headerE = Object.keys(this.excel[0]); // columns name
     var wscolsE = [];
     for (var i = 0; i < headerE.length; i++) {  // columns length added
       wscolsE.push({ wpx: 75 })
@@ -415,10 +408,3 @@ export class VistaReportesComponent implements OnInit {
   }
 
 }
-
-
-
-
-
-
-

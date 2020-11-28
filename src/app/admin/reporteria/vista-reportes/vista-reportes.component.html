@@ -5,19 +5,19 @@
   <div class="row">
     <section class="example-spacer" style="width: 100%;">
       <div class="example-button-row">
+        <span class="with-icon mx-3">
+          <mat-icon>
+            list_alt
+          </mat-icon>
+          Reportes
+        </span>
+        <button mat-button style="display: inline;" (click)="exportToExcel()" [disabled]="!ValidateButton">
+          <mat-icon>
+            get_app
+          </mat-icon>
+          Descargar
+        </button>
         <form [formGroup]="fechaForm" (ngSubmit)="filtrar()" style="display: inline;">
-          <span class="with-icon mx-3">
-            <mat-icon>
-              list_alt
-            </mat-icon>
-            Reportes
-          </span>
-          <button mat-button style="display: inline;" [disabled]="!ValidateButton">
-            <mat-icon>
-              get_app
-            </mat-icon>
-            Descargar
-          </button>
           <mat-form-field class="ml-4">
             <mat-label>Inicio</mat-label>
             <input autocomplete="off" matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker" formControlName="inicio" readonly>
