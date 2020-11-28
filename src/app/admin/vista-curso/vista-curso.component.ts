@@ -305,10 +305,7 @@ console.log(this.dataId)
       this.authService.showInfo('El estudiante no dispone de una imagen de perfil');
     }
   }
-  onQr(){
-    this.router.navigate(['codigo', this.codigoQr])
-
-  }
+ 
   onReportes(){
     this.router.navigate(['reportes', this.dataId])
   }

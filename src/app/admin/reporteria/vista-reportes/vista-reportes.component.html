@@ -27,7 +27,7 @@
 
           <mat-form-field class="ml-4">
             <mat-label>Final</mat-label>
-            <input autocomplete="off" matInput [matDatepickerFilter]="myFilter" [value]="date.value" [matDatepicker]="picker1"
+            <input autocomplete="off" matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker1"
               formControlName="fin" readonly (dateInput)="validarFecha($event, fechaForm.value)">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>

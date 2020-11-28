@@ -25,9 +25,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./vista-reportes.component.css']
 })
 export class VistaReportesComponent implements OnInit {
-  //fecha
-  date = new FormControl(new Date());
-  serializedDate = new FormControl((new Date()).toISOString());
 
   //control de suscripciones
   private suscripcion1: Subscription;
