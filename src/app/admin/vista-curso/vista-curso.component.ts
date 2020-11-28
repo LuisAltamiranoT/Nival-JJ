@@ -104,6 +104,7 @@ console.log(this.dataId)
       this.idQr = dataNomina.uidProfesor + '//' + dataNomina.uidMateria + '//' + dataNomina.uidCurso;
       // Encriptar  QR
       this.EncriptarData(this.idQr);
+
       this.nominaVista.length = 0;
       this.nominaConsulta.length = 0;
       
@@ -151,6 +152,9 @@ console.log(this.dataId)
           })
         }
 
+        this.dataSource = new MatTableDataSource(this.nominaVista);
+        this.tabla1.renderRows();
+
         this.nominaConsulta.push({
           nombre: dataMateria.nombre,
           codigoUnico: dataMateria.codigoUnico,
@@ -160,8 +164,6 @@ console.log(this.dataId)
           asistencia: dataMateria.asistencia
         })
       });
-      this.dataSource = new MatTableDataSource(this.nominaVista);
-      this.tabla1.renderRows();
     });
     //console.log(this.nominaVista);
   }
@@ -252,8 +254,6 @@ console.log(this.dataId)
       } else {
         this.agregarArrayReemplazar(cont, elementCurso.asistencia[ultimoId].presente, elementCurso.asistencia[ultimoId].atraso, elementCurso.asistencia[ultimoId].falta, ultimoId, false);
       }
-
-
     });
     this.agregarArrayFinalizado();
 
@@ -276,10 +276,13 @@ console.log(this.dataId)
   }
 
   async agregarArrayFinalizado() {
-    this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, 'finalizado');
-    this.estado='presente';
-    this.estadoControl=false;
-    this.toggle=false;
+    let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, 'finalizado');
+    if(data){
+      this.obtenerNomina(this.idMateria, this.idNomina);
+      this.estado='presente';
+      this.estadoControl=false;
+      this.toggle=false;
+    }
   }
 
   applyFilter(event: Event) {
@@ -324,6 +327,7 @@ console.log(this.dataId)
 
   QR(){
     this.authService.updateNominaEstado(this.idNomina, this.idMateria,this.estado);
+    this.tabla1.renderRows();
   }
 
 }

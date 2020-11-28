@@ -163,83 +163,150 @@ export class VistaReportesComponent implements OnInit {
 
   filtrar() {
     const { inicio, fin } = this.fechaForm.value;
-    console.log(inicio, fin)
-    console.log('inicio', inicio, Date.parse(String(moment(inicio).format("YYYY-MM-DD"))))
-    console.log('fin', fin, Date.parse(String(moment(fin).format("YYYY-MM-DD"))))
-
-
-
     let obj = {};
     let objExcel = {};
 
-    this.suscripcion1 = this.authService.getDataNominaCursoId(this.idMateria, this.idNomina).subscribe((data) => {
+    if (inicio == '' && fin == '') {
+      this.authService.showInfo('Información ingresada no valida');
 
-      this.ejemplo.length = 0;
-      this.excel.length = 0;
-      this.displayedColumns.length = 0;
-      const dataNomina: any = data.payload.data();
-      let filas = 0;
-      dataNomina.nomina.forEach((dataMateria: any) => {
-        //obtiene la inforamcion a presentar
+    } else if (inicio != '' && fin == '') {
 
-        filas = filas + 1;
-        let cont = 0;
+      let obj = {};
+      let objExcel = {};
+      this.suscripcion1 = this.authService.getDataNominaCursoId(this.idMateria, this.idNomina).subscribe((data) => {
 
-        obj = {
-          Numero: filas,
-          Imagen: dataMateria.image,
-          Nombre: dataMateria.nombre,
-        }
+        this.ejemplo.length = 0;
+        this.excel.length = 0;
+        this.displayedColumns.length = 0;
+        let filas = 0;
 
-        objExcel = {
-          Numero: filas,
-          Nombre: dataMateria.nombre,
-          CodigoUnico: dataMateria.codigoUnico,
-          uidUser: dataMateria.uidUser
-        }
-        dataMateria.asistencia.forEach(element => {
+        const dataNomina: any = data.payload.data();
+        dataNomina.nomina.forEach((dataMateria: any) => {
 
-          var formato_fecha = element.fecha.split('-')[2] + '-' + element.fecha.split('-')[1] + '-' + element.fecha.split('-')[0] + 'T00:00:00';
-          let newDate = moment(formato_fecha)
-          //console.log('fecha', element.fecha);
-          //console.log('parse',Date.parse(String(moment(newDate).format("YYYY-MM-DD"))))
+          filas = filas + 1;
+          let cont = 0;
 
-      
-
-          if (element.presente === true) {
-            cont = cont + 1;
-            obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Presente';
-            objExcel[cont + ') ' + element.fecha] = 1;
+          obj = {
+            Numero: filas,
+            Imagen: dataMateria.image,
+            Nombre: dataMateria.nombre,
           }
-          if (element.atraso === true) {
-            cont = cont + 1;
-            obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Atraso';
-            objExcel[cont + ') ' + element.fecha] = 0.5;
+
+          objExcel = {
+            Numero: filas,
+            Nombre: dataMateria.nombre,
+            CodigoUnico: dataMateria.codigoUnico,
           }
-          if (element.falta === true) {
-            cont = cont + 1;
-            obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Falta';
-            objExcel[cont + ') ' + element.fecha] = 0;
-          }
-          
 
-
-
+          dataMateria.asistencia.forEach(element => {
+            var formato_fecha = element.fecha.split('-')[2] + '-' + element.fecha.split('-')[1] + '-' + element.fecha.split('-')[0] + 'T00:00:00';
+            let newDate = moment(formato_fecha)
+     
+            if (Date.parse(String(moment(newDate).format("YYYY-MM-DD"))) >= Date.parse(String(moment(inicio).format("YYYY-MM-DD")))) {
+              if (element.presente === true) {
+                cont = cont + 1;
+                obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Presente';
+                objExcel[cont + ') ' + element.fecha] = 1;
+              }
+              if (element.atraso === true) {
+                cont = cont + 1;
+                obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Atraso';
+                objExcel[cont + ') ' + element.fecha] = 0.5;
+              }
+              if (element.falta === true) {
+                cont = cont + 1;
+                obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Falta';
+                objExcel[cont + ') ' + element.fecha] = 0;
+              }
+            }
+          });
+          this.ejemplo.push(obj);
+          this.excel.push(objExcel);
+          obj = {};
+          objExcel = {};
         });
-        this.ejemplo.push(obj);
-        this.excel.push(objExcel);
-        obj = {};
-        objExcel = {};
+
+        for (let v in this.ejemplo[0]) {
+          this.displayedColumns.push(v);
+        }
+        this.dataSource = new MatTableDataSource(this.ejemplo);
+        console.log(this.excel);
       });
 
-      for (let v in this.ejemplo[0]) {
-        this.displayedColumns.push(v);
-      }
-      this.dataSource = new MatTableDataSource(this.ejemplo);
-      console.log(this.excel);
-    });
+
+    } else {
+
+      let obj = {};
+      let objExcel = {};
+      this.suscripcion1 = this.authService.getDataNominaCursoId(this.idMateria, this.idNomina).subscribe((data) => {
+
+        this.ejemplo.length = 0;
+        this.excel.length = 0;
+        this.displayedColumns.length = 0;
+        let filas = 0;
+
+        const dataNomina: any = data.payload.data();
+        dataNomina.nomina.forEach((dataMateria: any) => {
+
+          filas = filas + 1;
+          let cont = 0;
+
+          obj = {
+            Numero: filas,
+            Imagen: dataMateria.image,
+            Nombre: dataMateria.nombre,
+          }
+
+          objExcel = {
+            Numero: filas,
+            Nombre: dataMateria.nombre,
+            CodigoUnico: dataMateria.codigoUnico,
+          }
+
+          dataMateria.asistencia.forEach(element => {
+            var formato_fecha = element.fecha.split('-')[2] + '-' + element.fecha.split('-')[1] + '-' + element.fecha.split('-')[0] + 'T00:00:00';
+            let newDate = moment(formato_fecha)
+
+            if (Date.parse(String(moment(newDate).format("YYYY-MM-DD"))) >= Date.parse(String(moment(inicio).format("YYYY-MM-DD"))) && Date.parse(String(moment(newDate).format("YYYY-MM-DD"))) <= Date.parse(String(moment(fin).format("YYYY-MM-DD")))) {
+              if (element.presente === true) {
+                cont = cont + 1;
+                obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Presente';
+                objExcel[cont + ') ' + element.fecha] = 1;
+              }
+              if (element.atraso === true) {
+                cont = cont + 1;
+                obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Atraso';
+                objExcel[cont + ') ' + element.fecha] = 0.5;
+              }
+              if (element.falta === true) {
+                cont = cont + 1;
+                obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Falta';
+                objExcel[cont + ') ' + element.fecha] = 0;
+              }
+            }
+          });
+          this.ejemplo.push(obj);
+          this.excel.push(objExcel);
+          obj = {};
+          objExcel = {};
+        });
+
+        for (let v in this.ejemplo[0]) {
+          this.displayedColumns.push(v);
+        }
+        this.dataSource = new MatTableDataSource(this.ejemplo);
+        console.log(this.excel);
+      });
+
+
+    }
   }
 
+  /*
+  filtrar() {
+   
+  }
+*/
 
 
   isSticky(colIndex: any) {

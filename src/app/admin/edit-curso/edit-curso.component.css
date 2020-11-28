@@ -2,7 +2,6 @@
 .example-container {
     max-height: 55vh;
     max-width: 100%;
-    overflow: auto;
   }
   
   table {

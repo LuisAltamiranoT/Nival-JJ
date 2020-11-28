@@ -1,5 +1,7 @@
 .example-container {
-  max-height: 70vh;
+  min-width: 83.5vw;
+  max-height: 75vh;
+  overflow: auto;
 }
 
 
