@@ -14,7 +14,6 @@ import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
 import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
 import { EditCursoComponent } from './admin/edit-curso/edit-curso.component';
 import { VistaReportesComponent } from './admin/reporteria/vista-reportes/vista-reportes.component';
-import { ReporteGeneralComponent } from './admin/reporteria/reporte-general/reporte-general.component';
 import { ReporteIndividualComponent } from './admin/reporteria/reporte-individual/reporte-individual.component';
 
 const routes: Routes = [
@@ -78,11 +77,6 @@ const routes: Routes = [
   {
     path: 'reportes/:data',
     component: VistaReportesComponent,
-    canActivate: [GuardGuard]
-  },
-  {
-    path: 'reporte-general/:data/:dataI/:dataF',
-    component: ReporteGeneralComponent,
     canActivate: [GuardGuard]
   },
   {

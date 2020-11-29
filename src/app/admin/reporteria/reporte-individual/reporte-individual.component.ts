@@ -1,14 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from 'src/app/services/auth.service';
-import { Nomina } from 'src/app/models/user.interface';
 
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-
-// Libreria para encriptar y desencriptar //
-import * as CryptoJS from 'crypto-js'
 
 @Component({
   selector: 'app-reporte-individual',
@@ -16,87 +13,111 @@ import * as CryptoJS from 'crypto-js'
   styleUrls: ['./reporte-individual.component.css']
 })
 export class ReporteIndividualComponent implements OnInit {
+  cambio = false;
+  public validate = true;
+  public presente = false;
+  public atraso = false;
+  public falta = false;
+  splitted: any[] = [];//separa los valores de una cadena 
+  array: any[]; //el array completo
+  indexEstudiante;//posicion del estudiante
+  posicionAsistenciaArray;//index donde se encuentra el array a reemplazar
+  arrayTemp: any;//se mantiene para realizar el cambio
+  arrayTemp2: any;//realiza los cambios
+  fecha = '';
 
-  //manejar las suscripciones
-  private suscripcion1: Subscription;
-  private suscripcion2: Subscription;
-
-  //contiene el uidMateria
-  public uidMateria = "";
-  //contiene el nombre de la materia
-  public nombreMateria = "";
-  //contiene el nombre del estudiante
-  public nombreEstudiante = "";
-  //dato que almacenara el id del curso
-  public dataId: any;
-  //dato que almacenara la fecha de inicio
-  public fecha_inicio: any;
-  //dato que almacenara la fecha final
-  public fecha_fin: any;
-
-  //array de la nomina de los estudiantes 
-  public nominaVista: Nomina[] = [];
-
-  // Manejo de tablas
-  @ViewChild(MatTable) tabla1: MatTable<Nomina>;
-
-  //CODIGO NUEVO TABLA
-  displayedColumns: string[] = ['fila', 'fecha', 'asistencia'];
-  dataSource = new MatTableDataSource(this.nominaVista);
   constructor(
-    private authService: AuthService,
-    private _route: ActivatedRoute,
+    public dialogRef: MatDialogRef<ReporteIndividualComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.dataId = this._route.snapshot.paramMap.get('data');
-    this.nombreEstudiante = this._route.snapshot.paramMap.get('dataE');
-    this.getCurso(this.dataId);
-    this.obtenerNomina(this.dataId);
-    this.verFiltroPeriodo();
-    console.log('fechas', this.fecha_inicio, this.fecha_fin);
+    //console.log('llega kasjd',this.data.estado);
+    /*
+      estado:estado,
+      index:discol,
+      array:this.dataNominaConsulta,
+      indexEstudiante:index,
+      idMateria:this.idMateria,
+      idNomina:this.idNomina
+     */
+    this.fecha = this.data.index;
+    this.array = this.data.array;
+    this.indexEstudiante = this.data.indexEstudiante;//posicion en el array
+
+    this.splitted = this.fecha.split(")");
+    this.posicionAsistenciaArray = Number(this.splitted[0]);
+
+    this.arrayTemp2 = JSON.parse(JSON.stringify(this.array));
+
+
+    console.log('Los dos archivos', this.arrayTemp, this.arrayTemp2);
+
+    if (this.data.estado == 'Presente') {
+      this.presente = true;
+    } else if (this.data.estado == 'Atraso') {
+      this.atraso = true;
+    } else {
+      this.falta = true;
+    }
   }
 
-  // Funcion para encriptar //
-  verFiltroPeriodo() {
-    var validar = '1869-08-30';
-    this.fecha_inicio = CryptoJS.AES.decrypt(this._route.snapshot.paramMap.get('dataI').trim(), validar.trim()).toString(CryptoJS.enc.Utf8);
-    this.fecha_fin = CryptoJS.AES.decrypt(this._route.snapshot.paramMap.get('dataF').trim(), validar.trim()).toString(CryptoJS.enc.Utf8);
+  showOptionsPresente(event) {
+    try {
+      this.cambio = true;
+      this.presente = true;
+      this.atraso = false;
+      this.falta = false;
+    } catch (error) {
+      this.authService.showError(error);
+    }
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  showOptionsAtraso(event) {
+    try {
+      this.cambio = true;
+      this.presente = false;
+      this.atraso = true;
+      this.falta = false;
+    } catch (error) {
+      this.authService.showError(error);
+    }
   }
 
-  getCurso(idCurso: any) {
-   /* this.suscripcion1 = this.authService.getCursoId(idCurso).subscribe((data) => {
-      let dataCurso: any = [data.payload.data()];
-      this.uidMateria = dataCurso[0].uidMateria;
-      this.getMateria(this.uidMateria);
-    });
-*/
+  showOptionsFalta(event) {
+    try {
+      this.cambio = true;
+      this.presente = false;
+      this.atraso = false;
+      this.falta = true;
+    } catch (error) {
+      this.authService.showError(error);
+    }
   }
 
-  getMateria(idMateria: any) {
-    this.suscripcion2 = this.authService.getMateriaId(idMateria).subscribe((data) => {
-      let dataMateria: any = [data.payload.data()];
-      this.nombreMateria = dataMateria[0].nombre;
-    })
+  agregarArray() {
+    this.validate=false
+    if(this.cambio){
+      this.arrayTemp2[this.indexEstudiante - 1].asistencia[this.posicionAsistenciaArray - 1].presente = this.presente;
+      this.arrayTemp2[this.indexEstudiante - 1].asistencia[this.posicionAsistenciaArray - 1].atraso = this.atraso;
+      this.arrayTemp2[this.indexEstudiante - 1].asistencia[this.posicionAsistenciaArray - 1].falta = this.falta;
+
+      const dat = this.authService.updateNominaUnionAsistencia(this.data.idMateria, this.data.idNomina, this.arrayTemp2);
+      if (dat) {
+        this.validate=true
+        this.dialogRef.close();
+      } else {
+        this.validate = true;
+      }
+
+    }else{
+      this.validate=true
+      this.dialogRef.close();
+    }
   }
 
-  public obtenerNomina(id) {
-  /*  this.suscripcion1 = this.authService.getCursoId(id).subscribe((data) => {
-      this.nominaVista.length = 0;
-      data.forEach((dataMateria: any) => {
-        this.nominaVista.push({
-          id: dataMateria.payload.doc.id,
-          codigoUnico: dataMateria.payload.doc.data().codigoUnico,
-          nombre: dataMateria.payload.doc.data().nombre,
-        })
-      });*/
-      this.tabla1.renderRows();
-    //});
+  dimissModal() {
+    this.dialogRef.close();
   }
-
 }

@@ -1,5 +1,6 @@
 .example-container {
   max-height: 70vh;
+  overflow: auto;
 }
 
 
@@ -16,4 +17,9 @@ table {
 
 a{
   text-decoration: none;
+}
+
+
+::ng-deep .mat-form-field-wrapper{
+  margin-bottom: -1.25em;
 }

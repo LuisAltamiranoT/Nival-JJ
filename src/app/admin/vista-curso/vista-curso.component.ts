@@ -8,12 +8,10 @@ import { Nomina } from 'src/app/models/user.interface';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 
-import { UploadExcelService } from 'src/app/services/upload-excel.service'
 import { Subscription } from 'rxjs';
 
 import * as moment from 'moment';
 moment.locale('es');
-import * as xlsx from 'xlsx';
 import { ViewImageComponent } from '../curso-group/view-image/view-image.component';
 
 @Component({
@@ -49,6 +47,8 @@ export class VistaCursoComponent implements OnInit {
   toggle: any;
   //estado control
   estadoControl: boolean = false;
+  //variable para el numero randomico de 6 cifraas
+  codigoDeSeguridad;
   //variable para el qr
   idQr: any;
   NombreMateria: any = '';
@@ -97,6 +97,7 @@ export class VistaCursoComponent implements OnInit {
     var informacion = '2sllmtu2=uTZq@%%jl9w';
     // encriptar data
     this.codigoQr = CryptoJS.AES.encrypt(cadena.trim(), informacion.trim()).toString();
+    this.codigoDeSeguridad = this.codigoQr;
   }
 
   codigo_randomico: any;
@@ -116,13 +117,16 @@ export class VistaCursoComponent implements OnInit {
     this.suscripcion1 = this.authService.getDataNominaCursoId(idMateria, idNomina).subscribe((data) => {
 
       const dataNomina: any = data.payload.data();
+      this.idQr = dataNomina.uidProfesor + '//' + dataNomina.uidMateria + '//' + dataNomina.uidCurso;
+      // Encriptar  QR
+      this.EncriptarData(this.idQr);
 
       this.nominaVista.length = 0;
       this.nominaConsulta.length = 0;
 
 
       dataNomina.nomina.forEach((dataMateria: any) => {
-        this.idQr = dataNomina.uidProfesor + '//' + dataNomina.uidMateria + '//' + dataNomina.uidCurso + '//' + data.payload.id;
+        this.idQr = dataNomina.uidProfesor + '//' + dataNomina.uidMateria + '//' + dataNomina.uidCurso + '//' + data.payload.id + '//' + this.codigo_randomico;
         // Encriptar  QR
         this.EncriptarData(this.idQr);
         let ultimoId = dataMateria.asistencia.length - 1;
@@ -168,6 +172,9 @@ export class VistaCursoComponent implements OnInit {
           })
         }
 
+        this.dataSource = new MatTableDataSource(this.nominaVista);
+        this.tabla1.renderRows();
+
         this.nominaConsulta.push({
           nombre: dataMateria.nombre,
           codigoUnico: dataMateria.codigoUnico,
@@ -177,8 +184,6 @@ export class VistaCursoComponent implements OnInit {
           asistencia: dataMateria.asistencia
         })
       });
-      this.dataSource = new MatTableDataSource(this.nominaVista);
-      this.tabla1.renderRows();
     });
     //console.log(this.nominaVista);
   }
@@ -269,15 +274,10 @@ export class VistaCursoComponent implements OnInit {
       } else {
         this.agregarArrayReemplazar(cont, elementCurso.asistencia[ultimoId].presente, elementCurso.asistencia[ultimoId].atraso, elementCurso.asistencia[ultimoId].falta, ultimoId, false);
       }
-
-
     });
     this.agregarArrayFinalizado();
 
   }
-
-
-
 
 
   async agregarArray(indexArray, presente, atraso, falta, estado) {
@@ -293,10 +293,13 @@ export class VistaCursoComponent implements OnInit {
   }
 
   async agregarArrayFinalizado() {
-    this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, 'finalizado');
-    this.estado = 'presente';
-    this.estadoControl = false;
-    this.toggle = false;
+    let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, 'presente', '0');//aqui se envia el desactivamiento del cdigo
+    if (data) {
+      this.obtenerNomina(this.idMateria, this.idNomina);
+      this.estado = 'presente';
+      this.estadoControl = false;
+      this.toggle = false;
+    }
   }
 
   applyFilter(event: Event) {
@@ -322,6 +325,7 @@ export class VistaCursoComponent implements OnInit {
   onReportes() {
     this.router.navigate(['reportes', this.dataId])
   }
+
   changeState() {
     if (this.estado === 'presente') {
       this.estado = 'atraso';
@@ -340,8 +344,11 @@ export class VistaCursoComponent implements OnInit {
   }
 
 
+
   QR() {
-    this.authService.updateNominaEstado(this.idNomina, this.idMateria, this.estado);
+    console.log('thicvv', this.codigoDeSeguridad)
+    this.authService.updateNominaEstadoQR(this.idNomina, this.idMateria, this.estado, this.codigoDeSeguridad);
+    this.tabla1.renderRows();
   }
 
 

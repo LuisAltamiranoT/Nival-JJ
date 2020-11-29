@@ -62,6 +62,7 @@ export class AuthService extends RoleValidator {
     }
   }
 
+
   async sendVerificationEmail(): Promise<void> {
     return (await this.afAuth.currentUser).sendEmailVerification();
   }
@@ -168,6 +169,7 @@ export class AuthService extends RoleValidator {
     }
   }
 
+  
    //Delete user
    public async updateAcoountUser(oldPass: string): Promise<Number> {
     //estado cero no se logro, estado 1 se ha logrado 
@@ -175,9 +177,9 @@ export class AuthService extends RoleValidator {
     try{
       let userAccount = firebase.auth().currentUser;
       await this.reauthenticate(oldPass);
-
       await userAccount.delete();
-      console.log(data + "se ha actualizado");
+      this.showSuccess('Usted ha eliminado su cuenta de EASY-AC-NIVAL');
+      this.logout();
       return data=1;
     }catch(error){
       this.showError(error);
@@ -386,6 +388,21 @@ export class AuthService extends RoleValidator {
   }
 
 
+  async updateNominaUnionAsistencia(idMateria:any, idNomina:any,arrayTemp2:any){
+    try {
+      const userRef =  this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina);
+      const data = {
+        nomina: arrayTemp2
+      };
+      let inf=await userRef.set(data, { merge: true });
+      this.showUpdatedata();
+      return inf;
+    } catch (error) {
+      this.showError(error);
+    }
+    
+  }
+
 
   //imagen
   public async updatePhoto(valor: any) {
@@ -497,9 +514,10 @@ export class AuthService extends RoleValidator {
   }
 
   //actualizar nomina
-  public async updateNomina(idNomina: any, idMateria: any, array: any, estado: any): Promise<void> {
+  public async updateNomina(idNomina: any, idMateria: any, array: any, estado: any,acceso:any): Promise<void> {
     try {
       let data = {
+        code:acceso,
         estado: estado,
         nomina: array
       }
@@ -511,10 +529,25 @@ export class AuthService extends RoleValidator {
     }
   }
 
-   //actualizar estado actual
-   public async updateNominaEstado(idNomina: any, idMateria: any,estado: any): Promise<void> {
+  //actualizar estado actual
+  public async updateNominaEstado(idNomina: any, idMateria: any,estado: any): Promise<void> {
     try {
       let data = {
+        estado: estado
+      }
+      let db = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).set(data, { merge: true });
+      this.showUpdatedata();
+      return db;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+   //actualizar estado actual
+   public async updateNominaEstadoQR(idNomina: any, idMateria: any,estado: any,acceso:any): Promise<void> {
+    try {
+      let data = {
+        code:acceso,
         estado: estado
       }
       let db = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).set(data, { merge: true });

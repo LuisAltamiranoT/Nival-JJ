@@ -13,12 +13,9 @@ import * as xlsx from 'xlsx';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-
-
-
+import { elementAt } from 'rxjs/operators';
+import { ReporteIndividualComponent } from '../reporte-individual/reporte-individual.component';
 
 @Component({
   selector: 'app-vista-reportes',
@@ -56,8 +53,11 @@ export class VistaReportesComponent implements OnInit {
   //almacena el id de la materia
   idMateria;
   //almacena la informacion  de la consulta
-  dataNomina: any;
+  dataNominaConsulta: any[]=[];
+
+  //control botones
   validate = true;
+  limpiarInput=false;
 
   //feach para valiar
   fechaInicioNomina;
@@ -92,6 +92,7 @@ export class VistaReportesComponent implements OnInit {
       this.ejemplo.length = 0;
       this.excel.length = 0;
       this.displayedColumns.length = 0;
+      this.dataNominaConsulta.length=0;
 
       //contiene la primera fecha que se tomo la lista asi que es el inicio 
       this.fechaInicioNomina = dataNomina.nomina[0].asistencia[0].fecha;
@@ -124,20 +125,18 @@ export class VistaReportesComponent implements OnInit {
 
 
         dataMateria.asistencia.forEach(element => {
+          cont = cont + 1;
           if (element.presente === true) {
-            cont = cont + 1;
             obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Presente';
             objExcel[cont + ') ' + element.fecha] = 1;
             porcentaje = porcentaje + 1;
           }
           if (element.atraso === true) {
-            cont = cont + 1;
             obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Atraso';
             objExcel[cont + ') ' + element.fecha] = 0.5;
             porcentaje = porcentaje + 0.5;
           }
           if (element.falta === true) {
-            cont = cont + 1;
             obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Falta';
             objExcel[cont + ') ' + element.fecha] = 0;
           }
@@ -145,122 +144,170 @@ export class VistaReportesComponent implements OnInit {
         obj['Porcentaje'] = ((porcentaje / cont) * 100).toFixed(0) + '%';
         objExcel['Porcentaje'] = ((porcentaje / cont) * 100).toFixed(0) + '%';
 
-        console.log('llega hasta aqui', cont, porcentaje);
+        //console.log('llega hasta aqui', cont, porcentaje);
 
         this.ejemplo.push(obj);
         this.excel.push(objExcel);
+        this.dataNominaConsulta.push(dataMateria);
         obj = {};
         objExcel = {};
       });
       for (let v in this.ejemplo[0]) {
         this.displayedColumns.push(v);
       }
-      this.dataSource = new MatTableDataSource(this.ejemplo);
-      console.log(this.excel);
+      this.dataSource = new MatTableDataSource(this.ejemplo.sort());
+      //console.log(this.excel);
 
-      console.log('consulra ', dataNomina);
-      console.log('datos de excel', objExcel, this.excel);
-      /// IMPRESION DEL EXCEL ---UBICARLE DONDE DEBE SER JEJEJJEJEJEJEEJJEJEJEJJEJEJJEJEJEJJEJ
-      //descomentar
-      //this.exportToExcel(this.excel)
+      //console.log('consulra ', dataNomina);
+      //console.log('datos de excel', objExcel, this.excel);
+      //console.log('data nominaguardad',this.dataNominaConsulta)
     });
   }
 
   filtrar() {
+    console.log('este es el array',this.dataNominaConsulta);
+    this.limpiarInput=true;
     const { inicio, fin } = this.fechaForm.value;
-    console.log(inicio, fin)
-    console.log('inicio', inicio, Date.parse(String(moment(inicio).format("YYYY-MM-DD"))))
-    console.log('fin', fin, Date.parse(String(moment(fin).format("YYYY-MM-DD"))))
-
-
-
     let obj = {};
     let objExcel = {};
 
-    this.suscripcion1 = this.authService.getDataNominaCursoId(this.idMateria, this.idNomina).subscribe((data) => {
+    if (inicio == '' && fin == '') {
+      this.authService.showInfo('Información ingresada no valida');
 
-      this.ejemplo.length = 0;
-      this.excel.length = 0;
-      this.displayedColumns.length = 0;
-      const dataNomina: any = data.payload.data();
-      let filas = 0;
-      dataNomina.nomina.forEach((dataMateria: any) => {
-        //obtiene la inforamcion a presentar
+    } else if (inicio != '' && fin == '') {
 
-        filas = filas + 1;
-        let cont = 0;
+      let obj = {};
+      let objExcel = {};
+      this.suscripcion1 = this.authService.getDataNominaCursoId(this.idMateria, this.idNomina).subscribe((data) => {
 
-        obj = {
-          Numero: filas,
-          Imagen: dataMateria.image,
-          Nombre: dataMateria.nombre,
-        }
+        this.ejemplo.length = 0;
+        this.excel.length = 0;
+        this.displayedColumns.length = 0;
+        let filas = 0;
 
-        objExcel = {
-          Numero: filas,
-          Nombre: dataMateria.nombre,
-          CodigoUnico: dataMateria.codigoUnico,
-          uidUser: dataMateria.uidUser
-        }
-        dataMateria.asistencia.forEach(element => {
+        const dataNomina: any = data.payload.data();
+        dataNomina.nomina.forEach((dataMateria: any) => {
 
-          if (element.presente === true) {
-            cont = cont + 1;
-            obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Presente';
-            objExcel[cont + ') ' + element.fecha] = 1;
-          }
-          if (element.atraso === true) {
-            cont = cont + 1;
-            obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Atraso';
-            objExcel[cont + ') ' + element.fecha] = 0.5;
-          }
-          if (element.falta === true) {
-            cont = cont + 1;
-            obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Falta';
-            objExcel[cont + ') ' + element.fecha] = 0;
+          filas = filas + 1;
+          let cont = 0;
+
+          obj = {
+            Numero: filas,
+            Imagen: dataMateria.image,
+            Nombre: dataMateria.nombre,
           }
 
+          objExcel = {
+            Numero: filas,
+            Nombre: dataMateria.nombre,
+            CodigoUnico: dataMateria.codigoUnico,
+          }
 
-
-
-          var formato_fecha = element.fecha.split('-')[2] + '-' + element.fecha.split('-')[1] + '-' + element.fecha.split('-')[0] + 'T00:00:00'
-          //  let newDate = new Date(formato_fecha);
-          let newDate = moment(formato_fecha)
-          console.log('fecha', element.fecha);
-          console.log('parse', Date.parse(String(moment(newDate).format("YYYY-MM-DD"))))
-
-
-
-
+          dataMateria.asistencia.forEach(element => {
+            var formato_fecha = element.fecha.split('-')[2] + '-' + element.fecha.split('-')[1] + '-' + element.fecha.split('-')[0] + 'T00:00:00';
+            let newDate = moment(formato_fecha)
+            cont = cont + 1;
+            if (Date.parse(String(moment(newDate).format("YYYY-MM-DD"))) >= Date.parse(String(moment(inicio).format("YYYY-MM-DD")))) {
+              if (element.presente === true) {
+                obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Presente';
+                objExcel[cont + ') ' + element.fecha] = 1;
+              }
+              if (element.atraso === true) {
+                obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Atraso';
+                objExcel[cont + ') ' + element.fecha] = 0.5;
+              }
+              if (element.falta === true) {
+                obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Falta';
+                objExcel[cont + ') ' + element.fecha] = 0;
+              }
+            }
+          });
+          this.ejemplo.push(obj);
+          this.excel.push(objExcel);
+          obj = {};
+          objExcel = {};
         });
-        this.ejemplo.push(obj);
-        this.excel.push(objExcel);
-        obj = {};
-        objExcel = {};
 
+        for (let v in this.ejemplo[0]) {
+          this.displayedColumns.push(v);
+        }
+        this.dataSource = new MatTableDataSource(this.ejemplo);
+        //console.log(this.excel);
       });
 
 
-      for (let v in this.ejemplo[0]) {
-        this.displayedColumns.push(v);
-      }
-      this.dataSource = new MatTableDataSource(this.ejemplo);
-      console.log(this.excel);
-    });
+    } else {
+
+      let obj = {};
+      let objExcel = {};
+      this.suscripcion1 = this.authService.getDataNominaCursoId(this.idMateria, this.idNomina).subscribe((data) => {
+
+        this.ejemplo.length = 0;
+        this.excel.length = 0;
+        this.displayedColumns.length = 0;
+        let filas = 0;
+
+        const dataNomina: any = data.payload.data();
+        dataNomina.nomina.forEach((dataMateria: any) => {
+
+          filas = filas + 1;
+          let cont = 0;
+
+          obj = {
+            Numero: filas,
+            Imagen: dataMateria.image,
+            Nombre: dataMateria.nombre,
+          }
+
+          objExcel = {
+            Numero: filas,
+            Nombre: dataMateria.nombre,
+            CodigoUnico: dataMateria.codigoUnico,
+          }
+
+          dataMateria.asistencia.forEach(element => {
+            var formato_fecha = element.fecha.split('-')[2] + '-' + element.fecha.split('-')[1] + '-' + element.fecha.split('-')[0] + 'T00:00:00';
+            let newDate = moment(formato_fecha)
+            cont = cont + 1;
+
+            if (Date.parse(String(moment(newDate).format("YYYY-MM-DD"))) >= Date.parse(String(moment(inicio).format("YYYY-MM-DD"))) && Date.parse(String(moment(newDate).format("YYYY-MM-DD"))) <= Date.parse(String(moment(fin).format("YYYY-MM-DD")))) {
+              if (element.presente === true) {
+                obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Presente';
+                objExcel[cont + ') ' + element.fecha] = 1;
+              }
+              if (element.atraso === true) {
+                obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Atraso';
+                objExcel[cont + ') ' + element.fecha] = 0.5;
+              }
+              if (element.falta === true) {
+                obj[cont + ') ' + element.fecha + ' ' + element.dia] = 'Falta';
+                objExcel[cont + ') ' + element.fecha] = 0;
+              }
+            }
+          });
+          this.ejemplo.push(obj);
+          this.excel.push(objExcel);
+          obj = {};
+          objExcel = {};
+        });
+
+        for (let v in this.ejemplo[0]) {
+          this.displayedColumns.push(v);
+        }
+        this.dataSource = new MatTableDataSource(this.ejemplo);
+        //console.log(this.excel);
+      });
+
+
+    }
   }
 
-
-
   isSticky(colIndex: any) {
-    //console.log(colIndex)
+    ////console.log(colIndex)
     if (colIndex === 'Numero') {
       return true;
     }
     return false;
-  }
-
-  onclick(fecha: any, index: any, discol: any) {
-    console.log(fecha, index, discol);
   }
 
   openPhoto(image: any) {
@@ -274,7 +321,7 @@ export class VistaReportesComponent implements OnInit {
   }
 
   getColor(data: any) {
-    //console.log(data);
+    ////console.log(data);
     switch (data) {
       case 'Presente':
         return '#21618C';
@@ -294,25 +341,18 @@ export class VistaReportesComponent implements OnInit {
     this.dataSource.filter = null;
   }
 
-  async onClick() {
-
-    this.validate = false;
-    const { inicio } = this.fechaForm.value;
-    const { fin } = this.fechaForm.value;
-    console.log('inicio', inicio)
-    console.log('fin', fin)
-
-  }
-
-
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
     // Prevent Saturday and Sunday from being selected.
     return day !== 0 && day !== 6;
   }
 
-  fecha_fin: any;
-  fecha_inicio: any;
+  limpiarImput() {
+    this.fechaForm.patchValue({ inicio: "" });
+    this.fechaForm.patchValue({ fin: "" });
+    this.limpiarInput=false;
+    this.cargar();
+  }
 
   validarFecha(event, form) {
     var f = moment();
@@ -337,15 +377,15 @@ export class VistaReportesComponent implements OnInit {
     }
   }
 
-  exportToExcel(datos) {
-    datos.forEach(obj => {
+  exportToExcel() {
+    this.excel.forEach(obj => {
       if (obj === 0) {
         obj = 'Presente';
       }
-      console.log('verificar', obj)
+      //console.log('verificar', obj)
     });
-    const wse: xlsx.WorkSheet = xlsx.utils.json_to_sheet(datos);
-    const headerE = Object.keys(datos[0]); // columns name
+    const wse: xlsx.WorkSheet = xlsx.utils.json_to_sheet(this.excel);
+    const headerE = Object.keys(this.excel[0]); // columns name
     var wscolsE = [];
     for (var i = 0; i < headerE.length; i++) {  // columns length added
       wscolsE.push({ wpx: 75 })
@@ -356,11 +396,27 @@ export class VistaReportesComponent implements OnInit {
     xlsx.writeFile(wb, "excel" + '.xlsx');
   }
 
+  //activa modal
+  onclick(estado: any, index: any, discol: any) {
+    console.log('datos a buscar',estado, index, discol,this.dataNominaConsulta);
+
+    let data = {
+      estado:estado,
+      index:discol,
+      array:this.dataNominaConsulta,
+      indexEstudiante:index,
+      idMateria:this.idMateria,
+      idNomina:this.idNomina
+    }
+    this.openMaterial1(ReporteIndividualComponent, data);
+  }
+
+  
+  openMaterial1(component: any, info: any) {
+    this.ventana.open(component,
+      { width: ' 25rem', data: info }).afterClosed().subscribe(item => {
+        this.cargar();
+      });
+  }
+
 }
-
-
-
-
-
-
-
