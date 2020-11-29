@@ -32,7 +32,7 @@ export class VistaCursoComponent implements OnInit {
   public dataId: any = '';
   //CODIGO NUEVO TABLA
   displayedColumns: string[] = ['fila', 'codigoUnico', 'image', 'nombre', 'presente', 'atraso', 'falta'];
-  dataSource:any =[];
+  dataSource: any = [];
   //array original de nomina de estudiante
   private nominaConsulta: any = [];
   //manejar las suscripciones
@@ -46,7 +46,7 @@ export class VistaCursoComponent implements OnInit {
   hora: any;
   //estado para agregar
   estado = 'presente';
-  toggle:any;
+  toggle: any;
   //estado control
   estadoControl: boolean = false;
   //variable para el qr
@@ -79,6 +79,8 @@ export class VistaCursoComponent implements OnInit {
     this.nombreDay = moment.weekdays(day).charAt(0).toUpperCase() + moment.weekdays(day).slice(1)
     // Obtiene la hora del sistema
     this.hora = moment().format('HH:mm:ss');
+    this.generaNss();
+    console.log('randomico', this.codigo_randomico)
   }
 
   ngOnDestroy() {
@@ -97,6 +99,19 @@ export class VistaCursoComponent implements OnInit {
     this.codigoQr = CryptoJS.AES.encrypt(cadena.trim(), informacion.trim()).toString();
   }
 
+  codigo_randomico: any;
+  generaNss() {
+    this.codigo_randomico = '';
+    const characters = 'DJ_SY@h/qy48';
+    const charactersLength = characters.length;
+    for (let i = 0; i < charactersLength; i++) {
+      this.codigo_randomico += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return this.codigo_randomico;
+  }
+
+
+
   public obtenerNomina(idMateria: any, idNomina: any) {
     this.suscripcion1 = this.authService.getDataNominaCursoId(idMateria, idNomina).subscribe((data) => {
 
@@ -104,7 +119,7 @@ export class VistaCursoComponent implements OnInit {
 
       this.nominaVista.length = 0;
       this.nominaConsulta.length = 0;
-      
+
 
       dataNomina.nomina.forEach((dataMateria: any) => {
         this.idQr = dataNomina.uidProfesor + '//' + dataNomina.uidMateria + '//' + dataNomina.uidCurso + '//' + data.payload.id;
@@ -231,10 +246,10 @@ export class VistaCursoComponent implements OnInit {
   }
 
   agregarArrayReemplazar(indexArray, presente, atraso, falta, ultimoId, estado) {
-    this.nominaConsulta[indexArray].asistencia[ultimoId].presente= presente
-    this.nominaConsulta[indexArray].asistencia[ultimoId].atraso= atraso
-    this.nominaConsulta[indexArray].asistencia[ultimoId].falta= falta
-    this.nominaConsulta[indexArray].asistencia[ultimoId].estado= estado
+    this.nominaConsulta[indexArray].asistencia[ultimoId].presente = presente
+    this.nominaConsulta[indexArray].asistencia[ultimoId].atraso = atraso
+    this.nominaConsulta[indexArray].asistencia[ultimoId].falta = falta
+    this.nominaConsulta[indexArray].asistencia[ultimoId].estado = estado
     console.log(this.nominaConsulta);
   }
 
@@ -279,9 +294,9 @@ export class VistaCursoComponent implements OnInit {
 
   async agregarArrayFinalizado() {
     this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, 'finalizado');
-    this.estado='presente';
-    this.estadoControl=false;
-    this.toggle=false;
+    this.estado = 'presente';
+    this.estadoControl = false;
+    this.toggle = false;
   }
 
   applyFilter(event: Event) {
@@ -325,8 +340,8 @@ export class VistaCursoComponent implements OnInit {
   }
 
 
-  QR(){
-    this.authService.updateNominaEstado(this.idNomina, this.idMateria,this.estado);
+  QR() {
+    this.authService.updateNominaEstado(this.idNomina, this.idMateria, this.estado);
   }
 
 
