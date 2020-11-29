@@ -52,6 +52,9 @@ export class VistaCursoComponent implements OnInit {
   //variable para el qr
   idQr: any;
   NombreMateria: any = '';
+  //variables importantes para la validadcion 
+  numeroAlmacenado: any;
+  historial: any[] = [];
 
   constructor(
     private authService: AuthService,
@@ -103,7 +106,7 @@ export class VistaCursoComponent implements OnInit {
   codigo_randomico: any;
   generaNss() {
     this.codigo_randomico = '';
-    const characters = 'DJ_SY@h/qy48';
+    const characters = 'Dn_S+?Y@hmqy48';
     const charactersLength = characters.length;
     for (let i = 0; i < charactersLength; i++) {
       this.codigo_randomico += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -116,8 +119,16 @@ export class VistaCursoComponent implements OnInit {
 
       const dataNomina: any = data.payload.data();
 
+
       this.nominaVista.length = 0;
       this.nominaConsulta.length = 0;
+      this.historial.length = 0;
+      this.numeroAlmacenado = dataNomina.numeroAlmacenado,
+        this.historial = dataNomina.historial,
+
+        console.log('buscar', Number(this.numeroAlmacenado), this.historial.length)
+      console.log('se obtiene', this.numeroAlmacenado, this.historial)
+      console.log('data nomina', dataNomina)
 
 
       dataNomina.nomina.forEach((dataMateria: any) => {
@@ -180,7 +191,7 @@ export class VistaCursoComponent implements OnInit {
         })
       });
     });
-    //console.log(this.nominaVista);
+    console.log('nominaConsulta', this.nominaConsulta);
   }
 
   showOptionsPresente(event, dato: any) {
@@ -260,7 +271,7 @@ export class VistaCursoComponent implements OnInit {
     this.estado = 'presente';
     this.nominaConsulta.forEach(elementCurso => {
       cont = cont + 1;
-      console.log('se imprime', elementCurso.asistencia.length);
+      //console.log('se imprime', elementCurso.asistencia.length);
       let ultimoId = elementCurso.asistencia.length - 1;
       if (ultimoId === -1) {
         this.agregarArray(cont, false, false, true, false);
@@ -276,7 +287,7 @@ export class VistaCursoComponent implements OnInit {
 
 
   async agregarArray(indexArray, presente, atraso, falta, estado) {
-    console.log('datos que se insertaran', indexArray, this.nominaConsulta[indexArray].asistencia)
+    // console.log('datos que se insertaran', indexArray, this.nominaConsulta[indexArray].asistencia)
     await this.nominaConsulta[indexArray].asistencia.push({
       fecha: this.fechaActual,
       dia: this.nombreDay,
@@ -288,7 +299,22 @@ export class VistaCursoComponent implements OnInit {
   }
 
   async agregarArrayFinalizado() {
-    let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, 'presente', '0');//aqui se envia el desactivamiento del cdigo
+    console.log('esta en agregar finalizado', Number(this.numeroAlmacenado), this.historial.length)
+    let nuevoHistorial: any;
+    nuevoHistorial = this.historial.slice();
+    console.log('datos del array historial', this.historial);
+
+    if (Number(this.numeroAlmacenado) == this.historial.length) {
+      nuevoHistorial.push(this.nombreDay + '//' + this.fechaActual);
+      console.log('entro al if', nuevoHistorial);
+      this.numeroAlmacenado = '' + (Number(this.numeroAlmacenado) + 1);
+    } else if (this.historial.length > Number(this.numeroAlmacenado)) {
+      this.numeroAlmacenado = '' + (Number(this.numeroAlmacenado) + 1);
+    }
+
+    console.log('esto se almacenara', this.numeroAlmacenado, nuevoHistorial)
+
+    let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, 'presente', '0', this.numeroAlmacenado, nuevoHistorial);//aqui se envia el desactivamiento del cdigo
     if (data) {
       this.obtenerNomina(this.idMateria, this.idNomina);
       this.estado = 'presente';
@@ -340,9 +366,20 @@ export class VistaCursoComponent implements OnInit {
 
 
   QR() {
+    let nuevoHistorial: any;
+    nuevoHistorial = this.historial.slice();
+
+    if (Number(this.numeroAlmacenado) == this.historial.length) {
+      nuevoHistorial.push(this.nombreDay + '//' + this.fechaActual);
+    } else {
+
+    }
+    console.log('esto se va a guardar', nuevoHistorial);
+    console.log(this.numeroAlmacenado);
+
     this.codigoDeSeguridad = this.codigo_randomico;
-    this.authService.updateNominaEstadoQR(this.idNomina, this.idMateria, this.estado, this.codigoDeSeguridad);
-    this.tabla1.renderRows();
+    this.authService.updateNominaEstadoQR(this.idNomina, this.idMateria, this.estado, this.codigoDeSeguridad, nuevoHistorial);
+    this.obtenerNomina(this.idMateria, this.idNomina);
   }
 
 

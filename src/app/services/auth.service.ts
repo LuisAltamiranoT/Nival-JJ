@@ -451,11 +451,13 @@ export class AuthService extends RoleValidator {
   //crear nomina de estudiantes
   public async createNomina(nomina: any, idCurso: any, idMateria) {
     try {
-      const nominaCurso: NominaObligatoria = {
+      const nominaCurso = {
         uidMateria: idMateria,
         uidCurso: idCurso,
         uidProfesor: this.dataUser,
-        nomina: nomina
+        nomina: nomina,
+        historial:[],
+        numeroAlmacenado:'0'
       }
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').add(nominaCurso);
       return create;
@@ -514,9 +516,11 @@ export class AuthService extends RoleValidator {
   }
 
   //actualizar nomina
-  public async updateNomina(idNomina: any, idMateria: any, array: any, estado: any,acceso:any): Promise<void> {
+  public async updateNomina(idNomina: any, idMateria: any, array: any, estado: any,acceso:any,numeroAlmacenado:any,historial:any): Promise<void> {
     try {
       let data = {
+        numeroAlmacenado:numeroAlmacenado,
+        historial:historial,
         code:acceso,
         estado: estado,
         nomina: array
@@ -544,11 +548,12 @@ export class AuthService extends RoleValidator {
   }
 
    //actualizar estado actual
-   public async updateNominaEstadoQR(idNomina: any, idMateria: any,estado: any,acceso:any): Promise<void> {
+   public async updateNominaEstadoQR(idNomina: any, idMateria: any,estado: any,acceso:any,historial:any): Promise<void> {
     try {
       let data = {
         code:acceso,
-        estado: estado
+        estado: estado,
+        historial:historial
       }
       let db = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).set(data, { merge: true });
       this.showUpdatedata();
