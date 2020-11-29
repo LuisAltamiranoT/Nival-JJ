@@ -79,11 +79,6 @@ const routes: Routes = [
     component: VistaReportesComponent,
     canActivate: [GuardGuard]
   },
-  {
-    path: 'reporte-individual/:data/:dataE/:dataI/:dataF',
-    component: ReporteIndividualComponent,
-    canActivate: [GuardGuard]
-  }
 ];
 
 @NgModule({
