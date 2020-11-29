@@ -21,7 +21,7 @@ export class GuardGuard implements CanActivate {
       tap(canEdit => {
         if(!canEdit){
           this.router.navigate(['/home']);
-          window.alert('Acceso denegado. No tiene permisos para usar el sistema');
+          this.authService.showWarning('Acceso denegado. No tiene permisos para usar el sistema');
           this.authService.logout();
         }
       })

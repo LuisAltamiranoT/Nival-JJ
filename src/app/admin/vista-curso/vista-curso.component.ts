@@ -47,6 +47,8 @@ export class VistaCursoComponent implements OnInit {
   toggle:any;
   //estado control
   estadoControl: boolean = false;
+  //variable para el numero randomico de 6 cifraas
+  codigoDeSeguridad;
   //variable para el qr
   idQr: any;
   NombreMateria: any = '';
@@ -275,7 +277,7 @@ export class VistaCursoComponent implements OnInit {
   }
 
   async agregarArrayFinalizado() {
-    let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, 'finalizado');
+    let data = this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaConsulta, 'presente','0');//aqui se envia el desactivamiento del cdigo
     if(data){
       this.obtenerNomina(this.idMateria, this.idNomina);
       this.estado='presente';
@@ -327,7 +329,9 @@ export class VistaCursoComponent implements OnInit {
 
 
   QR(){
-    this.authService.updateNominaEstado(this.idNomina, this.idMateria,this.estado);
+    //aqui que se genere el codigo qr
+    //this.codigoDeSeguridad
+    this.authService.updateNominaEstadoQR(this.idNomina, this.idMateria,this.estado,this.codigoDeSeguridad);
     this.tabla1.renderRows();
   }
 
