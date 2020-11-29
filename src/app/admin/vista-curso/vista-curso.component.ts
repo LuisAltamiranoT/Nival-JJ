@@ -8,12 +8,10 @@ import { Nomina } from 'src/app/models/user.interface';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 
-import { UploadExcelService } from 'src/app/services/upload-excel.service'
 import { Subscription } from 'rxjs';
 
 import * as moment from 'moment';
 moment.locale('es');
-import * as xlsx from 'xlsx';
 import { ViewImageComponent } from '../curso-group/view-image/view-image.component';
 
 @Component({
@@ -264,9 +262,6 @@ export class VistaCursoComponent implements OnInit {
   }
 
 
-
-
-
   async agregarArray(indexArray, presente, atraso, falta, estado) {
     console.log('datos que se insertaran', indexArray, this.nominaConsulta[indexArray].asistencia)
     await this.nominaConsulta[indexArray].asistencia.push({
@@ -312,6 +307,7 @@ export class VistaCursoComponent implements OnInit {
   onReportes() {
     this.router.navigate(['reportes', this.dataId])
   }
+
   changeState() {
     if (this.estado === 'presente') {
       this.estado = 'atraso';

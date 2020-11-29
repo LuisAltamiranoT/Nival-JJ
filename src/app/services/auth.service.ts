@@ -386,6 +386,21 @@ export class AuthService extends RoleValidator {
   }
 
 
+  async updateNominaUnionAsistencia(idMateria:any, idNomina:any,arrayTemp2:any){
+    try {
+      const userRef =  this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina);
+      const data = {
+        nomina: arrayTemp2
+      };
+      let inf=await userRef.set(data, { merge: true });
+      this.showUpdatedata();
+      return inf;
+    } catch (error) {
+      this.showError(error);
+    }
+    
+  }
+
 
   //imagen
   public async updatePhoto(valor: any) {

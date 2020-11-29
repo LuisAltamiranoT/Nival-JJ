@@ -26,6 +26,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { MatCardModule } from '@angular/material/card';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
+
 // Librerías usadas para barra de navegación
 import { MatSidenavModule  } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -83,7 +84,6 @@ import { AddEstudianteComponent } from './admin/edit-curso/add-estudiante/add-es
 import { EditHorarioComponent } from './admin/edit-curso/edit-horario/edit-horario.component';
 import { DeleteEstudianteComponent } from './admin/edit-curso/delete-estudiante/delete-estudiante.component';
 import { PasswordForgotComponent } from './auth/password-forgot/password-forgot.component';
-import { ReporteGeneralComponent } from './admin/reporteria/reporte-general/reporte-general.component';
 import { ReporteIndividualComponent } from './admin/reporteria/reporte-individual/reporte-individual.component';
 import { VistaReportesComponent } from './admin/reporteria/vista-reportes/vista-reportes.component';
 import { EliminarCursoComponent } from './admin/perfil/eliminar-curso/eliminar-curso.component';
@@ -124,7 +124,6 @@ import { EliminarCursoComponent } from './admin/perfil/eliminar-curso/eliminar-c
     EditHorarioComponent,
     DeleteEstudianteComponent,
     PasswordForgotComponent,
-    ReporteGeneralComponent,
     ReporteIndividualComponent,
     VistaReportesComponent,
     EliminarCursoComponent,

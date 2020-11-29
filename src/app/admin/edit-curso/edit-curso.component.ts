@@ -6,7 +6,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from 'src/app/services/auth.service';
 
-import { Nomina } from 'src/app/models/user.interface';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 //subscripcion a un observable
@@ -227,6 +226,7 @@ export class EditCursoComponent implements OnInit {
       { width: ' 25rem', data: info }).afterClosed().subscribe(item => {
       });
   }
+  
   openMaterial2(component: any, info: any) {
     this.ventana.open(component,
       { data: info }).afterClosed().subscribe(item => {
