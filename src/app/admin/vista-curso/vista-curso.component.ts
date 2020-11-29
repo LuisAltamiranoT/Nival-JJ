@@ -79,6 +79,7 @@ export class VistaCursoComponent implements OnInit {
     this.nombreDay = moment.weekdays(day).charAt(0).toUpperCase() + moment.weekdays(day).slice(1)
     // Obtiene la hora del sistema
     this.hora = moment().format('HH:mm:ss');
+    // Generar código randomico
     this.generaNss();
     console.log('randomico', this.codigo_randomico)
   }
@@ -97,7 +98,6 @@ export class VistaCursoComponent implements OnInit {
     var informacion = '2sllmtu2=uTZq@%%jl9w';
     // encriptar data
     this.codigoQr = CryptoJS.AES.encrypt(cadena.trim(), informacion.trim()).toString();
-    this.codigoDeSeguridad = this.codigoQr;
   }
 
   codigo_randomico: any;
@@ -111,15 +111,10 @@ export class VistaCursoComponent implements OnInit {
     return this.codigo_randomico;
   }
 
-
-
   public obtenerNomina(idMateria: any, idNomina: any) {
     this.suscripcion1 = this.authService.getDataNominaCursoId(idMateria, idNomina).subscribe((data) => {
 
       const dataNomina: any = data.payload.data();
-      this.idQr = dataNomina.uidProfesor + '//' + dataNomina.uidMateria + '//' + dataNomina.uidCurso;
-      // Encriptar  QR
-      this.EncriptarData(this.idQr);
 
       this.nominaVista.length = 0;
       this.nominaConsulta.length = 0;
@@ -344,9 +339,8 @@ export class VistaCursoComponent implements OnInit {
   }
 
 
-
   QR() {
-    console.log('thicvv', this.codigoDeSeguridad)
+    this.codigoDeSeguridad = this.codigo_randomico;
     this.authService.updateNominaEstadoQR(this.idNomina, this.idMateria, this.estado, this.codigoDeSeguridad);
     this.tabla1.renderRows();
   }

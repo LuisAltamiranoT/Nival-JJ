@@ -120,7 +120,6 @@ export class VistaReportesComponent implements OnInit {
           Numero: filas,
           Nombre: dataMateria.nombre,
           CodigoUnico: dataMateria.codigoUnico,
-          uidUser: dataMateria.uidUser
         }
 
 
@@ -378,12 +377,7 @@ export class VistaReportesComponent implements OnInit {
   }
 
   exportToExcel() {
-    this.excel.forEach(obj => {
-      if (obj === 0) {
-        obj = 'Presente';
-      }
-      //console.log('verificar', obj)
-    });
+
     const wse: xlsx.WorkSheet = xlsx.utils.json_to_sheet(this.excel);
     const headerE = Object.keys(this.excel[0]); // columns name
     var wscolsE = [];
