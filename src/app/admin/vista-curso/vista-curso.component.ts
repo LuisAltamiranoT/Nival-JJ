@@ -56,6 +56,9 @@ export class VistaCursoComponent implements OnInit {
   numeroAlmacenado: any;
   historial: any[] = [];
 
+  ////////////////////////////////////////validacion de check
+  ValidateCheckBox = false;
+
   constructor(
     private authService: AuthService,
     public router: Router,
@@ -195,6 +198,7 @@ export class VistaCursoComponent implements OnInit {
   }
 
   showOptionsPresente(event, dato: any) {
+    this.ValidateCheckBox = true;
     this.nominaVista[dato].presente = true;
     this.nominaVista[dato].atraso = false;
     this.nominaVista[dato].falta = false;
@@ -210,6 +214,7 @@ export class VistaCursoComponent implements OnInit {
   }
 
   showOptionsAtraso(event, dato: any) {
+    this.ValidateCheckBox = true;
     this.nominaVista[dato].presente = false;
     this.nominaVista[dato].atraso = true;
     this.nominaVista[dato].falta = false;
@@ -225,6 +230,7 @@ export class VistaCursoComponent implements OnInit {
   }
 
   showOptionsFalta(event, dato: any) {
+    this.ValidateCheckBox = true;
     this.nominaVista[dato].presente = false;
     this.nominaVista[dato].atraso = false;
     this.nominaVista[dato].falta = true;
@@ -267,22 +273,25 @@ export class VistaCursoComponent implements OnInit {
 
 
   almacenarNominaFinalizado() {
-    let cont = -1;
-    this.estado = 'presente';
-    this.nominaConsulta.forEach(elementCurso => {
-      cont = cont + 1;
-      //console.log('se imprime', elementCurso.asistencia.length);
-      let ultimoId = elementCurso.asistencia.length - 1;
-      if (ultimoId === -1) {
-        this.agregarArray(cont, false, false, true, false);
-      } else if (elementCurso.asistencia[ultimoId].estado === this.estadoControl) {
-        this.agregarArray(cont, false, false, true, false);
-      } else {
-        this.agregarArrayReemplazar(cont, elementCurso.asistencia[ultimoId].presente, elementCurso.asistencia[ultimoId].atraso, elementCurso.asistencia[ultimoId].falta, ultimoId, false);
-      }
-    });
-    this.agregarArrayFinalizado();
-
+    if (this.ValidateCheckBox == true) {
+      let cont = -1;
+      this.estado = 'presente';
+      this.nominaConsulta.forEach(elementCurso => {
+        cont = cont + 1;
+        //console.log('se imprime', elementCurso.asistencia.length);
+        let ultimoId = elementCurso.asistencia.length - 1;
+        if (ultimoId === -1) {
+          this.agregarArray(cont, false, false, true, false);
+        } else if (elementCurso.asistencia[ultimoId].estado === this.estadoControl) {
+          this.agregarArray(cont, false, false, true, false);
+        } else {
+          this.agregarArrayReemplazar(cont, elementCurso.asistencia[ultimoId].presente, elementCurso.asistencia[ultimoId].atraso, elementCurso.asistencia[ultimoId].falta, ultimoId, false);
+        }
+      });
+      this.agregarArrayFinalizado();
+    }else{
+      this.authService.showInfo('No hay registros de asitencia para guardar');
+    }
   }
 
 
@@ -336,7 +345,7 @@ export class VistaCursoComponent implements OnInit {
   openPhoto(image: any) {
     if (image != 'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680') {
       this.ventana.open(ViewImageComponent,
-        { data: image }).afterClosed().subscribe(item => {
+        { width: ' 25rem', data: image }).afterClosed().subscribe(item => {
         });
     } else {
       this.authService.showInfo('El estudiante no dispone de una imagen de perfil');

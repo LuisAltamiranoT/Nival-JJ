@@ -117,7 +117,7 @@ export class UploadImageService extends ImageValidator {
   }
 
 
-  public preAddAndUpdatePerfil(image: FileI) {
+  public preAddAndUpdatePerfil(image: FileI,arrayMaterias:any) {
     let item = false;
     this.filePath = this.generateFileName(image.name, this.MEDIA_STORAGE_PATH_PERFIL);
     const fileRef = this.storage.ref(this.filePath);
@@ -126,13 +126,16 @@ export class UploadImageService extends ImageValidator {
       finalize(() => {
         fileRef.getDownloadURL().subscribe(urlImage => {
           this.downloadURL = urlImage;
-            this.addPhoto();
+            this.addPhoto(arrayMaterias);
         });
       })
     ).subscribe();
   }
 
-  public async addPhoto() {
+  public async addPhoto(arrayMaterias:any) {
+    arrayMaterias.forEach(element => {
+      this.authService.updateMateriaFotoProfesor(element.id, this.downloadURL);
+    });
     let info = await this.authService.updatePhoto(this.downloadURL);
     return info;
   }

@@ -79,7 +79,7 @@ export class PerfilComponent implements OnInit {
   dataUser() {
     this.suscripcion1 = this.authService.getDataUser().subscribe((data) => {
       let dataUser: any = [data.payload.data()];
-      this.nombre =dataUser[0].nombre;
+      this.nombre = dataUser[0].nombre;
       this.apellido = dataUser[0].apellido;
       this.correo = dataUser[0].email;
       this.informacion = dataUser[0].info;
@@ -92,20 +92,20 @@ export class PerfilComponent implements OnInit {
   }
 
   //curso completo
-  
+
   cargarData() {
-    this.cursoCompleto.length=0;
+    this.cursoCompleto.length = 0;
     this.materias.forEach(elementMateria => {
       elementMateria.data.cursos.forEach(elementCurso => {
         //console.log(elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id);
-          this.cursoCompleto.push({
-            idCurso:elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id,
-            nombre: elementMateria.data.nombre + ' ' + elementCurso.aula,
-            image: elementCurso.image,
-            array: elementCurso,
-            uidNomina: elementCurso.uidNomina,
-            idMateria:elementMateria.id
-          })
+        this.cursoCompleto.push({
+          idCurso: elementCurso.uidNomina + '//' + elementMateria.id + '//' + elementCurso.id,
+          nombre: elementMateria.data.nombre + ' ' + elementCurso.aula,
+          image: elementCurso.image,
+          array: elementCurso,
+          uidNomina: elementCurso.uidNomina,
+          idMateria: elementMateria.id
+        })
       });
     });
   }
@@ -123,7 +123,7 @@ export class PerfilComponent implements OnInit {
       })
       this.cargarData();
     });
-  }  
+  }
 
   //editar curso
   editarCurso(idCurso: any) {
@@ -134,8 +134,14 @@ export class PerfilComponent implements OnInit {
     this.openMaterial(EditarAnioComponent);
   }
 
+  //al momento de actualizar el nombre se ebe actualizar en las materias que tenga el usuario
   openNombreModal() {
-    this.openMaterial1(NombreComponent, this.nombre);
+    let info = {
+      nombre: this.nombre,
+      apellido: this.apellido,
+      arrayMaterias: this.materias
+    }
+    this.openMaterial1(NombreComponent, info);
   }
 
   openInfoModal() {
@@ -143,7 +149,12 @@ export class PerfilComponent implements OnInit {
   }
 
   openApellidoModal() {
-    this.openMaterial1(ApellidoComponent, this.apellido);
+    let info = {
+      nombre: this.nombre,
+      apellido: this.apellido,
+      arrayMaterias: this.materias
+    }
+    this.openMaterial1(ApellidoComponent, info);
   }
 
   openOficinaModal() {
@@ -155,11 +166,11 @@ export class PerfilComponent implements OnInit {
   }
 
   openMateriaModal() {
-    let data={
-      nombre:this.nombre+' '+this.apellido,
+    let data = {
+      nombre: this.nombre + ' ' + this.apellido,
       image: this.perfil
     }
-    this.openMaterial1(MateriaComponent,data);
+    this.openMaterial1(MateriaComponent, data);
   }
 
   openEditMateriaModal(nombre: any, idMateria: any) {
@@ -171,42 +182,50 @@ export class PerfilComponent implements OnInit {
     this.openMaterial1(EditarMateriaComponent, dataMateria);
   }
 
-  openEliminarMateriaModal(data: any, idData: any,dataArray:any) {
+  openEliminarMateriaModal(data: any, idData: any, dataArray: any) {
     let dataMateria = {
       nombre: data,
       id: idData,
-      array:dataArray,
+      array: dataArray,
     }
     this.openMaterial1(EliminarDataComponent, dataMateria);
   }
 
-/*
- idCurso:elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id,
-  nombre: elementMateria.data.nombre + ' ' + elementCurso.aula,
-  image: elementCurso.image,
- array:array el array de la amteria
- */
+  /*
+   idCurso:elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id,
+    nombre: elementMateria.data.nombre + ' ' + elementCurso.aula,
+    image: elementCurso.image,
+   array:array el array de la amteria
+   */
 
-  openEliminarCursoModal(nombre: any,uidNomina: any,image:any, idMateria:any,array:any) {
+  openEliminarCursoModal(nombre: any, uidNomina: any, image: any, idMateria: any, array: any) {
     console.log(array)
     let dataMateria = {
-      nombre:nombre,
+      nombre: nombre,
       uidNomina: uidNomina,
-      image:image,
+      image: image,
       idMateria: idMateria,
-      array:array
+      array: array
     }
     this.openMaterial1(EliminarCursoComponent, dataMateria);
   }
 
   openPhoto() {
     if (this.perfil != 'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680') {
+      let info = {
+        data: this.perfil,
+        array:this.materias
+      }
       this.ventana.open(FotoComponent,
-        { width: ' 25rem', data: this.perfil }).afterClosed().subscribe(item => {
+        { width: ' 25rem', data: info }).afterClosed().subscribe(item => {
         });
     } else {
+      let info = {
+        data: 'no-image',
+        array:this.materias
+      }
       this.ventana.open(FotoComponent,
-        { width: ' 25rem', data: 'no-image' }).afterClosed().subscribe(item => {
+        { width: ' 25rem', data: info }).afterClosed().subscribe(item => {
         });
     }
   }

@@ -27,13 +27,18 @@ export class NombreComponent implements OnInit {
 
   ngOnInit(): void {
 
+    /*nombre:this.nombre,
+      apellido:this.apellido,
+      arrayMaterias:this.materias */
+
     console.log(this.infoUser);
 
     if (this.infoUser == "") {
 
     } else {
-      this.nombreForm.patchValue({ name: this.infoUser });
-      this.placeholder = this.infoUser;
+      //almacena informacion
+      this.nombreForm.patchValue({ name: this.infoUser.nombre });
+      this.placeholder = this.infoUser.nombre;
     }
   }
 
@@ -68,6 +73,7 @@ export class NombreComponent implements OnInit {
       this.validate = false;
       this.mensaje = '';
       const { name } = this.nombreForm.value;
+      this.updateMateria(name);
       const dat = await this.authService.updateName(name);
       if (dat) {
         this.dialogRef.close();
@@ -77,6 +83,13 @@ export class NombreComponent implements OnInit {
     } catch (error) {
       this.authService.showError(error);
     }
+  }
+
+  //ejecutar actualizacion en loas archivos materia
+  updateMateria(nombre:any){
+    this.infoUser.arrayMaterias.forEach(element => {
+      this.authService.updateMateriaNombreProfesor(element.id,nombre+' '+this.infoUser.apellido);
+    });
   }
 
   dimissModal() {
