@@ -31,8 +31,8 @@ export class VistaReportesComponent implements OnInit {
   ValidateButton = false;
 
   fechaForm = new FormGroup({
-    inicio: new FormControl({ value: '', disabled: this.ValidateButton }, Validators.required),
-    fin: new FormControl({ value: '', disabled: this.ValidateButton }, Validators.required)
+    inicio: new FormControl({ value: '', disabled: this.ValidateButton }),
+    fin: new FormControl({ value: '', disabled: this.ValidateButton })
   })
 
   //manejor de tablas 
@@ -53,11 +53,11 @@ export class VistaReportesComponent implements OnInit {
   //almacena el id de la materia
   idMateria;
   //almacena la informacion  de la consulta
-  dataNominaConsulta: any[]=[];
+  dataNominaConsulta: any[] = [];
 
   //control botones
   validate = true;
-  limpiarInput=false;
+  limpiarInput = false;
 
   //feach para valiar
   fechaInicioNomina;
@@ -92,7 +92,7 @@ export class VistaReportesComponent implements OnInit {
       this.ejemplo.length = 0;
       this.excel.length = 0;
       this.displayedColumns.length = 0;
-      this.dataNominaConsulta.length=0;
+      this.dataNominaConsulta.length = 0;
 
       //contiene la primera fecha que se tomo la lista asi que es el inicio 
       this.fechaInicioNomina = dataNomina.nomina[0].asistencia[0].fecha;
@@ -164,8 +164,8 @@ export class VistaReportesComponent implements OnInit {
   }
 
   filtrar() {
-    console.log('este es el array',this.dataNominaConsulta);
-    this.limpiarInput=true;
+    console.log('este es el array', this.dataNominaConsulta);
+    this.limpiarInput = true;
     const { inicio, fin } = this.fechaForm.value;
     let obj = {};
     let objExcel = {};
@@ -349,7 +349,7 @@ export class VistaReportesComponent implements OnInit {
   limpiarImput() {
     this.fechaForm.patchValue({ inicio: "" });
     this.fechaForm.patchValue({ fin: "" });
-    this.limpiarInput=false;
+    this.limpiarInput = false;
     this.cargar();
   }
 
@@ -366,6 +366,7 @@ export class VistaReportesComponent implements OnInit {
       if (Date.parse(moment(form.inicio).format("YYYY-MM-DD")) <= Date.parse(fecha_fin) &&
         Date.parse(moment(form.inicio).format("YYYY-MM-DD")) <= Date.parse(fechaActual) &&
         Date.parse(fecha_fin) <= Date.parse(fechaActual)) {
+        this.limpiarInput = true;
       }
       else {
         this.authService.showInfo('La fecha fin de periodo debe ser posterior a la fecha de inicio y recuerde que no puede seleccionar fechas posteriores a la actual');
@@ -392,20 +393,20 @@ export class VistaReportesComponent implements OnInit {
 
   //activa modal
   onclick(estado: any, index: any, discol: any) {
-    console.log('datos a buscar',estado, index, discol,this.dataNominaConsulta);
+    console.log('datos a buscar', estado, index, discol, this.dataNominaConsulta);
 
     let data = {
-      estado:estado,
-      index:discol,
-      array:this.dataNominaConsulta,
-      indexEstudiante:index,
-      idMateria:this.idMateria,
-      idNomina:this.idNomina
+      estado: estado,
+      index: discol,
+      array: this.dataNominaConsulta,
+      indexEstudiante: index,
+      idMateria: this.idMateria,
+      idNomina: this.idNomina
     }
     this.openMaterial1(ReporteIndividualComponent, data);
   }
 
-  
+
   openMaterial1(component: any, info: any) {
     this.ventana.open(component,
       { width: ' 25rem', data: info }).afterClosed().subscribe(item => {
@@ -413,4 +414,7 @@ export class VistaReportesComponent implements OnInit {
       });
   }
 
+  activarBusqueda() {
+    this.limpiarInput = true;
+  }
 }

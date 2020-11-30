@@ -394,6 +394,7 @@ export class AddCursoComponent implements OnInit {
     this.cursoForm.patchValue({ aula: '' });
     this.cursoForm.patchValue({ image: '' });
     this.cursoForm.reset();
+    this.validacionDeMateria = false;
   }
 
   //lector dde archivos excel

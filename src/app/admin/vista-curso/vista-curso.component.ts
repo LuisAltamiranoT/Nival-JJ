@@ -77,7 +77,7 @@ export class VistaCursoComponent implements OnInit {
     // Fecha actual en string
     this.fechaActual = f.format('DD-MM-YYYY');
     // Función day
-    var day = moment(this.fechaActual).day();
+    var day = moment(f).day();
     // Obtiene el nombre de día del sistema
     this.nombreDay = moment.weekdays(day).charAt(0).toUpperCase() + moment.weekdays(day).slice(1)
     // Obtiene la hora del sistema

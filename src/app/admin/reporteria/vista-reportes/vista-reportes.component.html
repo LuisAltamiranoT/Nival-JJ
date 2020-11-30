@@ -21,7 +21,7 @@
           <mat-form-field class="ml-4">
             <mat-label>Inicio</mat-label>
             <input autocomplete="off" matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker"
-              formControlName="inicio" readonly>
+              formControlName="inicio" readonly (dateInput)="activarBusqueda()">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -33,7 +33,7 @@
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
-          <button mat-button [disabled]="!ValidateButton" (click)="limpiarBusqueda(input)">
+          <button mat-button [disabled]="!limpiarInput" (click)="limpiarBusqueda(input)">
             <mat-icon>
               search
             </mat-icon>
@@ -57,7 +57,7 @@
     <mat-label>Buscar</mat-label>
     <input matInput autocomplete="off" (keyup)="applyFilter($event)" placeholder="Ejemplo 201720 o Pepito Perez" #input>
     <a class="aNival" mat-icon-button matSuffix (click)="limpiarBusqueda(input)">
-      <mat-icon matSuffix>close</mat-icon>
+      <mat-icon matSuffix>backspace</mat-icon>
     </a>
   </mat-form-field>
 
