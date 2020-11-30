@@ -20,6 +20,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 import { User, Curso, Materia, Nomina, NominaObligatoria, MateriaRegister } from 'src/app/models/user.interface';
+import { Router } from '@angular/router';
 
 
 
@@ -37,7 +38,8 @@ export class AuthService extends RoleValidator {
   constructor(
     public afAuth: AngularFireAuth,
     private toastr: ToastrService,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    public router: Router
   ) {
     super();
 
@@ -82,6 +84,7 @@ export class AuthService extends RoleValidator {
   async logout() {
     try {
       await this.afAuth.signOut();
+      this.router.navigate(['home']);
     } catch (error) {
       this.showError(error);
     }
@@ -177,6 +180,7 @@ export class AuthService extends RoleValidator {
     try{
       let userAccount = firebase.auth().currentUser;
       await this.reauthenticate(oldPass);
+      await this.updateEstadoEliminar();
       await userAccount.delete();
       this.showSuccess('Usted ha eliminado su cuenta de EASY-AC-NIVAL');
       this.logout();
@@ -187,20 +191,22 @@ export class AuthService extends RoleValidator {
     }
   }
 
-    //nombre
-    public async updateEstado(valor: string) {
-      try {
-        const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.dataUser}`);
-      
-        //const dataUpdate = await userRef.set(data, { merge: true });
-        this.showUpdatedata();
-      //  return { dataUpdate };
-  
-      } catch (error) {
-        this.showError(error);
-      }
+   //nombre
+   public async updateEstadoEliminar() {
+    try {
+      const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.dataUser}`);
+      const data = {
+        EliminarCuenta: 'EliminarCuenta'
+      };
+      const dataUpdate = await userRef.set(data, { merge: true });
+      this.showUpdatedata();
+      return { dataUpdate };
+
+    } catch (error) {
+      this.showError(error);
     }
-   
+  }
+
 
   //descripcion
   public async updateDescripcion(valor: string) {
@@ -322,6 +328,34 @@ export class AuthService extends RoleValidator {
       };
       const dataUpdate = await userRef.set(update, { merge: true });
       this.showUpdatedata();
+      return { dataUpdate };
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+  //actualizar nombre e profesor en materias
+  public async updateMateriaNombreProfesor(documentId: string, data: any) {
+    try {
+      const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(documentId);
+      const update: Materia = {
+        profesor: data
+      };
+      const dataUpdate = await userRef.set(update, { merge: true });
+      return { dataUpdate };
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+
+   //actualizar nombre e profesor en materias
+   public async updateMateriaFotoProfesor(documentId: string, data: any) {
+    try {
+      const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(documentId);
+      const update: Materia = {
+        photoUrl: data
+      };
+      const dataUpdate = await userRef.set(update, { merge: true });
       return { dataUpdate };
     } catch (error) {
       this.showError(error);

@@ -44,6 +44,11 @@ export class FotoComponent implements OnInit {
 
   ngOnInit(): void {
 
+    /*
+    data: this.perfil,
+        array:this.materias
+     */
+
     this.photoSelected = '../../../assets/aqui.jpg';
 
     this.stateImage = this.authService.finalizoImage$.subscribe(() => {
@@ -84,11 +89,11 @@ export class FotoComponent implements OnInit {
 
   addFoto() {
     this.validate = false;
-    if (this.validImage && this.infoUser === 'no-image') {
-      let data = this.uploadImage.preAddAndUpdatePerfil(this.file);
+    if (this.validImage && this.infoUser.data === 'no-image') {
+      let data = this.uploadImage.preAddAndUpdatePerfil(this.file,this.infoUser.array);
     } else {
-      let data = this.uploadImage.preAddAndUpdatePerfil(this.file);
-      this.uploadImage.deleteImagePerfil(this.infoUser);
+      let data = this.uploadImage.preAddAndUpdatePerfil(this.file,this.infoUser.array);
+      this.uploadImage.deleteImagePerfil(this.infoUser.data);
     }
   }
 

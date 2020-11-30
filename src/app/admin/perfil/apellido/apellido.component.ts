@@ -28,27 +28,27 @@ export class ApellidoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    /*nombre:this.nombre,
+      apellido:this.apellido,
+      arrayMaterias:this.materias */
     if (this.infoUser == "") {
 
     } else {
-      this.apellidoForm.patchValue({ lastName: this.infoUser });
-      this.placeholder = this.infoUser;
+      this.apellidoForm.patchValue({ lastName: this.infoUser.apellido });
+      this.placeholder = this.infoUser.apellido;
     }
   }
 
   async onClick() {
     try {
       this.validate = false;
+      this.mensaje = '';
       const { lastName } = this.apellidoForm.value;
-      if (lastName != "") {
-        const dat = await this.authService.updateLastName(lastName);
-        if (dat) {
-          this.dialogRef.close();
-        }else{
-          this.validate=true;
-        }
+      this.updateMateria(lastName);
+      const dat = await this.authService.updateLastName(lastName);
+      if (dat) {
+        this.dialogRef.close();
       } else {
-        this.authService.showError("Este campo es obligatorio");
         this.validate = true;
       }
     } catch (error) {
@@ -56,9 +56,23 @@ export class ApellidoComponent implements OnInit {
     }
   }
 
+  /*nombre:this.nombre,
+        apellido:this.apellido,
+        arrayMaterias:this.materias */
+
+  //ejecutar actualizacion en loas archivos materia
+  updateMateria(apellido: any) {
+    this.infoUser.arrayMaterias.forEach(element => {
+      this.authService.updateMateriaNombreProfesor(element.id, this.infoUser.nombre + ' ' + apellido);
+    });
+  }
+
+
   eraser() {
     this.apellidoForm.patchValue({ lastName: "" });
   }
+
+
 
 
   dimissModal() {
