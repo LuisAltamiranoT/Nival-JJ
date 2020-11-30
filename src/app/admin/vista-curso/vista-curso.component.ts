@@ -198,7 +198,7 @@ export class VistaCursoComponent implements OnInit {
   }
 
   showOptionsPresente(event, dato: any) {
-    this.ValidateCheckBox = true;
+    //this.ValidateCheckBox = true;
     this.nominaVista[dato].presente = true;
     this.nominaVista[dato].atraso = false;
     this.nominaVista[dato].falta = false;
@@ -214,7 +214,7 @@ export class VistaCursoComponent implements OnInit {
   }
 
   showOptionsAtraso(event, dato: any) {
-    this.ValidateCheckBox = true;
+    //this.ValidateCheckBox = true;
     this.nominaVista[dato].presente = false;
     this.nominaVista[dato].atraso = true;
     this.nominaVista[dato].falta = false;
@@ -230,7 +230,7 @@ export class VistaCursoComponent implements OnInit {
   }
 
   showOptionsFalta(event, dato: any) {
-    this.ValidateCheckBox = true;
+    //this.ValidateCheckBox = true;
     this.nominaVista[dato].presente = false;
     this.nominaVista[dato].atraso = false;
     this.nominaVista[dato].falta = true;
@@ -273,7 +273,7 @@ export class VistaCursoComponent implements OnInit {
 
 
   almacenarNominaFinalizado() {
-    if (this.ValidateCheckBox == true) {
+   // if (this.ValidateCheckBox == true) {
       let cont = -1;
       this.estado = 'presente';
       this.nominaConsulta.forEach(elementCurso => {
@@ -289,9 +289,9 @@ export class VistaCursoComponent implements OnInit {
         }
       });
       this.agregarArrayFinalizado();
-    }else{
-      this.authService.showInfo('No hay registros de asitencia para guardar');
-    }
+    //}else{
+     // this.authService.showInfo('No hay registros de asitencia para guardar');
+    //}
   }
 
 
