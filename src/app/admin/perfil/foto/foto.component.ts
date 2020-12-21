@@ -56,7 +56,10 @@ export class FotoComponent implements OnInit {
     })
   }
   ngOnDestroy() {
-    this.stateImage.unsubscribe();
+    if(this.stateImage){
+      this.stateImage.unsubscribe();
+    }
+    
   }
 
 

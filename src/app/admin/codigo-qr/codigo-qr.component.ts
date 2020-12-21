@@ -23,7 +23,6 @@ export class CodigoQRComponent implements OnInit {
     this.dato = this._route.snapshot.paramMap.get('data');
     console.log(this.dato);
     this.value = this.dato;
-    // this.value = "../../../assets/perfil.jpg"
   }
 
 

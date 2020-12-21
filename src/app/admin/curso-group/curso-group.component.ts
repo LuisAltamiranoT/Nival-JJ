@@ -13,6 +13,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./curso-group.component.css']
 })
 export class CursoGroupComponent implements OnInit {
+  validateMateriaGuardadas: boolean = true;
+
+   //valida la ceacion de la tabla
+   validate: boolean = false;
   //informacion de los cursos guardados en el sistema
   public cursoVista = [];
   //carga la informacion de la base de datos acerca de las materias
@@ -40,7 +44,9 @@ export class CursoGroupComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.suscripcion1.unsubscribe();
+    if(this.suscripcion1){
+      this.suscripcion1.unsubscribe();
+    }
   }
 
   getMateria() {
@@ -52,6 +58,12 @@ export class CursoGroupComponent implements OnInit {
           data: dataMateria.payload.doc.data()
         });
       })
+      if (this.materias.length != 0) {
+        this.validateMateriaGuardadas = true;
+      } else {
+        this.validateMateriaGuardadas = false;
+      }
+
       this.replaceCursos();
     });
   }
@@ -73,18 +85,20 @@ export class CursoGroupComponent implements OnInit {
           console.log('carga de datos', this.cursoVista, this.materias);
         });
         console.log('tamñano del curso',this.cursoVista.length);
-        if(this.cursoVista.length!=0){
-          this.stateImage=false;
-        }else{
+        if(this.cursoVista.length != 0){
           this.stateImage=true;
+        }else{
+          this.stateImage=false;
         }
         
     });
+    this.validate=true;
   }
 
-  openCurso(id: any) {
-    this.router.navigate(['vista-curso', id]);
+  openCursoA(id: any) {
+    this.router.navigate(['vista-cursoActualizado', id]);
   }
+
 
   openEditCurso(idCurso: any) {
     this.router.navigate(['edit-curso', idCurso]);
@@ -93,7 +107,7 @@ export class CursoGroupComponent implements OnInit {
   openPhoto(image: any) {
     if (image != '') {
       this.ventana.open(ViewImageComponent,
-        { data: image }).afterClosed().subscribe(item => {
+        {width: ' 25rem', data: image }).afterClosed().subscribe(item => {
         });
     } else {
       this.authService.showInfo('El curso no dispone de una imagen');

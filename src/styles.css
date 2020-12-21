@@ -267,19 +267,14 @@ p{
     background-color: cornflowerblue;
   }
 
+
+
   /*nuevas clase*/
   .aNival{
     color: black;
 }
 
-.avatarNival{
-    vertical-align: middle;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    padding: 10px;
-  }
+
   
   .with-icon {
     display: inline-flex;
@@ -289,4 +284,33 @@ p{
     margin-bottom: -5px;
     padding-bottom: -5px;
   }
+
+  .avatarDiv{
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .avatarNival{
+    vertical-align: middle;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+.mat-progress​-spinner circle, .mat-spinner circle {
+       stroke:  cornflowerblue; 
+}
+
+.spinnerA{
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+    
+.spinnerB{
+    width: 120px;
+}
   

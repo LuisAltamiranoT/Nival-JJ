@@ -22,6 +22,9 @@ export class DeleteComponent implements OnInit {
     oldPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
   })
 
+  cursos:any=[];
+  imagePerfil:any='';
+
   constructor(
     public dialogRef: MatDialogRef<DeleteComponent>,
     @Inject(MAT_DIALOG_DATA) public infoUser: any,
@@ -29,12 +32,14 @@ export class DeleteComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.cursos=this.infoUser.cursos;
+    this.imagePerfil=this.infoUser.imagen;
   }
 
   async onClick() {
     this.validate = false;
     const { oldPassword } = this.passwordForm.value;
-    const dat = await this.authService.updateAcoountUser(oldPassword);
+    const dat = await this.authService.updateAcoountUser(oldPassword,this.imagePerfil,this.cursos);
     if (dat != 1) {
       this.validate = true;
     } else {

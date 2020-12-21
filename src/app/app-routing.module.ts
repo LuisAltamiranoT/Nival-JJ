@@ -10,15 +10,15 @@ import { GuardGuard } from './services/guard.guard';
 import { CursoGroupComponent } from './admin/curso-group/curso-group.component';
 import { HorarioComponent } from './admin/horario/horario.component';
 import { AddCursoComponent } from './admin/add-curso/add-curso.component';
-import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
 import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
 import { EditCursoComponent } from './admin/edit-curso/edit-curso.component';
 import { VistaReportesComponent } from './admin/reporteria/vista-reportes/vista-reportes.component';
-import { ReporteIndividualComponent } from './admin/reporteria/reporte-individual/reporte-individual.component';
+import { VistaCursoActualizadoComponent } from './admin/vista-curso-actualizado/vista-curso-actualizado.component';
+import { CanDeactivateGuard } from './services/can-deactivate.guard';
 
 const routes: Routes = [
   {
-    path:' ',
+    path:'',
     redirectTo: '/home',
     pathMatch: 'full'
   },
@@ -55,9 +55,10 @@ const routes: Routes = [
     canActivate: [GuardGuard]
   },
   {
-    path: 'vista-curso/:data',
-    component: VistaCursoComponent,
-    canActivate: [GuardGuard]
+    path: 'vista-cursoActualizado/:data',
+    component: VistaCursoActualizadoComponent,
+    canActivate: [GuardGuard],
+    canDeactivate:[CanDeactivateGuard]
   },
   {
     path: 'horario',
@@ -79,6 +80,11 @@ const routes: Routes = [
     component: VistaReportesComponent,
     canActivate: [GuardGuard]
   },
+  {
+    path:'**',
+    redirectTo: '/home',
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({

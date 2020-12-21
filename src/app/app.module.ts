@@ -36,6 +36,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatChipsModule} from '@angular/material/chips';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -73,7 +74,6 @@ import { EditarMateriaComponent } from './admin/perfil/editar-materia/editar-mat
 import { EditarAnioComponent } from './admin/perfil/editar-anio/editar-anio.component';
 import { FotoComponent } from './admin/perfil/foto/foto.component';
 import { AddCursoComponent } from './admin/add-curso/add-curso.component';
-import { VistaCursoComponent } from './admin/vista-curso/vista-curso.component';
 import { CodigoQRComponent } from './admin/codigo-qr/codigo-qr.component';
 import { EditCursoComponent } from './admin/edit-curso/edit-curso.component';
 import { ViewImageComponent } from './admin/curso-group/view-image/view-image.component';
@@ -87,6 +87,12 @@ import { PasswordForgotComponent } from './auth/password-forgot/password-forgot.
 import { ReporteIndividualComponent } from './admin/reporteria/reporte-individual/reporte-individual.component';
 import { VistaReportesComponent } from './admin/reporteria/vista-reportes/vista-reportes.component';
 import { EliminarCursoComponent } from './admin/perfil/eliminar-curso/eliminar-curso.component';
+import { VerImageComponent } from './admin/reporteria/ver-image/ver-image.component';
+import { VerImageCursoComponent } from './admin/vista-curso-actualizado/ver-image-curso/ver-image-curso.component';
+import { VerEditImagenComponent } from './admin/add-curso/ver-edit-imagen/ver-edit-imagen.component';
+import { VistaCursoActualizadoComponent } from './admin/vista-curso-actualizado/vista-curso-actualizado.component';
+import { AsistenciaAnteriorComponent } from './admin/asistencia-anterior/asistencia-anterior.component';
+import { NotificacionSalirComponent } from './admin/notificacion-salir/notificacion-salir.component';
 
 @NgModule({
   declarations: [
@@ -113,7 +119,6 @@ import { EliminarCursoComponent } from './admin/perfil/eliminar-curso/eliminar-c
     EditarAnioComponent,
     FotoComponent,
     AddCursoComponent,
-    VistaCursoComponent,
     CodigoQRComponent,
     EditCursoComponent,
     ViewImageComponent,
@@ -127,6 +132,12 @@ import { EliminarCursoComponent } from './admin/perfil/eliminar-curso/eliminar-c
     ReporteIndividualComponent,
     VistaReportesComponent,
     EliminarCursoComponent,
+    VerImageComponent,
+    VerImageCursoComponent,
+    VerEditImagenComponent,
+    VistaCursoActualizadoComponent,
+    AsistenciaAnteriorComponent,
+    NotificacionSalirComponent
 
   ],
   imports: [
@@ -141,7 +152,10 @@ import { EliminarCursoComponent } from './admin/perfil/eliminar-curso/eliminar-c
     AngularFireAuthModule,
     AngularFireStorageModule,
     NgFallimgModule.forRoot({
-      default: 'assets/add.jpg'
+      default: 'assets/add.jpg',
+      perfil:'assets/withoutUser.jpg',
+      curso:'assets/add.jpg',
+      clase:'assets/clase.jpg'
     }),
     //material
     MatFormFieldModule,
@@ -167,7 +181,8 @@ import { EliminarCursoComponent } from './admin/perfil/eliminar-curso/eliminar-c
     MatCardModule,
     FlexLayoutModule,
     MatButtonToggleModule,
-    MatChipsModule
+    MatChipsModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     AuthService,

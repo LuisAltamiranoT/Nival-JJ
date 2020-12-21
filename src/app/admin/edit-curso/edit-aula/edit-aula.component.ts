@@ -27,11 +27,6 @@ export class EditAulaComponent implements OnInit {
   ngOnInit(): void {
     this.placeholder = this.infoUser.nombreAula;
     this.aulaForm.patchValue({ aula: this.infoUser.nombreAula });
-    /**idMateria:this.idMateria,
-      idNomina:this.idNomina,
-      array:this.dataMateria,
-      index:this.idIndexCurso,
-      nombreAula: this.placeholderAula */
   }
 
   async onClick() {

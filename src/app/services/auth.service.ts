@@ -21,6 +21,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 
 import { User, Curso, Materia, Nomina, NominaObligatoria, MateriaRegister } from 'src/app/models/user.interface';
 import { Router } from '@angular/router';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 
 
@@ -35,11 +36,15 @@ export class AuthService extends RoleValidator {
   private dataUser: any;
   public user$: Observable<User>;
 
+  private MEDIA_STORAGE_PATH = 'imageCurso';
+  private MEDIA_STORAGE_PATH_PERFIL = 'perfil';
+
   constructor(
     public afAuth: AngularFireAuth,
     private toastr: ToastrService,
     private afs: AngularFirestore,
-    public router: Router
+    public router: Router,
+    private storage: AngularFireStorage
   ) {
     super();
 
@@ -125,7 +130,7 @@ export class AuthService extends RoleValidator {
         email: user.email,
         emailVerified: user.emailVerified,
         role: 'ADMIN',
-        photoUrl:'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680'
+        photoUrl:''
       };
 
       return await userRef.set(data, { merge: true });
@@ -174,19 +179,38 @@ export class AuthService extends RoleValidator {
 
   
    //Delete user
-   public async updateAcoountUser(oldPass: string): Promise<Number> {
-    //estado cero no se logro, estado 1 se ha logrado 
-    let data:number;
-    try{
+  public async updateAcoountUser(oldPass: string, imagen: any, cursos: any): Promise<Number> {
+    let data: number;
+    try {
       let userAccount = firebase.auth().currentUser;
       await this.reauthenticate(oldPass);
       await this.updateEstadoEliminar();
+      
+
+      if (imagen != '') {
+        let splitted = imagen.split("perfil%2F")[1];
+        let name = splitted.split("?alt")[0];
+        const fileref = this.storage.ref(`${this.MEDIA_STORAGE_PATH_PERFIL}/${name}`);
+        fileref.delete();
+      } 
+
+      if (cursos.length != 0) {
+        cursos.forEach(element => {
+          if (element.image != '') {
+            let splitted = element.image.split("imageCurso%2F")[1];
+            let name = splitted.split("?alt")[0];
+            const fileref = this.storage.ref(`${this.MEDIA_STORAGE_PATH}/${name}`);
+            fileref.delete();
+          }
+        });
+      }
+
       await userAccount.delete();
-      this.showSuccess('Usted ha eliminado su cuenta de EASY-AC-NIVAL');
+      this.showSuccess('Usted ha eliminado su cuenta de NIVAL EASY ATTENDANCE CONTROL');
       this.logout();
-      return data=1;
-    }catch(error){
-      this.showError(error);
+      return data = 1;
+    } catch (error) {
+      this.showError('Verifica los datos. Algo salio mal');
       return data = 0;
     }
   }
@@ -491,7 +515,9 @@ export class AuthService extends RoleValidator {
         uidProfesor: this.dataUser,
         nomina: nomina,
         historial:[],
-        numeroAlmacenado:'0'
+        numeroAlmacenado:'0',
+        estado:'presente',
+        code:''
       }
       const create = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').add(nominaCurso);
       return create;
@@ -550,7 +576,7 @@ export class AuthService extends RoleValidator {
   }
 
   //actualizar nomina
-  public async updateNomina(idNomina: any, idMateria: any, array: any, estado: any,acceso:any,numeroAlmacenado:any,historial:any): Promise<void> {
+  public async updateNomina(idNomina: any, idMateria: any, array: any, estado: any,acceso:any,numeroAlmacenado:any,historial:any): Promise<Number> {
     try {
       let data = {
         numeroAlmacenado:numeroAlmacenado,
@@ -559,13 +585,28 @@ export class AuthService extends RoleValidator {
         estado: estado,
         nomina: array
       }
-      let db = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).set(data, { merge: true });
+      await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).set(data, { merge: true });
       this.showUpdatedata();
-      return db;
+      return 10;
     } catch (error) {
       this.showError(error);
     }
   }
+
+  //actualizar nomina
+  public async updateNominaAnterior(idNomina: any, idMateria: any, array: any): Promise<Number> {
+    try {
+      let data = {
+        nomina: array
+      }
+      await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).set(data, { merge: true });
+      this.showUpdatedata();
+      return 10;
+    } catch (error) {
+      this.showError(error);
+    }
+  }
+  
 
   //actualizar estado actual
   public async updateNominaEstado(idNomina: any, idMateria: any,estado: any): Promise<void> {
@@ -582,11 +623,10 @@ export class AuthService extends RoleValidator {
   }
 
    //actualizar estado actual
-   public async updateNominaEstadoQR(idNomina: any, idMateria: any,estado: any,acceso:any,historial:any): Promise<void> {
+   public async updateNominaEstadoQR(idNomina: any, idMateria: any,acceso:any,historial:any) {
     try {
       let data = {
         code:acceso,
-        estado: estado,
         historial:historial
       }
       let db = await this.afs.doc(`users/${this.dataUser}`).collection('materias').doc(idMateria).collection('nomina').doc(idNomina).set(data, { merge: true });

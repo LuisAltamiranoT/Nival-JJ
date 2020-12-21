@@ -10,6 +10,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./admin-home.component.css']
 })
 export class AdminHomeComponent implements OnInit {
+  //valida la ceacion de la tabla
+  validate: boolean = false;
 
   private suscripcion1: Subscription;
   nombre="";
@@ -24,7 +26,9 @@ export class AdminHomeComponent implements OnInit {
 
   
   ngOnDestroy() {
-    this.suscripcion1.unsubscribe();
+    if(this.suscripcion1){
+      this.suscripcion1.unsubscribe();
+    }
   }
 
   dataUser() {
@@ -32,6 +36,7 @@ export class AdminHomeComponent implements OnInit {
       let dataUser: any = [data.payload.data()];
       this.nombre =dataUser[0].nombre;
     });
+    this.validate=true;
   }
 
 }

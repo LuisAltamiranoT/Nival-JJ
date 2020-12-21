@@ -1,6 +1,3 @@
-import { database } from 'firebase';
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
-
 export type Roles = 'ADMIN';
 
 export interface User {

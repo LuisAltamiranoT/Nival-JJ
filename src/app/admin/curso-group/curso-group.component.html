@@ -1,15 +1,15 @@
 <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand mt-4"></a>
 </nav>
-<div class="container mt-4 container-nival">
-    <div class="row" *ngIf="!stateImage else reeplace">
-        
+<div class="container mt-4 container-nival" *ngIf="validate else barra">
+    <div class="row" *ngIf="stateImage else reeplace">
+
         <div class="col-sm-6 col-md-6 col-lg-6 col-6 pt-1 pbn-1">
             <h3 class="font-weight-normal"><i class="fas fa-chalkboard-teacher pr-1 fa-nival fa-sm"></i>Mis Clases
             </h3>
         </div>
         <div class="col-sm-6 col-md-6 col-lg-6 col-6 pt-1 pbn-1">
-            <a [routerLink]="['/curso']" class="float-right btn-nival pt-1">
+            <a *ngIf="validateMateriaGuardadas" [routerLink]="['/curso']" class="float-right btn-nival pt-1">
                 <i class="far fa-plus-square pr-1 fa-nival fa-sm"></i>Agregar Clase
             </a>
         </div>
@@ -24,7 +24,7 @@
                 </a>
                 <div class="card-body card-title-nival m-2 text-center">
                     <button type="button" class="btn btn-light btn-sm"
-                        (click)="openCurso(curso.idCurso)">{{curso.nombre}}</button>
+                        (click)="openCursoA(curso.idCurso)">{{curso.nombre}}</button>
                     <a class="float-right text-info p-1" (click)="openEditCurso(curso.idCursoEdit)">
                         <i class="far fa-edit"></i>
                     </a>
@@ -37,13 +37,22 @@
     </div>
 </div>
 
+
 <ng-template #reeplace>
-    <div class="row mt-5">
-        <div class="col-sm-12 col-md-12  col-lg-12 col-12 mx-auto mt-5">
-            <div class="mx-auto" id="imagePerfil">
-                
+        <div class="padre">
+            <div class="hijo text-center">
+                <img class="imageEmpty" src="../../../assets/logo6.PNG" id="logo">
+                <h3 class="imageEmpty" >Sin Registros</h3>
             </div>
-            
         </div>
+</ng-template>
+
+
+<ng-template #barra>
+    <div class="spinnerA">
+        <span class="spinnerB">
+            <mat-spinner [strokeWidth]='5'></mat-spinner>
+        </span>
     </div>
+
 </ng-template>

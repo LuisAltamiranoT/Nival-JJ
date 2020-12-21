@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VistaCursoComponent } from './vista-curso.component';
+import { VerImageComponent } from './ver-image.component';
 
-describe('VistaCursoComponent', () => {
-  let component: VistaCursoComponent;
-  let fixture: ComponentFixture<VistaCursoComponent>;
+describe('VerImageComponent', () => {
+  let component: VerImageComponent;
+  let fixture: ComponentFixture<VerImageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VistaCursoComponent ]
+      declarations: [ VerImageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VistaCursoComponent);
+    fixture = TestBed.createComponent(VerImageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

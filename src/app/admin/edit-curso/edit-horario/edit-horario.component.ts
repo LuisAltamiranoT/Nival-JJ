@@ -77,7 +77,9 @@ export class EditHorarioComponent implements OnInit {
 
   }
   ngOnDestroy() {
-    this.suscripcion1.unsubscribe();
+    if(this.suscripcion1){
+      this.suscripcion1.unsubscribe();
+    }
   }
   displayedColumns = ['hora', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes'];
   dataSource = this.horarioVista;

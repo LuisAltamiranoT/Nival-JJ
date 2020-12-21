@@ -1,18 +1,21 @@
 <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand mt-4"></a>
 </nav>
-<div class="container mt-5 container-nival">
+<div class="container mt-5 container-nival" *ngIf="validate else barra">
     <div class="row">
         <div class="col-sm-12 col-md-12  col-lg-12 col-12 mx-auto mt-4">
-            <div class="mx-auto rounded-circle" [ngStyle]="{'background-image':'url('+perfil+')'}" id="imagePerfil">
-                <a class="float-right text-info">
-                    <i class="fa fa-image pb-1 fa-nival fa-lg" (click)="openPhoto()"></i>
-                </a>
+            <div class="mx-auto rounded-circle" [ngStyle]="{'background-image':'url('+img+')'}" id="imagePerfil">
+                <div class="mx-auto rounded-circle" [ngStyle]="{'background-image':'url('+perfil+')'}" id="imagePerfil">
+                    <a class="float-right text-info">
+                        <i class="fa fa-image pb-1 fa-nival fa-lg" (click)="openPhoto()"></i>
+                    </a>
+                </div>
             </div>
         </div>
+        
         <div class="col-sm-12 col-md-12 col-lg-12 col-12 text-center my-2">
             <div class="my-1">
-                <h1 class="font-weight-normal" id="font-p">{{nombre+' '+ apellido}}</h1>
+                <h1 class="font-weight-normal" id="font-p"><strong>{{nombre+' '+ apellido}}</strong></h1>
                 <p class="font-weight-normal" id="fontNival-p">{{correo}}</p>
             </div>
         </div>
@@ -72,7 +75,7 @@
         <div class="col-sm-12 col-md-6 col-lg-6 mx-auto">
 
             <div class="bd-callout bd-callout-default w-100">
-                <h2><i class="fas fa-clock fa-xs fa-nival pb-1"></i> Periodo Lectivo:
+                <h2><i class="fas fa-clock fa-xs fa-nival pb-1"></i> Semestre:
                     <a class="float-right text-info" (click)="openAnioLectivoModal()">
                         <i class="far fa-edit"></i>
                     </a>
@@ -134,3 +137,12 @@
     </div>
 </div>
 <app-footer></app-footer>
+
+<ng-template #barra>
+    <div class="spinnerA">
+        <span class="spinnerB">
+            <mat-spinner [strokeWidth]='5'></mat-spinner>
+        </span>
+    </div>
+
+</ng-template>

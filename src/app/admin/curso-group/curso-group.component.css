@@ -17,6 +17,25 @@ a:hover{
 }
 
 
+  .imageEmpty{
+    opacity: 0.5;
+  }
+
+  .padre {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .hijo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+  }
+
 
 .card-image-nival{
     height: 14rem;

@@ -2,7 +2,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AuthService } from 'src/app/services/auth.service';
 
@@ -22,7 +21,6 @@ export class ReporteIndividualComponent implements OnInit {
   array: any[]; //el array completo
   indexEstudiante;//posicion del estudiante
   posicionAsistenciaArray;//index donde se encuentra el array a reemplazar
-  arrayTemp: any;//se mantiene para realizar el cambio
   arrayTemp2: any;//realiza los cambios
   fecha = '';
 
@@ -33,6 +31,9 @@ export class ReporteIndividualComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    //console.log('esto es el dato ',this.data,this.data.array);
+
     //console.log('llega kasjd',this.data.estado);
     /*
       estado:estado,
@@ -52,7 +53,7 @@ export class ReporteIndividualComponent implements OnInit {
     this.arrayTemp2 = JSON.parse(JSON.stringify(this.array));
 
 
-    console.log('Los dos archivos', this.arrayTemp, this.arrayTemp2);
+    console.log('Los dos archivos', this.arrayTemp2);
 
     if (this.data.estado == 'Presente') {
       this.presente = true;
@@ -106,18 +107,18 @@ export class ReporteIndividualComponent implements OnInit {
       const dat = this.authService.updateNominaUnionAsistencia(this.data.idMateria, this.data.idNomina, this.arrayTemp2);
       if (dat) {
         this.validate=true
-        this.dialogRef.close();
+        this.dialogRef.close(true);
       } else {
         this.validate = true;
       }
 
     }else{
       this.validate=true
-      this.dialogRef.close();
+      this.dialogRef.close(false);
     }
   }
 
   dimissModal() {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 }

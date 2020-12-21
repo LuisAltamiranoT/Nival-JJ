@@ -50,6 +50,9 @@ export class HorarioComponent implements OnInit {
   public materias = [];
   //carga horario guardado
 
+  //valida la ceacion de la tabla
+  validate: boolean = false;
+
   private color = ['DARKSLATEGRAY', 'CADETBLUE', 'CORAL', 'FIREBRICK', 'TEAL', 'INDIANRED', 'DARKSLATEBLUE', 'SEAGREEN', 'BROWN', 'LIGHTSLATEGRAY'];
 
   constructor(
@@ -86,7 +89,7 @@ export class HorarioComponent implements OnInit {
     let cont = 0;
     this.materias.forEach(element => {
       element.data.cursos.forEach(elementCurso => {
-        //console.log('id materias'+element.id);
+        ////console.log('id materias'+element.id);
         if ([elementCurso].length!=0) {
           if (cont < this.color.length - 1) {
             cont = cont + 1
@@ -95,7 +98,7 @@ export class HorarioComponent implements OnInit {
           }
           elementCurso.horario.forEach(elementHorario => {
             let idCurso = elementCurso.uidNomina+'//'+element.id;
-            //console.log('uid nomina',elementCurso.uidNomina);
+            ////console.log('uid nomina',elementCurso.uidNomina);
               this.horarioVista[elementHorario.posicion][elementHorario.dia] = element.data.nombre + ' - ' + elementCurso.aula;
               if (elementHorario.dia === 'lunes') {
                 this.horarioVista[elementHorario.posicion]['LC'] = this.color[cont];
@@ -122,8 +125,8 @@ export class HorarioComponent implements OnInit {
         }
       });
     });
-
-    console.log(this.horarioVista);
+    this.validate=true;
+    //console.log(this.horarioVista);
   }
 
   applyFilter(event: Event) {
@@ -133,7 +136,7 @@ export class HorarioComponent implements OnInit {
 
 
   openCurso(id: any) {
-    this.router.navigate(['vista-curso', id]);
+    this.router.navigate(['vista-cursoActualizado', id]);
   }
 
   limpiarBusqueda(input) {

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand mt-4"></a>
 </nav>
-<div class="container-fluid px-4 mt-4 container-nival">
+<div class="container-fluid px-4 mt-4 container-nival" *ngIf="validate else barra">
     <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12 pt-1">
             <h3 class="font-weight-normal"><i class="fas fa-edit pr-1"></i>Editar Curso</h3>
@@ -16,7 +16,7 @@
                     </a>
                 </h2>
                 <div class="text-center">
-                    <img [src]="photoSelected" fallimg class="img-fluid">
+                    <img [src]="photoSelected" fallimg="clase" class="img-fluid">
                 </div>
             </div>
         </div>
@@ -95,8 +95,11 @@
                                         <th mat-header-cell *matHeaderCellDef> Imagen </th>
                                         <td class="px-1" mat-cell *matCellDef="let element, let i = index;">
                                             <a (click)='openImage(element.image)'>
-                                                <img mat-card-image class="avatarNival" src={{element.image}}
-                                                    alt="noImage">
+                                                    <div mat-card-image [style.background-image]="'url('+img+')'" class="avatarNival avatarDiv">
+                                                        <div mat-card-image [style.background-image]="'url('+element.image+')'"
+                                                            class="avatarNival avatarDiv">
+                                                        </div>
+                                                    </div>
                                             </a>
                                         </td>
                                     </ng-container>
@@ -154,3 +157,13 @@
         </div>
     </div>
 </div>
+
+
+<ng-template #barra>
+    <div class="spinnerA">
+        <span class="spinnerB">
+            <mat-spinner [strokeWidth]='5'></mat-spinner>
+        </span>
+    </div>
+
+</ng-template>

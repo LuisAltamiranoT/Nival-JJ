@@ -28,9 +28,6 @@ export class AddEstudianteComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //idMateria:this.idMateria,
-    //idCurso:this.idNomina,
-    //array:this.nominaVista
     this.array = this.infoUser.array;
   }
 
@@ -70,7 +67,7 @@ export class AddEstudianteComponent implements OnInit {
           nombre: estudiante,
           codigoUnico: codigoUnico,
           correo: email,
-          image: 'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680',
+          image: '',
           uidUser: 'noRegister',
           asistencia: []
         }

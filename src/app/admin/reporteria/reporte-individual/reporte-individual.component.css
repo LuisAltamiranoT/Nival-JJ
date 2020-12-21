@@ -1,0 +1,4 @@
+::ng-deep .mat-checkbox-checked .mat-checkbox-background,
+::ng-deep .mat-checkbox-indeterminate .mat-checkbox-background {
+  background-color:cornflowerblue !important;
+}

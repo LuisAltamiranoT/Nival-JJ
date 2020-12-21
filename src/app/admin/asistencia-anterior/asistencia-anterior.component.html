@@ -1,0 +1,21 @@
+<form class=" p-1 mt-1" [formGroup]="cursoForm" (ngSubmit)="buscar()">
+    <h2 mat-dialog-title class="pb-1">Seleccione Una Fecha:</h2>
+    <div class="form-group">
+        <mat-form-field class="fullNivalWidth">
+            <mat-label>Historial</mat-label>
+            <mat-select formControlName="materiaSelect"  (selectionChange)="setIndex($event.value)">
+                <mat-option *ngFor="let materia of historial, let indice=index" value="{{indice}}//{{materia}}">
+                    {{materia}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
+            <button type="submit" class="btn btn-sm btn-primary fullNivalWidth" [disabled]="!cursoForm.valid">Buscar</button>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
+            <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,36 @@
+.example-container {
+    max-height: 70vh;
+    overflow: auto;
+  }
+  
+  
+  table {
+    text-align: center !important;
+    width: 100%;
+  }
+  
+  .mat-header-cell {
+    text-align: center;
+    padding: 5px;
+  }
+  
+  
+  a{
+    text-decoration: none;
+  }
+  
+  
+  ::ng-deep .mat-form-field-wrapper{
+    margin-bottom: -1.25em;
+  }
+
+  .spinnerA{
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .spinnerB{
+    width: 120px;
+}

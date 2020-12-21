@@ -42,7 +42,7 @@ export class EditImageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.photoSelected = 'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/nival%2Faqui.jpg?alt=media&token=e012db0c-46aa-4e36-bfa2-790a308fd4d8';
+    this.photoSelected = '../../../../assets/aqui.jpg';
 
     this.stateImage = this.authService.finalizoImage$.subscribe(() => {
       this.dimissModal();

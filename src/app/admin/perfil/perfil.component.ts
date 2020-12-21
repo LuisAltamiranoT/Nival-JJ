@@ -28,8 +28,11 @@ import { Subscription } from 'rxjs';
 })
 
 export class PerfilComponent implements OnInit {
-  image = "../../../assets/profe.jpg";
-  perfil = "https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680";
+  //valida la ceacion de la tabla
+  validate: boolean = false;
+
+  img = "../../../assets/withoutUser.jpg";
+  perfil = "../../../assets/withoutUser.jpg";
   nombre = "";
   apellido = "";
   oficina = "";
@@ -46,9 +49,6 @@ export class PerfilComponent implements OnInit {
   AnioLectivoFin = "dd/mm/yyyy";
 
   val = true;
-
-  private suscripcion1: Subscription;
-  private suscripcion3: Subscription;
 
   // Variables para revisar la parte de encriptación //
   texto: string;
@@ -67,17 +67,10 @@ export class PerfilComponent implements OnInit {
   ngOnInit(): void {
     this.dataUser();
     this.materia();
-
-  }
-
-
-  ngOnDestroy() {
-    this.suscripcion1.unsubscribe();
-    this.suscripcion3.unsubscribe();
   }
 
   dataUser() {
-    this.suscripcion1 = this.authService.getDataUser().subscribe((data) => {
+    this.authService.getDataUser().subscribe((data) => {
       let dataUser: any = [data.payload.data()];
       this.nombre = dataUser[0].nombre;
       this.apellido = dataUser[0].apellido;
@@ -86,8 +79,9 @@ export class PerfilComponent implements OnInit {
       this.oficina = dataUser[0].oficina;
       this.AnioLectivoInicio = dataUser[0].anioInicio;
       this.AnioLectivoFin = dataUser[0].anioFin;
-      this.perfil = dataUser[0].photoUrl;
-      console.log(data);
+      if (dataUser[0].photoUrl != '') {
+        this.perfil = dataUser[0].photoUrl;
+      }
     });
   }
 
@@ -108,12 +102,13 @@ export class PerfilComponent implements OnInit {
         })
       });
     });
+    this.validate=true;
   }
 
 
 
   materia() {
-    this.suscripcion3 = this.authService.getDataMateria().subscribe((data) => {
+    this.authService.getDataMateria().subscribe((data) => {
       this.materias.length = 0;
       data.forEach((dataMateria: any) => {
         this.materias.push({
@@ -131,7 +126,7 @@ export class PerfilComponent implements OnInit {
   }
 
   openAnioLectivoModal() {
-    this.openMaterial(EditarAnioComponent);
+    this.openMaterial(EditarAnioComponent,'');
   }
 
   //al momento de actualizar el nombre se ebe actualizar en las materias que tenga el usuario
@@ -162,7 +157,7 @@ export class PerfilComponent implements OnInit {
   }
 
   openPasswordModal() {
-    this.openMaterial(PasswordComponent);
+    this.openMaterial(PasswordComponent,'');
   }
 
   openMateriaModal() {
@@ -211,10 +206,10 @@ export class PerfilComponent implements OnInit {
   }
 
   openPhoto() {
-    if (this.perfil != 'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680') {
+    if (this.perfil != '') {
       let info = {
         data: this.perfil,
-        array:this.materias
+        array: this.materias
       }
       this.ventana.open(FotoComponent,
         { width: ' 25rem', data: info }).afterClosed().subscribe(item => {
@@ -222,7 +217,7 @@ export class PerfilComponent implements OnInit {
     } else {
       let info = {
         data: 'no-image',
-        array:this.materias
+        array: this.materias
       }
       this.ventana.open(FotoComponent,
         { width: ' 25rem', data: info }).afterClosed().subscribe(item => {
@@ -231,12 +226,16 @@ export class PerfilComponent implements OnInit {
   }
 
   openDeleteModal() {
-    this.openMaterial(DeleteComponent);
+    let data={
+      imagen:this.perfil,
+      cursos:this.cursoCompleto
+    }
+    this.openMaterial(DeleteComponent,data);
   }
 
-  openMaterial(component: any) {
+  openMaterial(component: any,data:any) {
     this.ventana.open(component,
-      { width: ' 25rem' }).afterClosed().subscribe(item => {
+      { width: ' 25rem',data:data }).afterClosed().subscribe(item => {
         //this.ListaDepartamentos();
         // Aqui va algo que quieras hacer al cerrar el componente
         // yo se poner la actualizacion de la pagina jejjeje

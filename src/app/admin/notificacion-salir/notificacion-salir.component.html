@@ -1,0 +1,12 @@
+<form [formGroup]="nombreForm" (ngSubmit)="onClick()">
+    <h2 mat-dialog-title class="pb-1">Advertencia:</h2>
+    <h3 mat-dialog-title class="text-info pb-1 text-center">Tiene registros que no han sido guardados. ¿Desea Continuar?</h3>
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
+            <button type="submit" class="btn btn-sm btn-primary fullNivalWidth" [disabled]="!nombreForm.valid">Aceptar</button>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col-12 my-1">
+            <a class="btn btn-sm btn-danger text-white  fullNivalWidth" (click)="dimissModal()">Cancelar</a>
+        </div>
+    </div>
+</form>

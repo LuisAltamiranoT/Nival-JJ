@@ -118,7 +118,6 @@ export class UploadImageService extends ImageValidator {
 
 
   public preAddAndUpdatePerfil(image: FileI,arrayMaterias:any) {
-    let item = false;
     this.filePath = this.generateFileName(image.name, this.MEDIA_STORAGE_PATH_PERFIL);
     const fileRef = this.storage.ref(this.filePath);
     const task = this.storage.upload(this.filePath, image);

@@ -12,19 +12,6 @@
     background-attachment: fixed;
   }
 
-  .content1 {
-    /*border: 5px solid red;*/
-    height: 80vh;
-    min-height: 80vh;
-    background-image:linear-gradient(
-        rgba(0, 0, 0, 0.7), 
-        rgba(0, 0, 0, 0.7)
-      ), url('../../assets/green-chameleon-s9CC2SKySJM-unsplash.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  }
 
 .card-img-top{
     object-fit: contain;

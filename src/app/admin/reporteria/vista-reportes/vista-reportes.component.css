@@ -9,7 +9,6 @@ table {
 
 .mat-header-cell, .mat-footer-cell, .mat-cell {
   box-sizing: border-box;
-  text-align: center;
   justify-content:center;
   min-width: 100px;
   padding:2px;

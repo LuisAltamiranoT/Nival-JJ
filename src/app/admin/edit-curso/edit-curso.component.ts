@@ -19,6 +19,7 @@ import { EditAulaComponent } from './edit-aula/edit-aula.component';
 import { EditHorarioComponent } from './edit-horario/edit-horario.component';
 import { EditImageComponent } from './edit-image/edit-image.component';
 import { ViewImageComponent } from '../curso-group/view-image/view-image.component';
+import { VerEditImagenComponent } from '../add-curso/ver-edit-imagen/ver-edit-imagen.component';
 
 
 
@@ -29,6 +30,10 @@ import { ViewImageComponent } from '../curso-group/view-image/view-image.compone
   styleUrls: ['./edit-curso.component.css']
 })
 export class EditCursoComponent implements OnInit {
+   //valida la ceacion de la tabla
+   validate: boolean = false;
+  img='../../../assets/withoutUser.jpg';
+  
   //manejor de tablas 
   @ViewChild(MatTable) tabla1: MatTable<any>;
   //array de la nomina de los estudiantes 
@@ -82,8 +87,12 @@ export class EditCursoComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.suscripcion1.unsubscribe();
-    this.suscripcion2.unsubscribe();
+    if(this.suscripcion1){
+      this.suscripcion1.unsubscribe();
+    }
+    if(this.suscripcion2){
+      this.suscripcion2.unsubscribe();
+    }
   }
 
   //CODIGO NUEVO TABLA
@@ -131,6 +140,7 @@ export class EditCursoComponent implements OnInit {
           asistencia: dataMateria.asistencia
         })
       });
+      this.validate=true;
       this.dataSource2 = new MatTableDataSource(this.nominaVista);
       this.tabla1.renderRows();
     });
@@ -138,6 +148,7 @@ export class EditCursoComponent implements OnInit {
   }
 
   openDeleteEstudianteModal(nombre: any, posicion: any) {
+    console.log();
     let data = {
       idMateria: this.idMateria,
       idNomina: this.idNomina,
@@ -241,9 +252,9 @@ export class EditCursoComponent implements OnInit {
   }
 
   openImage(image: any) {
-    if (image != 'https://firebasestorage.googleapis.com/v0/b/easyacnival.appspot.com/o/imageCurso%2FwithoutUser.jpg?alt=media&token=61ba721c-b7c1-42eb-8712-829f4c465680') {
-      this.ventana.open(ViewImageComponent,
-        { data: image }).afterClosed().subscribe(item => {
+    if (image != '') {
+      this.ventana.open(VerEditImagenComponent,
+        { width: ' 25rem',data: image }).afterClosed().subscribe(item => {
         });
     } else {
       this.authService.showInfo('El estudiante no dispone de una imagen de perfil.');
