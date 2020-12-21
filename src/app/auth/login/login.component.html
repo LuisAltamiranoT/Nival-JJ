@@ -11,17 +11,16 @@
 
 <div class="modal-body">
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-        <div class="form-group text-center">
+        <div class="form-group text-center" style="font-size: 13px">
             <mat-form-field appearance="standard" class="input-modal">
                 <mat-label>Email</mat-label>
                 <input matInput [type]="'email'" spellcheck="false" formControlName="email">
                 <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
-        </div>
-        <div class="form-group text-center">
+
             <mat-form-field appearance="standard" class="input-modal">
                 <mat-label>Password</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" spellcheck="false" autocomplete="off">
+                <input matInput [type]="hide ? 'password' : 'text'" autocomplete="off" formControlName="password" spellcheck="false" autocomplete="off">
                 <a mat-icon-button matSuffix (click)="hide = !hide" [attr.arial-label]="'Hide password'"
                     [attr.arial-pressed]="hide">
                     <mat-icon>{{hide ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -29,13 +28,13 @@
             </mat-form-field>
         </div>
         <div class="form-group text-center">
-            <button type="submit" class="btn btn-info">Ingresar</button>
+            <button type="submit" class="btn btn-sm btn-info">Ingresar</button>
         </div>
     </form>
-    <div class="text-center">
+    <div class="text-center" style="font-size: 13px">
         <a class="text-info" (click)="openReset()">¿Olvidaste tú contraseña?</a>
     </div>
-    <div class="text-center">
+    <div class="text-center" style="font-size: 13px">
         <a class="text-info" (click)=" openFormModalRegister()">Registrate</a>
     </div>
 </div>

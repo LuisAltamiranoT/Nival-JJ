@@ -27,11 +27,13 @@ moment.locale('es');
 export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
   @HostListener('window:beforeunload')
   onBeforeUnload() {
-    return false;
+    if (this.asistenciaProfesorAnterior.length != 0 || this.asistenciaProfesor.length != 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
-  //generaccion de codigo qr
 
-  generateCode: boolean = false;
 
   //valida la ceacion de la tabla
   validate: boolean = false;
@@ -124,7 +126,7 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
   ) { }
 
   permitirSalirDeRuta(): boolean | import('rxjs').Observable<boolean> | Promise<boolean> {
-    if (this.asistenciaProfesorAnterior.length != 0 || this.asistenciaProfesor.length != 0 || this.generateCode) {
+    if (this.asistenciaProfesorAnterior.length != 0 || this.asistenciaProfesor.length != 0) {
       const confirmacion = window.confirm('Antes de salir debe guardar la asistencia');
     } else {
       return true;
@@ -487,7 +489,6 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
       this.limpiarAnterior();
       this.obtenerNomina(this.idMateria, this.idNomina);
       this.validate = true;
-      this.generateCode = false;
     }
   }
 
@@ -579,7 +580,6 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
       this.Limpiar();
       this.obtenerNomina(this.idMateria, this.idNomina);
       this.validate = true;
-      this.generateCode = false;
     }
   }
 
@@ -600,7 +600,6 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
   //generar codigo qr
 
   QR() {
-    this.generateCode = true;
     let nuevoHistorial: any;
     nuevoHistorial = JSON.parse(JSON.stringify(this.historial));
 

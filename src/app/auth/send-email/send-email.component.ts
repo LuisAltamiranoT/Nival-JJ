@@ -15,11 +15,15 @@ export class SendEmailComponent implements OnDestroy {
     private authService:AuthService
   ) { }
 
-  ngOnDestroy(){this.authService.logout();
+  ngOnDestroy(){
+    this.authService.logout();
   }
 
   onSendEmail(): void{
-    this.authService.sendVerificationEmail();
+    let data = this.authService.sendVerificationEmail();
+    if (data) {
+      this.authService.showInfo('Se ha enviado correctamente el mensaje')
+    }
   }
 
 }

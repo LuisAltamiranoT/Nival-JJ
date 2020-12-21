@@ -7,6 +7,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
+import { Location } from '@angular/common';
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -14,6 +16,9 @@ import { Observable } from 'rxjs';
 })
 export class NavbarComponent implements OnInit {
 
+//permite remover el navbar de algunas direcciones y activar vista del componente
+activar: boolean = false;
+  
 
   public user$: Observable<any> = this.authService.afAuth.user;
 
@@ -21,10 +26,11 @@ export class NavbarComponent implements OnInit {
     private modalService: NgbModal,
     private authService: AuthService,
     private router: Router,
+    public location: Location
   ) { }
 
   ngOnInit() {
-
+    this.remove();
   }
 
   openFormModalLogin() {
@@ -54,4 +60,17 @@ export class NavbarComponent implements OnInit {
     window.scroll(0, 0);
   }
   
+
+  remove() {
+    let title = this.location.prepareExternalUrl(this.location.path());
+    title = title.slice(1).split("/")[0];
+    if (title === "verification-email" || title === "password-forgot") {
+      this.activar = true;
+      return true;
+    } else {
+      this.activar = false;
+      return false;
+    }
+  }
+
 }

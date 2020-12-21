@@ -28,7 +28,8 @@ const routes: Routes = [
   },
   {
     path: 'verification-email',
-    component: SendEmailComponent
+    component: SendEmailComponent,
+    canActivate: [GuardGuard]
   },
   {
     path: 'password-forgot',

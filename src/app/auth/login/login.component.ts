@@ -48,9 +48,10 @@ export class LoginComponent implements OnInit {
         this.modalService.dismissAll();
         this.validate=true;
       } else if (user) {
-        this.router.navigate(['/verification-email']);
-        this.modalService.dismissAll();
         this.validate=true;
+        this.modalService.dismissAll();
+        this.router.navigate(['/verification-email']);
+        
       }
 
     } catch (error) {

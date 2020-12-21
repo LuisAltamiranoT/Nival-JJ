@@ -1,8 +1,8 @@
-<app-navbar *ngIf="!remove()"></app-navbar>
+<app-navbar></app-navbar>
 <!--ngx-spinner bdColor="rgba(52, 73, 94)" size="medium" color="#FFFFFF" type="ball-scale-multiple">
     <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner-->
-<router-outlet *ngIf="activar" (activate)="onActivate($event)"></router-outlet>
+<router-outlet  (activate)="onActivate($event)"></router-outlet>
 <ngx-spinner bdColor="rgba(255,255,255)" size="default" color="#000000" type="pacman">
     <p style="color: black"> Loading... </p>
 </ngx-spinner>

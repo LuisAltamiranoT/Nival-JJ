@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+  validate=true;
 
   validacionPass: boolean = false;
   mensaje_nombre = '';
@@ -37,10 +38,12 @@ export class RegisterComponent implements OnInit {
   }
 
   async onRegister() {
+    this.validate=false;
     try {
       const { email, password, nombre, apellido } = this.registerForm.value;
       const user = await this.authService.register(email, password, nombre, apellido);
       if (user) {
+        this.validate=true;
         this.modalService.dismissAll();
         this.router.navigate(['/verification-email']);
       }

@@ -5,42 +5,44 @@
 </div>
 <div class="text-center">
     <img src="../../../assets/logo5.PNG" id="logo" alt="nival">
+    <div *ngIf="validate else login">
+    </div>
 </div>
 <div class="modal-body">
     <form class="pl-2" [formGroup]="registerForm" (ngSubmit)="onRegister()">
-        <div class="form-group text-center">
+        <div class="form-group text-center" style="font-size: 13px">
             <mat-form-field appearance="standard" class="input-modal" hintLabel='{{mensaje_nombre}}'>
                 <mat-label>Nombres</mat-label>
-                <input matInput [type]="'text'" spellcheck="false" formControlName="nombre" required
+                <input matInput [type]="'text'" spellcheck="false" autocomplete="off" formControlName="nombre" required
                     (keypress)="IngresarSoloLetras($event)">
                 <mat-icon matSuffix>person</mat-icon>
             </mat-form-field>
             <mat-form-field appearance="standard" class="input-modal" hintLabel='{{mensaje_apellido}}'>
                 <mat-label>Apellidos</mat-label>
-                <input matInput [type]="'text'" spellcheck="false" formControlName="apellido" required
+                <input matInput [type]="'text'" spellcheck="false" autocomplete="off" formControlName="apellido" required
                     (keypress)="IngresarSoloLetras($event)">
                 <mat-icon matSuffix>person</mat-icon>
             </mat-form-field>
             <mat-form-field appearance="standard" class="input-modal" hintLabel="Correo otorgado por la institución">
                 <mat-label>Correo Electrónico</mat-label>
-                <input matInput [type]="'email'" spellcheck="false" formControlName="email" required>
+                <input matInput [type]="'email'" spellcheck="false" autocomplete="off" formControlName="email" required>
                 <mat-icon matSuffix>email</mat-icon>
             </mat-form-field>
             <mat-form-field appearance="standard" class="input-modal" hintLabel="Mínimo 6 Caracteres">
                 <mat-label>Password</mat-label>
-                <input matInput #pass [type]="'password'" spellcheck="false" formControlName="password" required>
+                <input matInput #pass [type]="'password'" spellcheck="false" autocomplete="off" formControlName="password" required>
                 <mat-icon matSuffix>lock</mat-icon>
                 <mat-hint align="end">{{pass.value?.length || 0}}/6</mat-hint>
             </mat-form-field>
             <mat-form-field appearance="standard" class="input-modal">
                 <mat-label>Repetir Password</mat-label>
-                <input matInput [type]="'password'" spellcheck="false" formControlName="_password" required>
+                <input matInput [type]="'password'" spellcheck="false" autocomplete="off" formControlName="_password" required>
                 <mat-icon matSuffix>lock</mat-icon>
                 <mat-hint *ngIf="!validacionPass" style="color: red;">Las contraseñas no coinciden</mat-hint>
             </mat-form-field>
         </div>
         <div class="form-group text-center">
-            <button type="submit" [disabled]="!registerForm.valid" class="btn btn-info">Enviar</button>
+            <button type="submit" [disabled]="!registerForm.valid" class="btn btn-sm btn-info">Enviar</button>
         </div>
     </form>
     <div class="text-center">
@@ -49,3 +51,9 @@
 
     </div>
 </div>
+
+<ng-template #login>
+    <div class="px-3 pt-2">
+        <mat-progress-bar class="input-modal" id="progreesbar" mode="indeterminate"></mat-progress-bar>
+    </div>
+</ng-template>

@@ -1,24 +1,24 @@
 <!--*******************BARRA DE NAVEGACIÓN DE LA APLICACIÓN*******************************-->
 <div *ngIf="user$ | async as user else login">
-  <mat-toolbar class="bg-white barra-fija sombra" style="height: 10vh !important;">
+  <mat-toolbar class="bg-white barra-fija sombra" style="height: 9vh !important;">
     <a mat-button class="companyName" routerLink="/">
       <img src="../../../assets/logo6.PNG" alt="nival" id="logoNavbar">
     </a>
     <span class="example-spacer"></span>
-    <div fxShow="true" fxHide.lt-md="true">
-      <a [routerLink]="['/admin']">
+    <div fxShow="true" fxHide.lt-md="true" *ngIf="!remove()">
+      <a mat-button [routerLink]="['/admin']">
         <i class="fas fa-house-user pr-1"></i>Inicio
       </a>
-      <a [routerLink]="['/perfil']">
+      <a mat-button [routerLink]="['/perfil']">
         <i class="fas fa-user-tie pr-1"></i>Perfil
       </a>
-      <a [routerLink]="['/curso-group']">
+      <a mat-button [routerLink]="['/curso-group']">
         <i class="fas fa-chalkboard-teacher pr-1"></i>Clases
       </a>
-      <a [routerLink]="['/horario']">
+      <a mat-button [routerLink]="['/horario']">
         <i class="fas fa-calendar-alt pr-1"></i>Horario
       </a>
-      <a (click)="logOut()">
+      <a mat-button (click)="logOut()">
         <i class="fas fa-sign-out-alt pr-1"></i>Salir
       </a>
     </div>
@@ -29,22 +29,22 @@
     </div>
   </mat-toolbar>
   <mat-sidenav-container fxFlexFill class="example-container">
-    <mat-sidenav style="height: 50vh !important; width: 40vh; position: fixed; margin-top: 7vh;" class="bg-white"
+    <mat-sidenav style="height: 100% !important; width: 40vh; position: fixed; margin-top: 7vh;" class="bg-white"
       #sidenav fxLayout="column" mode="over" opened="false" fxHide.gt-sm="true" (click)="sidenav.toggle()">
-      <div fxLayout="column" style="margin-top: 3vh;">
-        <a [routerLink]="['/admin']">
+      <div fxLayout="column" style="margin-top: 3vh;" *ngIf="!remove()">
+        <a mat-button [routerLink]="['/admin']" style="text-align:left">
           <i class="fas fa-house-user" style=" padding-right: 15px;"></i>Inicio
         </a>
-        <a [routerLink]="['/perfil']">
+        <a mat-button [routerLink]="['/perfil']" style="text-align:left">
           <i class="fas fa-user-tie" style=" padding-right: 18px;"></i>Perfil
         </a>
-        <a [routerLink]="['/curso-group']">
+        <a mat-button [routerLink]="['/curso-group']" style="text-align:left">
           <i class="fas fa-chalkboard-teacher" style=" padding-right: 12px;"></i>Clases
         </a>
-        <a [routerLink]="['/horario']">
+        <a mat-button [routerLink]="['/horario']" style="text-align:left">
           <i class="fas fa-calendar-alt" style=" padding-right: 18px;"></i>Horario
         </a>
-        <a (click)="logOut()">
+        <a mat-button (click)="logOut()" style="text-align:left">
           <i class="fas fa-sign-out-alt" style=" padding-right: 17px;"></i>Salir
         </a>
       </div>
@@ -56,15 +56,15 @@
 <!--*******************BARRA DE NAVEGACIÓN PARA LA PÁGINA DE LOGIN*******************************-->
 <ng-template #login>
   <div>
-    <mat-toolbar class="bg-white barra-fija" style="height: 11vh !important;">
+    <mat-toolbar class="bg-white barra-fija" style="height: 9vh !important;">
       <a mat-button class="companyName" routerLink="/">
         <img src="../../../assets/logo5.PNG" alt="nival" id="logoNavbar">
       </a>
       <span class="example-spacer"></span>
-      <div fxShow="true" fxHide.lt-md="true">
-        <a (click)="openFormModalLogin()">
+      <div fxShow="true" fxHide.lt-md="true" *ngIf="!remove()">
+        <a mat-button (click)="openFormModalLogin()">
           <i class="fas fa-sign-in-alt pr-1"></i>Iniciar Sesión</a>
-        <a (click)="openFormModalRegister()">
+        <a mat-button (click)="openFormModalRegister()">
           <i class="fas fa-registered pr-1"></i>Registrate</a>
       </div>
       <div fxShow="true" fxHide.gt-sm="true">
@@ -76,10 +76,10 @@
     <mat-sidenav-container fxFlexFill class="example-container">
       <mat-sidenav style="height: 20vh !important; width: 45vh; position: fixed; margin-top: 7vh;" class="bg-white"
         fxLayout="column" #sidenav mode="over" opened="false" fxHide.gt-sm="true" (click)="sidenav.toggle()">
-        <div fxLayout="column" style="margin-top: 3vh;">
-          <a (click)="openFormModalLogin()">
+        <div fxLayout="column" style="margin-top: 3vh;" *ngIf="!remove()">
+          <a mat-button (click)="openFormModalLogin()" style="text-align:left">
             <i class="fas fa-sign-in-alt" style=" padding-right: 17px;"></i>Iniciar Sesión</a>
-          <a (click)="openFormModalRegister()">
+          <a mat-button (click)="openFormModalRegister()" style="text-align:left">
             <i class="fas fa-registered" style=" padding-right: 17px;"></i>Registrate</a>
         </div>
       </mat-sidenav>

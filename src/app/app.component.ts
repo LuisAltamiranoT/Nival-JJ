@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
@@ -10,7 +9,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class AppComponent implements OnInit {
   title = 'easy-ac-nival';
 
-  constructor(public location: Location,
+  constructor(
     private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
@@ -25,19 +24,7 @@ export class AppComponent implements OnInit {
     }, 3000);
   }
 
-  //permite remover el navbar de algunas direcciones y activar vista del componente
-  activar: boolean = false;
-  remove() {
-    let title = this.location.prepareExternalUrl(this.location.path());
-    title = title.slice(1).split("/")[0];
-    if (title === "verification-email" || title === "password-forgot") {
-      this.activar = true;
-      return true;
-    } else {
-      this.activar = false;
-      return false;
-    }
-  }
+
 
   /*
   removeFooter() {
