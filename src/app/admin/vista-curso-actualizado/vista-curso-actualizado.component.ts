@@ -183,8 +183,8 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
         this.estado = dataNomina.estado;
         this.numeroAlmacenado = parseInt(dataNomina.numeroAlmacenado);
         this.historial = dataNomina.historial;
-
-        if(this.historial.Length!=0){
+        
+        if(this.numeroAlmacenado >=1){
           this.validateReporte=false;
         }
 
