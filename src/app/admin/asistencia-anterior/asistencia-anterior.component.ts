@@ -24,19 +24,14 @@ export class AsistenciaAnteriorComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    /*
-     historial:this.historial,
-     numeroAlmacenamiento:this.numeroAlmacenado
-     */
+
     this.numeroAlmacenamiento = this.infoUser.numeroAlmacenamiento;
-    //console.log(this.infoUser)
     this.infoUser.historial.forEach((element, index) => {
       if (index < this.numeroAlmacenamiento) {
         let splitted = element.split("//");
         this.historial.push((index + 1) + '-' + ' ' + splitted[0] + ' ' + splitted[1])
       }
     });
-    console.log(this.historial)
   }
 
   setIndex(value: any) {
@@ -45,7 +40,6 @@ export class AsistenciaAnteriorComponent implements OnInit {
     this.seleccionFecha = parseInt(splitted[0]);
     //toma el string de la fecha
     this.fecha = splitted[1]
-      console.log(this.seleccionFecha, this.fecha);
   }
 
   dimissModal() {

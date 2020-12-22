@@ -6,10 +6,6 @@ import * as xlsx from 'xlsx';
 import { Request, Response } from 'express';
 
 
-//import {fs} from 'fs';
-//import * as fs from "fs";
-//const fs = require ('fs');
-
 
 import { RoleValidator } from 'src/app/helpers/rolValidator';
 
@@ -299,7 +295,6 @@ export class AuthService extends RoleValidator {
   //anio
   public async updateAnioLectivo(valor: string, valor2: string) {
     try {
-      console.log(valor, valor2);
       const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.dataUser}`);
       const data: User = {
         anioInicio: moment(valor).format('DD-MM-YYYY'),
@@ -310,7 +305,6 @@ export class AuthService extends RoleValidator {
       return { dataUpdate };
 
     } catch (error) {
-      console.log(error);
       this.showError('Verifica los datos. Algo salio mal');
     }
   }
@@ -397,7 +391,6 @@ export class AuthService extends RoleValidator {
 
     } catch (error) {
       this.showError('Verifica los datos. Algo salio mal');
-      //console.log(error);
     }
   }
 
@@ -494,7 +487,6 @@ export class AuthService extends RoleValidator {
 
   //crear curso
   public async createCurso(listCurso: any, idMateria: any) {
-    //cursos,idMateria,idCurso,nomina
     try {
       const datos: Materia = {
         cursos: listCurso

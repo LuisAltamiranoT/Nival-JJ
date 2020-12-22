@@ -82,8 +82,6 @@ export class MateriaComponent implements OnInit {
     return (control: AbstractControl): { [s: string]: boolean } => {
       if (control.parent) {
         let data = control.value;
-        //console.log(this.materias);
-        //console.log(data.toUpperCase())
         if (this.materias.includes(data.toUpperCase())) {
           this.mensaje = 'Esta materia ya exite en tu lista';
           return {

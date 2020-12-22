@@ -79,7 +79,6 @@ export class EditCursoComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataId = this._route.snapshot.paramMap.get('data');
-    //elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id
     let splitted = this.dataId.split("//");
     this.idNomina = splitted[0];
     this.idMateria = splitted[1];
@@ -108,18 +107,14 @@ export class EditCursoComponent implements OnInit {
       this.dataMateria = [data.payload.data()];
       let cont = -1;
       this.nombreMateria = this.dataMateria[0].nombre;
-      console.log('data materia', this.dataMateria);
       this.dataMateria.forEach(elementCursos => {
-        console.log(elementCursos);
         elementCursos.cursos.forEach(element => {
           cont = cont + 1;
-          console.log(element, cont)
           if (this.idCurso == element.id) {
             this.idIndexCurso = cont;
             this.placeholderAula = element.aula,
               this.photoSelected = element.image
           }
-          console.log(this.photoSelected, 'asdnjas', element.image);
         });
       });
     })
@@ -132,7 +127,6 @@ export class EditCursoComponent implements OnInit {
       this.nominaVista.length = 0;
       const dataNomina: any = data.payload.data();
       this.historial=dataNomina.historial;
-      //'codigoUnico','image','correo','nombre'
       dataNomina.nomina.forEach((dataMateria: any) => {
         this.nominaVista.push({
           nombre: dataMateria.nombre,
@@ -146,11 +140,9 @@ export class EditCursoComponent implements OnInit {
       this.validate=true;
       this.dataSource2 = new MatTableDataSource(this.nominaVista);
     });
-    console.log(this.nominaVista);
   }
 
   openDeleteEstudianteModal(nombre: any, posicion: any) {
-    console.log();
     let data = {
       idMateria: this.idMateria,
       idNomina: this.idNomina,

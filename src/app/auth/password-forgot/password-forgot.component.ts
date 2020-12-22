@@ -41,17 +41,12 @@ export class PasswordForgotComponent implements OnInit {
       // control.parent es el FormGroup
       if (control.parent) { // en las primeras llamadas control.parent es undefined
         let dominio = control.value.split("@", 2);
-        //console.log(dominio[1],dominio.length);
         if (dominio[1] !== 'epn.edu.ec') {
-          //console.log(control.value,'no pertenece al dominio');
-          //this.validacionEmail=false;
           return {
             match: true
           };
         }
       }
-      //console.log('iguales');
-      //this.validacionEmail=true;
       return null;
     };
   }

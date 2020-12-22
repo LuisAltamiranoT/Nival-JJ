@@ -89,7 +89,6 @@ export class HorarioComponent implements OnInit {
     let cont = 0;
     this.materias.forEach(element => {
       element.data.cursos.forEach(elementCurso => {
-        ////console.log('id materias'+element.id);
         if ([elementCurso].length!=0) {
           if (cont < this.color.length - 1) {
             cont = cont + 1
@@ -98,7 +97,6 @@ export class HorarioComponent implements OnInit {
           }
           elementCurso.horario.forEach(elementHorario => {
             let idCurso = elementCurso.uidNomina+'//'+element.id;
-            ////console.log('uid nomina',elementCurso.uidNomina);
               this.horarioVista[elementHorario.posicion][elementHorario.dia] = element.data.nombre + ' - ' + elementCurso.aula;
               if (elementHorario.dia === 'lunes') {
                 this.horarioVista[elementHorario.posicion]['LC'] = this.color[cont];
@@ -126,7 +124,6 @@ export class HorarioComponent implements OnInit {
       });
     });
     this.validate=true;
-    //console.log(this.horarioVista);
   }
 
   applyFilter(event: Event) {

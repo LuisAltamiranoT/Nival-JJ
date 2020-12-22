@@ -30,12 +30,6 @@ export class EditarMateriaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    /**
-     *nombre: nombre,
-      id: idMateria,
-      array: this.materias
-     */
-
     this.placeholder = this.infoUser.nombre;
     this.content = this.infoUser.array;
     this.idData = this.infoUser.id;
@@ -50,7 +44,6 @@ export class EditarMateriaComponent implements OnInit {
       this.materias.push(
         dataMateria.data.nombre.toUpperCase()
       );
-      console.log(this.materias);
     })
   }
 
@@ -59,8 +52,7 @@ export class EditarMateriaComponent implements OnInit {
       this.validate = false;
       const { materia } = this.materiaForm.value;
 
-      let dat = this.authService.updateMateria(this.idData, materia);
-                                            /////////documentId: string, data: any                       
+      let dat = this.authService.updateMateria(this.idData, materia);                      
       if (dat) {
         this.dialogRef.close();
         this.validate = true;
@@ -68,7 +60,6 @@ export class EditarMateriaComponent implements OnInit {
         this.validate = true;
       }
     } catch (error) {
-      console.log(error);
     }
   }
 

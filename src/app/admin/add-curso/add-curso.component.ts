@@ -222,10 +222,8 @@ export class AddCursoComponent implements OnInit {
   replaceHorario() {
     this.materias.forEach(element => {
       element.data.cursos.forEach(elementCurso => {
-        console.log('cursos', [elementCurso]);
         if ([elementCurso].length != 0) {
           elementCurso.horario.forEach(elementHorario => {
-            //console.log('segundo foreach',elementHorario.dia)
             this.horarioVista[elementHorario.posicion][elementHorario.dia] = element.data.nombre + ' - ' + elementCurso.aula;
             if (elementHorario.dia === 'lunes') {
               this.horarioVista[elementHorario.posicion]['LD'] = true;
@@ -263,7 +261,6 @@ export class AddCursoComponent implements OnInit {
     this.idMateriaSeleccionada = splitted[0];
     //toma la posicion el index;
     this.indexArray = splitted[2];
-    console.log('es la posicion array', this.indexArray)
     if (this.materiaSeleccionada != '') {
       if (this.materiaSeleccionada != splitted[1]) {
         this.materiaSeleccionada = splitted[1]
@@ -272,7 +269,6 @@ export class AddCursoComponent implements OnInit {
     } else {
       this.materiaSeleccionada = splitted[1];
     }
-    //console.log('select => ' + materia, 'materia=> ' + this.materiaSeleccionada, 'idMateria=> ' + this.idMateriaSeleccionada);
   }
 
 
@@ -284,8 +280,6 @@ export class AddCursoComponent implements OnInit {
         this.nuevoHorario[i].idMateria = this.idMateriaSeleccionada;
       }
     }
-    console.log('horario al cambiar ', this.horarioVista);
-    console.log('horario nuev ', this.nuevoHorario);
   }
 
   private agregarDataArrayNuevaMateria(posicion: any, dia: any, hora: any) {
@@ -295,11 +289,9 @@ export class AddCursoComponent implements OnInit {
       hora: hora
     }
     this.nuevoHorario.push(data);
-    console.log(this.nuevoHorario);
   }
 
   private quitarDataArrayNuevaMateria(posicion: any, dia: any) {
-    //console.log("All "+this.nuevoHorario);
     for (let i = 0; i < this.nuevoHorario.length; i++) {
       if (this.nuevoHorario[i].posicion === posicion && this.nuevoHorario[i].dia === dia) {
         this.nuevoHorario.splice(i, 1);
@@ -353,7 +345,6 @@ export class AddCursoComponent implements OnInit {
       uidNomina: cursoNuevo.id
     });
 
-    console.log('curso almacenado', this.cursoGuardado);
     await this.authService.createCurso(this.cursoGuardado, this.idMateriaSeleccionada);
   }
 
@@ -429,9 +420,7 @@ export class AddCursoComponent implements OnInit {
                 asistencia: []
               }
               this.archivoExcel.push(data);
-              //console.log(data,'  ',[this.archivoExcel]);
             } else {
-              //console.log('llega el else');
             }
           })
           if (this.archivoExcel.length != 0) {
@@ -450,7 +439,6 @@ export class AddCursoComponent implements OnInit {
         this.cursoForm.patchValue({ file: '' });
       }
     } else {
-      //console.log("esta en el else");
     }
   }
 
@@ -466,7 +454,6 @@ export class AddCursoComponent implements OnInit {
     // Obtiene la hora del sistema
     this.hora = moment().format('HHmmss');
     this.idCursoGenerate=this.fechaActual+this.hora;
-    console.log('hora  id generado ' ,this.idCursoGenerate);
   }
 
 

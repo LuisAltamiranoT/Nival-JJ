@@ -15,6 +15,5 @@ export class VerEditImagenComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.infoUser);
   }
 }

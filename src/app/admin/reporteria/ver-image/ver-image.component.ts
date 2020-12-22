@@ -15,7 +15,6 @@ export class VerImageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.infoUser);
   }
 
 

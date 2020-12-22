@@ -28,7 +28,6 @@ export class DeleteEstudianteComponent implements OnInit {
     try {
       this.validate = false;
       const dat = this.authService.deleteEstudiante(this.infoUser.idMateria, this.infoUser.idNomina,this.infoUser.array);
-      ////idMateria: any, idNomina: any,ArrayEstudiante:any
       if (dat) {
         this.dialogRef.close();
       }else{

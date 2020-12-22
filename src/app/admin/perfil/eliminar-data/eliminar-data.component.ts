@@ -35,29 +35,20 @@ export class EliminarDataComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    //this.materiaForm.patchValue({ materia: this.infoUser});
-    /*
-          nombre: data,
-          id: idData,
-          array:dataArray,
-    */
     this.idData = this.infoUser.id;
     this.materia = this.infoUser.nombre;
     this.materiaSeleccionada = this.infoUser.array;
-    console.log(this.idData, this.materia, this.materiaSeleccionada);
   }
 
   async onClick() {
     try {
       this.validate = false;
-      console.log(this.materiaSeleccionada.cursos.length);
       if (this.materiaSeleccionada.cursos.length != 0) {
         this.materiaSeleccionada.cursos.forEach(element => {
           if (element.image != '') {
             this.UploadImageService.deleteImageCurso(element.image);
           }
           this.authService.deleteNomina(this.idData, element.uidNomina);
-          //console.log('se imprime esto'+element.uidNomina);
         });
       }
       let dat = await this.authService.delecteMateria(this.idData);

@@ -26,13 +26,6 @@ export class NombreComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-    /*nombre:this.nombre,
-      apellido:this.apellido,
-      arrayMaterias:this.materias */
-
-    console.log(this.infoUser);
-
     if (this.infoUser == "") {
 
     } else {
@@ -104,8 +97,6 @@ export class NombreComponent implements OnInit {
       if (control.parent) {
         let data = control.value.split(' ');
         let long = data.length;
-        //console.log(data);
-        //console.log(long)
         if (long > 2) {
           this.mensaje = 'Solo puede ingresar dos nombres';
           return {

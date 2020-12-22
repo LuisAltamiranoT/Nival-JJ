@@ -33,10 +33,8 @@ export class EditAulaComponent implements OnInit {
     try {
       this.validate = false;
       const { aula } = this.aulaForm.value;
-      console.log(this.infoUser.array[0].cursos[this.infoUser.index]['aula'])
 
       this.infoUser.array[0].cursos[this.infoUser.index]['aula'] = aula;
-      console.log(this.infoUser.arrray);
 
       const dat = await this.authService.updateCursoAula(this.infoUser.idMateria, this.infoUser.array);
       if (dat) {
@@ -61,10 +59,8 @@ export class EditAulaComponent implements OnInit {
 
   matchCharts() {
     return (control: AbstractControl): { [s: string]: boolean } => {
-      // control.parent es el FormGroup
       if (control.parent) { // en las primeras llamadas control.parent es undefined
         let data = control.value;
-        //console.log(dominio[1],dominio.length);
         if (data === this.placeholder) {
           return {
             match: true

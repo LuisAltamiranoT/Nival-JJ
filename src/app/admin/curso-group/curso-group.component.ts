@@ -74,7 +74,6 @@ export class CursoGroupComponent implements OnInit {
     this.cursoVista.length = 0;
     this.materias.forEach(elementMateria => {
         elementMateria.data.cursos.forEach(elementCurso => {
-          //console.log(elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id);
           let idCurso = elementCurso.uidNomina + '//' + elementMateria.id+'//'+elementMateria.data.nombre + ' ' + elementCurso.aula;
           this.cursoVista.push({
             idCursoEdit: elementCurso.uidNomina + '//' + elementMateria.id + '//' + elementCurso.id,
@@ -82,9 +81,7 @@ export class CursoGroupComponent implements OnInit {
             nombre: elementMateria.data.nombre + ' ' + elementCurso.aula,
             image: elementCurso.image
           })
-          console.log('carga de datos', this.cursoVista, this.materias);
         });
-        console.log('tamñano del curso',this.cursoVista.length);
         if(this.cursoVista.length != 0){
           this.stateImage=true;
         }else{

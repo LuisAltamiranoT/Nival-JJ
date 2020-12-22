@@ -91,7 +91,6 @@ export class PerfilComponent implements OnInit {
     this.cursoCompleto.length = 0;
     this.materias.forEach(elementMateria => {
       elementMateria.data.cursos.forEach(elementCurso => {
-        //console.log(elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id);
         this.cursoCompleto.push({
           idCurso: elementCurso.uidNomina + '//' + elementMateria.id + '//' + elementCurso.id,
           nombre: elementMateria.data.nombre + ' ' + elementCurso.aula,
@@ -186,15 +185,7 @@ export class PerfilComponent implements OnInit {
     this.openMaterial1(EliminarDataComponent, dataMateria);
   }
 
-  /*
-   idCurso:elementCurso.uidNomina+ '//' + elementMateria.id+'//'+elementCurso.id,
-    nombre: elementMateria.data.nombre + ' ' + elementCurso.aula,
-    image: elementCurso.image,
-   array:array el array de la amteria
-   */
-
   openEliminarCursoModal(nombre: any, uidNomina: any, image: any, idMateria: any, array: any) {
-    console.log(array)
     let dataMateria = {
       nombre: nombre,
       uidNomina: uidNomina,
@@ -236,7 +227,6 @@ export class PerfilComponent implements OnInit {
   openMaterial(component: any,data:any) {
     this.ventana.open(component,
       { width: ' 25rem',data:data }).afterClosed().subscribe(item => {
-        //this.ListaDepartamentos();
         // Aqui va algo que quieras hacer al cerrar el componente
         // yo se poner la actualizacion de la pagina jejjeje
       });

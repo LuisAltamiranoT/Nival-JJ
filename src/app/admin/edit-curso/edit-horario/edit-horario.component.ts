@@ -62,15 +62,6 @@ export class EditHorarioComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    /**
-     * materiaNombre:this.nombreMateria,
-      idMateria:this.uidMateria,
-      arrayGuardado: this.dataMateria[0].cursos[this.idIndexCurso],
-      arrayCompleto:this.dataMateria,
-     */
-
-    console.log(this.infoUser.materiaNombre);
-    console.log('tamaño del array guardado', this.infoUser.arrayGuardado.horario.length);
     this.materiaSeleccionada = this.infoUser.materiaNombre + ' - ' + this.infoUser.arrayGuardado.aula;
     this.idMateriaSeleccionada = this.infoUser.idMateria;
     this.materia();
@@ -102,10 +93,8 @@ export class EditHorarioComponent implements OnInit {
   replaceHorario() {
     this.materias.forEach(element => {
       element.data.cursos.forEach(elementCurso => {
-        //console.log('cursos', [elementCurso]);
         if ([elementCurso].length != 0) {
           elementCurso.horario.forEach(elementHorario => {
-            //console.log('segundo foreach',elementHorario.dia)
             this.horarioVista[elementHorario.posicion][elementHorario.dia] = element.data.nombre + ' - ' + elementCurso.aula;
             if (elementHorario.dia === 'lunes') {
               this.horarioVista[elementHorario.posicion]['LD'] = true;
@@ -284,7 +273,6 @@ export class EditHorarioComponent implements OnInit {
 
   async guardarNuevoHorario() {
     try {
-      console.log('array completo', this.infoUser.arrayCompleto);
       this.validate = false;
       let data = await this.authService.updateHorario(this.infoUser.arrayCompleto, this.idMateriaSeleccionada);
       if (data) {
@@ -294,7 +282,6 @@ export class EditHorarioComponent implements OnInit {
         this.validate = true;
       }
     } catch (error) {
-      //this.validate = false;
     }
 
   }

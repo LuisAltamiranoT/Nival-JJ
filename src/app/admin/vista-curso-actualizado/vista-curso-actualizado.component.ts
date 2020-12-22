@@ -135,7 +135,6 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
 
   ngOnInit(): void {
     this.dataId = this._route.snapshot.paramMap.get('data');
-    console.log(this.dataId)
     let splitted = this.dataId.split("//");
     this.idNomina = splitted[0];
     this.idMateria = splitted[1];
@@ -154,7 +153,6 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
     this.hora = moment().format('HH:mm:ss');
     // Generar código randomico
     this.generaNss();
-    console.log('randomico', this.codigo_randomico)
   }
 
   ngOnDestroy() {
@@ -186,7 +184,6 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
           this.validateReporte=false;
         }
 
-        console.log('este es el codigo QR', dataNomina.code)
         //contienen la informacion que se encuentra en el server
         this.nominaEstudiantes = dataNomina.nomina.map(element => { return element });
 
@@ -213,7 +210,6 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
           //this.validate = true;
           this.replaceVistaFalse();
         } else {
-          console.log(this.nominaEstudiantes);
           //this.validate = true;
           this.replaceVista();
         }
@@ -226,7 +222,6 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
     //la nomina del profesor es la principal
     if (this.asistenciaProfesor.length != 0) {
       this.nominaVista.forEach((dataMateria, index) => {
-        console.log(dataMateria);
         let ultimoId = dataMateria.asistencia.length - 1;
 
         if (ultimoId === -1) {
@@ -261,7 +256,6 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
       })
     } else {
       this.nominaVista.forEach((dataMateria, index) => {
-        console.log(dataMateria);
         let ultimoId = dataMateria.asistencia.length - 1;
 
         if (ultimoId === -1) {
@@ -398,7 +392,6 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
         falta: falta
       })
     }
-    console.log(this.asistenciaProfesor);
   }
 
 
@@ -433,7 +426,6 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
         falta: falta
       })
     }
-    console.log(this.asistenciaProfesorAnterior);
   }
 
 
@@ -443,24 +435,20 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
     this.validate = false;
     //la suscripcion se detiene para no causar daños al almacenamiento
     if (this.suscripcion1) {
-      console.log('se ejecuta la unsuscribe')
       this.suscripcion1.unsubscribe();
     }
 
     //valida si esta activo la seleccion de una asistencia anterio y comprueba si se ha realizado alguna configuracion en esta
     if (this.validateSeleccionHistorial && this.asistenciaProfesorAnterior.length != 0) {
-      console.log('se guarda inforamcion de fecha anterior');
       //se ejecuta el almacenamiento de la informacion anterior
       //this.validateGuardarInformacion=true;
       this.guardarFechasAnteriores();
 
     } else if (this.validateSeleccionHistorial === false) {
-      //console.log('se guarda la informacion de presente');
       this.guardarPresente();
 
     } else {
       this.authService.showInfo('Usted no ha realizado ningun cambio');
-      //console.log('no hay que guardar');
     }
   }
 
@@ -475,7 +463,6 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
         }
       })
     })
-    console.log(this.nominaEstudiantes);
     this.almacenamientoDeAsistenciaAnterior();
   }
 
@@ -492,10 +479,8 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
   }
 
   limpiarAnterior() {
-    console.log(this.asistenciaProfesor);
     this.asistenciaProfesorAnterior.length = 0;
     this.validateGuardarInformacion = true;
-    console.log(this.asistenciaProfesor);
   }
 
 
@@ -503,7 +488,6 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
 
   guardarPresente() {
     //si se genero un codigo qr este tomara el valor almacenado en la base
-    console.log(this.historial)
     if (this.historial.length > (this.numeroAlmacenado)) {
 
       let index = this.numeroAlmacenado;
@@ -511,13 +495,11 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
       this.nombreDay = splitted[0];
       this.fechaActual = splitted[1];
 
-      //console.log(this.historial[index], this.nombreDay,this.fechaActual);
 
     } else if (this.historial.length === this.numeroAlmacenado) {
       
     }
 
-    //console.log(this.historial)
 
     if (this.asistenciaProfesor.length != 0) {
       this.nominaEstudiantes.forEach((element) => {
@@ -561,17 +543,14 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
           })
         }
       })
-      //console.log('no existen se procede a guardar la base con falta a los restantes', this.asistenciaProfesor);
     }
     //una ves termine se ejecuta la limpieza y almacenamiento y luego dejar como se encontraba
-    //console.log(this.nominaEstudiantes);
     this.almacenamientoDeAsistencia();
   }
 
   async almacenamientoDeAsistencia() {
     this.numeroAlmacenado = this.numeroAlmacenado + 1;
     let nuevoNumeroAlmacenado = String(this.numeroAlmacenado);
-    console.log(nuevoNumeroAlmacenado, this.historial);
     let data = await this.authService.updateNomina(this.idNomina, this.idMateria, this.nominaEstudiantes, 'presente', '0', nuevoNumeroAlmacenado, this.historial);//aqui se envia el desactivamiento del cdigo
     if (data == 10) {
       this.Limpiar();
@@ -732,7 +711,6 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
             }
           }
 
-          console.log('retorna modal seleccion', item);
         }
 
       });

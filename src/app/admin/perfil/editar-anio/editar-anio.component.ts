@@ -38,7 +38,6 @@ export class EditarAnioComponent implements OnInit {
       this.validate = false;
       const { inicio } = this.anioForm.value;
       const { fin } = this.anioForm.value;
-      console.log('inicio', inicio)
       if (Date.parse(inicio) < Date.parse(fin)) {
         const dat = await this.authService.updateAnioLectivo(inicio, fin);
         if (dat) {

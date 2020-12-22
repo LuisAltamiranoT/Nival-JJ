@@ -30,7 +30,6 @@ export class EditEstudianteComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('informacion',this.infoUser);
     this.placeholder = this.infoUser.nombre;
     this.placeholderCodigo = this.infoUser.numero;
     this.placeholderCorreo = this.infoUser.correo;
@@ -79,11 +78,8 @@ export class EditEstudianteComponent implements OnInit {
           this.array[this.infoUser.posicion]['codigoUnico']=codigoUnico;
           this.array[this.infoUser.posicion]['correo']=email;
 
-          console.log(this.array);
 
-          console.log(this.infoUser.idNomina,this.infoUser.idMateria,this.array);
           let update = this.authService.updateNominaEstudiante(this.infoUser.idNomina,this.infoUser.idMateria,this.array);
-          //idNomina: any, idMateria: any, array: any
           if(update){
             this.validate=true
             this.dialogRef.close();
@@ -113,21 +109,15 @@ export class EditEstudianteComponent implements OnInit {
   }
 
   matchEmail() {
-    return (control: AbstractControl): { [s: string]: boolean } => {
-      // control.parent es el FormGroup
+    return (control: AbstractControl): { [s: string]: boolean } => {    
       if (control.parent) { // en las primeras llamadas control.parent es undefined
         let dominio=control.value.split("@", 2);
-        //console.log(dominio[1],dominio.length);
         if (dominio[1] !== 'epn.edu.ec') {
-          //console.log(control.value,'no pertenece al dominio');
-          //this.validacionEmail=false;
           return {
             match: true
           };
         }
       }
-      //console.log('iguales');
-      //this.validacionEmail=true;
       return null;
     };
   }

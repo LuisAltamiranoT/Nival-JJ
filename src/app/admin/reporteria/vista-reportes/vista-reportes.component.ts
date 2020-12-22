@@ -107,7 +107,6 @@ export class VistaReportesComponent implements OnInit {
         this.excel.length = 0;
 
 
-        console.log(dataNomina)
 
         //desactivar los calendarios y el boton buscar y descargar
         if (dataNomina.historial) {
@@ -172,7 +171,6 @@ export class VistaReportesComponent implements OnInit {
           this.displayedColumns.push(v);
         }
 
-        //console.log('inforamcion para filtrar', this.dataNominaConsulta);
 
         //se carga la inforamcion a la tabla
         this.dataSource = new MatTableDataSource(this.ejemplo.sort());
@@ -265,7 +263,6 @@ export class VistaReportesComponent implements OnInit {
         this.displayedColumns.push(v);
       }
       this.dataSource = new MatTableDataSource(this.ejemplo);
-      //console.log(this.excel)
 
     } else {
       this.dataNominaConsulta.forEach(dataMateria => {
@@ -315,7 +312,6 @@ export class VistaReportesComponent implements OnInit {
         this.displayedColumns.push(v);
       }
       this.dataSource = new MatTableDataSource(this.ejemplo);
-      //console.log(this.excel);
     }
   }
 
@@ -415,7 +411,6 @@ export class VistaReportesComponent implements OnInit {
     if (this.suscripcion1) {
       this.suscripcion1.unsubscribe();
     }
-    //console.log('datos a buscar', estado, index, discol, this.dataNominaConsulta);
     let data = {
       estado: estado,
       index: discol,
@@ -432,11 +427,9 @@ export class VistaReportesComponent implements OnInit {
     this.ventana.open(component,
       { width: ' 25rem', data: info }).afterClosed().subscribe(item => {
         if (item) {
-          console.log(item);
           this.spinner = false;
           this.cargar();
         }else{
-          console.log(item);
         }
       });
   }

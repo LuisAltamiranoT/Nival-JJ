@@ -59,8 +59,6 @@ export class EditImageComponent implements OnInit {
       this.file = <File>event.target.files[0];
       this.validImage = this.uploadImage.validateType(this.file.type);
       this.validateSize = this.uploadImage.validateSize(this.file.size);
-      //console.log('esto es a imagen',this.file.size);
-      //console.log('esto es el tamaño',this.validateSize);
       if (this.validImage) {
         if (this.validateSize) {
           const reader = new FileReader();
@@ -84,7 +82,6 @@ export class EditImageComponent implements OnInit {
   addFoto() {
     this.validate = false;
     if (this.validImage && this.infoUser.image === '') {
-      console.log('llego aqui');
       this.uploadImage.preAddAndUpdateCurso(this.file, this.infoUser);
     } else {
       this.uploadImage.preAddAndUpdateCurso(this.file, this.infoUser);

@@ -21,7 +21,6 @@ export class CodigoQRComponent implements OnInit {
 
   ngOnInit(): void {
     this.dato = this._route.snapshot.paramMap.get('data');
-    console.log(this.dato);
     this.value = this.dato;
   }
 
