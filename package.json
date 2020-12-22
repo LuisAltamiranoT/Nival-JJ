@@ -2,6 +2,7 @@
   "name": "easy-ac-nival",
   "version": "0.0.0",
   "scripts": {
+    "heroku-postbuild": "ng build --prod",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -9,8 +10,14 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "engines": {
+    "node": "12.16.1",
+    "npm": "6.13.4"
+  },
   "private": true,
   "dependencies": {
+    "@angular/cli": "~10.0.0",
+    "@angular/compiler-cli": "~10.0.0",
     "@angular/animations": "^10.0.4",
     "@angular/cdk": "^10.1.1",
     "@angular/common": "~10.0.0",
@@ -40,7 +47,8 @@
     "tslib": "^2.0.0",
     "xlsx": "^0.16.8",
     "xlsx-style": "^0.8.13",
-    "zone.js": "~0.10.3"
+    "zone.js": "~0.10.3",
+    "typescript": "~3.9.5"
   },
   "devDependencies": {
     "@angular-devkit/architect": ">= 0.900 < 0.1100",
