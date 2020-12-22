@@ -64,7 +64,7 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
   numeroAlmacenado: number = 0;
 
   //historial
-  public historial: any = [];
+  public historial: any[] = [];
   //numero donde se almacena el index de historial
   indexHistorialBusqueda: number = 0;
   //mantiene el estado de mostrar la nomina
@@ -168,9 +168,7 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
       this.nominaEstudiantes.length = 0;
       this.nominaVista.length = 0;
 
-      if (this.historial) {
-        this.historial.length = 0;
-      }
+      this.historial.length = 0;
 
       this.arrayTemp.length = 0;
 
@@ -372,6 +370,7 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
   almacenarNomina(presente: any, atraso: any, falta: any, correo: any) {
     let validate = false;
     if (this.asistenciaProfesor.length != 0) {
+
       this.asistenciaProfesor.forEach(element => {
         if (element.correo != correo) {
         } else {
@@ -515,9 +514,7 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
       //console.log(this.historial[index], this.nombreDay,this.fechaActual);
 
     } else if (this.historial.length === this.numeroAlmacenado) {
-      //si son iguales quiere decir que no se ha utilizado un qr por tanto se toara el valor actual que tengas el profesor
-      //console.log('son iguales quiere decir que no se generado ningun qr');
-      this.historial.push(this.nombreDay + '//' + this.fechaActual);
+      
     }
 
     //console.log(this.historial)

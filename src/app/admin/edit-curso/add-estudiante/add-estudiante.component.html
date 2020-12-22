@@ -14,6 +14,7 @@
                     <a class="aNival" mat-icon-button matSuffix (click)="limpiarNumero()">
                         <mat-icon matSuffix>backspace</mat-icon>
                     </a>
+                    <mat-error *ngIf="estudianteForm.controls['codigoUnico'].invalid">No puede ingresar letras</mat-error>
                   </mat-form-field>
             </div>
         </div>
@@ -21,10 +22,11 @@
             <div class="form-group">
                 <mat-form-field appearance="standard" class="input-modal">
                     <mat-label>Nombres</mat-label>
-                    <input matInput [type]="'text'" autocomplete="off" placeholder="Ej: Pepito" spellcheck="false" formControlName="estudiante" required>
+                    <input  (keypress)="IngresarSoloLetras($event)" matInput [type]="'text'" autocomplete="off" placeholder="Ej: Pepito" spellcheck="false" formControlName="estudiante" required>
                     <a class="aNival" mat-icon-button matSuffix (click)="limpiarNombre()">
                         <mat-icon matSuffix>backspace</mat-icon>
                     </a>
+                    <mat-error *ngIf="estudianteForm.controls['estudiante'].invalid">No puede ingresar números</mat-error>
                   </mat-form-field>
             </div>
         </div>

@@ -14,10 +14,12 @@ export class AddEstudianteComponent implements OnInit {
   placeholderCodigo = "Ingrese el código único"
   validate = true;
   private array = [];
+  private historial=[];
+  private asistencia=[];
 
   estudianteForm = new FormGroup({
-    codigoUnico: new FormControl('', [Validators.required, Validators.minLength(9)]),
-    estudiante: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    codigoUnico: new FormControl('', [Validators.required, Validators.minLength(9),Validators.pattern("[0-9]{9}")]),
+    estudiante: new FormControl('', [Validators.required, Validators.minLength(2),Validators.pattern("[a-zA-ZáéíóúüÁÉÍÓÚÜ ]{2,48}")]),
     email: new FormControl('', [Validators.required, Validators.email, this.matchEmail()])
   })
 
@@ -29,6 +31,7 @@ export class AddEstudianteComponent implements OnInit {
 
   ngOnInit(): void {
     this.array = this.infoUser.array;
+    this.historial=this.infoUser.historial;
   }
 
   async onClick() {
@@ -63,13 +66,29 @@ export class AddEstudianteComponent implements OnInit {
       if (validacionDatos) {
 
       } else {
+        this.historial.forEach(data=>{
+          let splitted = data.split("//");
+          let nombreDay = splitted[0];
+          let fechaActual = splitted[1];
+          this.asistencia.push({
+            dia:nombreDay,
+            fecha:fechaActual,
+            presente:false,
+            atraso:false,
+            falta:true,
+            estado:false
+          })
+        })
+
+        console.log(this.asistencia);
+        
         let info = {
           nombre: estudiante,
           codigoUnico: codigoUnico,
           correo: email,
           image: '',
           uidUser: 'noRegister',
-          asistencia: []
+          asistencia: this.asistencia
         }
 
         const dat = this.authService.addEstudiante(this.infoUser.idMateria, this.infoUser.idCurso, info);

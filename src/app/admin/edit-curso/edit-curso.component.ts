@@ -46,6 +46,8 @@ export class EditCursoComponent implements OnInit {
   public dataId: any;
   //almacenar nomina del estudiante
   public idIndexCurso: any;
+  
+  historial:any[]=[];
 
 
   public dataNominaCurso: any;
@@ -129,6 +131,7 @@ export class EditCursoComponent implements OnInit {
     this.suscripcion1 = this.authService.getDataNominaCursoId(idMateria, idNomina).subscribe((data) => {
       this.nominaVista.length = 0;
       const dataNomina: any = data.payload.data();
+      this.historial=dataNomina.historial;
       //'codigoUnico','image','correo','nombre'
       dataNomina.nomina.forEach((dataMateria: any) => {
         this.nominaVista.push({
@@ -142,7 +145,6 @@ export class EditCursoComponent implements OnInit {
       });
       this.validate=true;
       this.dataSource2 = new MatTableDataSource(this.nominaVista);
-      this.tabla1.renderRows();
     });
     console.log(this.nominaVista);
   }
@@ -176,7 +178,8 @@ export class EditCursoComponent implements OnInit {
     let data = {
       idMateria: this.idMateria,
       idCurso: this.idNomina,
-      array: this.nominaVista
+      array: this.nominaVista,
+      historial:this.historial
     }
     this.openMaterial1(AddEstudianteComponent, data);
   }
