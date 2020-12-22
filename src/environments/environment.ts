@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  firebaseConfig : {
+  firebaseConfig: {
     apiKey: "AIzaSyDSmVOfRQPPs0uCz9jCmxOqZzN7DYMzw14",
     authDomain: "easyacnival.firebaseapp.com",
     databaseURL: "https://easyacnival.firebaseio.com",
