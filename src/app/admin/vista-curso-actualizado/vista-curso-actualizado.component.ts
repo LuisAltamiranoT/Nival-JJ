@@ -497,8 +497,10 @@ export class VistaCursoActualizadoComponent implements OnInit, PuedeDesactivar {
 
 
     } else if (this.historial.length === this.numeroAlmacenado) {
-      
+      this.historial.push(this.nombreDay + '//' + this.fechaActual);
     }
+
+    
 
 
     if (this.asistenciaProfesor.length != 0) {
