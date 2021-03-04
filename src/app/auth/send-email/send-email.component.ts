@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-send-email',
@@ -12,7 +13,8 @@ export class SendEmailComponent implements OnDestroy {
   public user$: Observable<any>=this.authService.afAuth.user;
 
   constructor(
-    private authService:AuthService
+    private authService:AuthService,
+    private router:Router
   ) { }
 
   ngOnDestroy(){
@@ -24,6 +26,10 @@ export class SendEmailComponent implements OnDestroy {
     if (data) {
       this.authService.showInfo('Se ha enviado correctamente el mensaje')
     }
+  }
+
+  back(){
+    this.router.navigate(['/home']);
   }
 
 }

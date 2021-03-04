@@ -57,11 +57,11 @@ export class AuthService extends RoleValidator {
   }
 
 
-  async resetPassword(email: string): Promise<void> {
+  async resetPassword(email: string) {
     try {
-      return this.afAuth.sendPasswordResetEmail(email);
+      return await this.afAuth.sendPasswordResetEmail(email);
     } catch (error) {
-      this.showError('Verifica los datos. Algo salio mal');
+      return error.code;
     }
   }
 
@@ -77,7 +77,11 @@ export class AuthService extends RoleValidator {
       await this.updateUserData(user);
       return user;
     } catch (error) {
-      this.showError('Verifica los datos. Algo salio mal');
+      if(error.code === "auth/wrong-password" || error.code === "auth/user-not-found"){
+        this.showError('El correo electrónico o la contraseña ingresada es incorrecta');
+      }else{
+        this.showError('Verifica los datos. Algo salio mal');
+      }
     }
   }
 
@@ -112,7 +116,11 @@ export class AuthService extends RoleValidator {
         await this.sendVerificationEmail();
         return user;
       } catch (error) {
-        this.showError('Verifica los datos. Algo salio mal');
+        if(error.code === "auth/email-already-in-use"){
+          this.showError('El correo ingresado ya se encuentra registrado');
+        }else{
+          this.showError('Verifica los datos. Algo salio mal');
+        }
       }
     }
 

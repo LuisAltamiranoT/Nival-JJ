@@ -19,7 +19,7 @@ export class AddEstudianteComponent implements OnInit {
 
   estudianteForm = new FormGroup({
     codigoUnico: new FormControl('', [Validators.required, Validators.minLength(9),Validators.pattern("[0-9]{9}")]),
-    estudiante: new FormControl('', [Validators.required, Validators.minLength(2),Validators.pattern("[a-zA-ZáéíóúüÁÉÍÓÚÜ ]{2,48}")]),
+    estudiante: new FormControl('', [Validators.required, Validators.minLength(2),Validators.pattern("[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ ]{2,48}")]),
     email: new FormControl('', [Validators.required, Validators.email, this.matchEmail()])
   })
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 //subscripcion a un observable
 import { Subscription } from "rxjs";
@@ -62,7 +62,7 @@ export class AddCursoComponent implements OnInit {
   public validImage: boolean = false;
   private validateSize: boolean = false;
   //id generado a partir de la hora utilizado para el curso
-  public idCursoGenerate:any;
+  public idCursoGenerate: any;
 
   //datos del tiempo
   nombre: any;
@@ -127,10 +127,10 @@ export class AddCursoComponent implements OnInit {
 
 
   ngOnDestroy() {
-    if(this.stateImage){
+    if (this.stateImage) {
       this.stateImage.unsubscribe();
     }
-    if(this.suscripcion1){
+    if (this.suscripcion1) {
       this.suscripcion1.unsubscribe();
     }
   }
@@ -152,43 +152,64 @@ export class AddCursoComponent implements OnInit {
   }
 
   setHoraDiaLunes(posicionActual, hora) {
-    if (this.horarioVista[posicionActual]['lunes'] != '') {
+    if (this.nuevoHorario.length < 4) {
+      if (this.horarioVista[posicionActual]['lunes'] != '') {
+      } else {
+        this.horarioVista[posicionActual]['LS'] = true;
+        this.horarioVista[posicionActual]['lunes'] = this.materiaSeleccionada;
+        this.agregarDataArrayNuevaMateria(posicionActual, 'lunes', hora);
+      }
     } else {
-      this.horarioVista[posicionActual]['LS'] = true;
-      this.horarioVista[posicionActual]['lunes'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'lunes', hora);
+      this.authService.showInfo('No puede exceder el registro de 4 horas de clase');
     }
+
   }
   setHoraDiaMartes(posicionActual, hora) {
-    if (this.horarioVista[posicionActual]['martes'] != '') {
+    if (this.nuevoHorario.length < 4) {
+      if (this.horarioVista[posicionActual]['martes'] != '') {
+      } else {
+        this.horarioVista[posicionActual]['MS'] = true;
+        this.horarioVista[posicionActual]['martes'] = this.materiaSeleccionada;
+        this.agregarDataArrayNuevaMateria(posicionActual, 'martes', hora);
+      }
     } else {
-      this.horarioVista[posicionActual]['MS'] = true;
-      this.horarioVista[posicionActual]['martes'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'martes', hora);
+      this.authService.showInfo('No puede exceder el registro de 4 horas de clase');
     }
   }
   setHoraDiaMiercoles(posicionActual, hora) {
-    if (this.horarioVista[posicionActual]['miercoles'] != '') {
+    if (this.nuevoHorario.length < 4) {
+      if (this.horarioVista[posicionActual]['miercoles'] != '') {
+      } else {
+        this.horarioVista[posicionActual]['MiS'] = true;
+        this.horarioVista[posicionActual]['miercoles'] = this.materiaSeleccionada;
+        this.agregarDataArrayNuevaMateria(posicionActual, 'miercoles', hora);
+      }
     } else {
-      this.horarioVista[posicionActual]['MiS'] = true;
-      this.horarioVista[posicionActual]['miercoles'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'miercoles', hora);
+      this.authService.showInfo('No puede exceder el registro de 4 horas de clase');
     }
   }
   setHoraDiaJueves(posicionActual, hora) {
-    if (this.horarioVista[posicionActual]['jueves'] != '') {
+    if (this.nuevoHorario.length < 4) {
+      if (this.horarioVista[posicionActual]['jueves'] != '') {
+      } else {
+        this.horarioVista[posicionActual]['JS'] = true;
+        this.horarioVista[posicionActual]['jueves'] = this.materiaSeleccionada;
+        this.agregarDataArrayNuevaMateria(posicionActual, 'jueves', hora);
+      }
     } else {
-      this.horarioVista[posicionActual]['JS'] = true;
-      this.horarioVista[posicionActual]['jueves'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'jueves', hora);
+      this.authService.showInfo('No puede exceder el registro de 4 horas de clase');
     }
   }
   setHoraDiaViernes(posicionActual, hora) {
-    if (this.horarioVista[posicionActual]['viernes'] != '') {
+    if (this.nuevoHorario.length < 4) {
+      if (this.horarioVista[posicionActual]['viernes'] != '') {
+      } else {
+        this.horarioVista[posicionActual]['VS'] = true;
+        this.horarioVista[posicionActual]['viernes'] = this.materiaSeleccionada;
+        this.agregarDataArrayNuevaMateria(posicionActual, 'viernes', hora);
+      }
     } else {
-      this.horarioVista[posicionActual]['VS'] = true;
-      this.horarioVista[posicionActual]['viernes'] = this.materiaSeleccionada;
-      this.agregarDataArrayNuevaMateria(posicionActual, 'viernes', hora);
+      this.authService.showInfo('No puede exceder el registro de 4 horas de clase');
     }
   }
 
@@ -311,7 +332,7 @@ export class AddCursoComponent implements OnInit {
           //guardar con imagen
           if (this.validImage) {
             //aula,idMateria,image,Nomina,Horario,cursos
-            this.uploadImage.preAddAndUpdate(aula, this.idMateriaSeleccionada, this.file, this.archivoExcel, this.nuevoHorario, this.materias[this.indexArray].data.cursos,this.idCursoGenerate);
+            this.uploadImage.preAddAndUpdate(aula, this.idMateriaSeleccionada, this.file, this.archivoExcel, this.nuevoHorario, this.materias[this.indexArray].data.cursos, this.idCursoGenerate);
           } else {
             //sguardar sin imagen
             this.guardarWhitoutImage();
@@ -400,43 +421,65 @@ export class AddCursoComponent implements OnInit {
 
     if (file) {
       this.archivoExcel = [];
+      let validateInfo: boolean = false;
+      let estadoCodigoCorreo = '';
+
       const formato = file.name.split('.')[1];
       if (this.uploadExcel.validateType(formato)) {
         reader.onload = (event) => {
           const data = reader.result;
           workBook = xlsx.read(data, { type: 'binary' });
           const sheet_name_list = workBook.SheetNames;
-          const plantilla = xlsx.utils.sheet_to_json(workBook.Sheets[sheet_name_list[0]]);
-          plantilla.forEach(async (data1: any) => {
-            const { CodigoUnico, Nombre, Correo } = data1;
-            if (CodigoUnico && Nombre && Correo) {
-              // lee los datos de la nomina
-              let data = {
-                nombre: Nombre,
-                codigoUnico: CodigoUnico,
-                correo: Correo,
-                image: '',
-                uidUser: 'noRegister',
-                asistencia: []
+          const plantilla: any = xlsx.utils.sheet_to_json(workBook.Sheets[sheet_name_list[0]]);
+
+          for (let i = 0; i < plantilla.length; i++) {
+            //console.log('datos '+i,plantilla[i]);
+            const { Codigo, Estudiante, EmailEPN } = plantilla[i];
+            //console.log('Informacion for',Codigo, Estudiante, EmailEPN);
+
+            if (Codigo && Estudiante && EmailEPN) {
+              let dominio = EmailEPN.split("@", 2);
+
+              if (dominio[1] !== 'epn.edu.ec') {
+                estadoCodigoCorreo = 'verifique que los datos de la columna EmailEPN pertenesca al dominio @epn.edu.ec'
+                this.archivoExcel.length = 0;
+                validateInfo = true;
+                break;
+              } else {
+                let data = {
+                  nombre: Estudiante,
+                  codigoUnico: Codigo,
+                  correo: EmailEPN,
+                  image: '',
+                  uidUser: 'noRegister',
+                  asistencia: []
+                }
+                this.archivoExcel.push(data);
               }
-              this.archivoExcel.push(data);
             } else {
+              break;
             }
-          })
-          if (this.archivoExcel.length != 0) {
+
+          }
+
+          if (validateInfo) {
+            this.authService.showInfoExcel('Datos incorrectos por favor, ' + estadoCodigoCorreo);
+            this.cursoForm.patchValue({ file: '' });
+          } else if (this.archivoExcel.length != 0) {
             this.validFile = true;
             this.nombreFile = file.name;
           } else {
-            this.authService.showInfoExcel('Por favor revise que el archivo contenga las columnas: CodigoUnico, Nombre, Correo');
+            this.authService.showInfoExcel('Por favor revise que el archivo contenga las columnas: Codigo, Estudiante, EmailEPN');
             this.cursoForm.patchValue({ file: '' });
+            this.clearFile();
           }
 
         }
         reader.readAsBinaryString(file);
-      }
-      else {
+      } else {
         this.authService.showError('Este no es un archivo de formato excel')
         this.cursoForm.patchValue({ file: '' });
+        this.clearFile();
       }
     } else {
     }
@@ -453,7 +496,7 @@ export class AddCursoComponent implements OnInit {
     this.nombreDay = moment.weekdays(day).charAt(0).toUpperCase() + moment.weekdays(day).slice(1)
     // Obtiene la hora del sistema
     this.hora = moment().format('HHmmss');
-    this.idCursoGenerate=this.fechaActual+this.hora;
+    this.idCursoGenerate = this.fechaActual + this.hora;
   }
 
 

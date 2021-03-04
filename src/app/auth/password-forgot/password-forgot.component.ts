@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class PasswordForgotComponent implements OnInit {
 
   validate = true;
+  cont = 0;
 
   Form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email, this.matchEmail()])
@@ -21,18 +22,29 @@ export class PasswordForgotComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    
   }
 
   async onReset() {
+    this.cont=0;
     try {
       this.validate = false;
       const { email } = this.Form.value;
-      this.authService.resetPassword(email);
-      this.authService.showInfo('Solicitud enviada con éxito');
+      const verify = await this.authService.resetPassword(email);
+
+      if (this.cont === 0) {
+        this.cont = this.cont + 1;
+        if (verify === "auth/user-not-found") {
+          this.authService.showError('El correo ingresado no se encuentra registrado');
+        }else if(verify === "auth/too-many-requests"){
+          this.authService.showError('Ha excedido el número de envio de solicitudes, intente más tarde');
+        }else {
+          this.authService.showInfo('Solicitud enviada con éxito');
+          this.router.navigate(['/home']);
+        }
+      }
       this.validate = true;
-      this.router.navigate(['/home']);
     } catch (error) {
-      this.validate = true;
     }
   }
 
@@ -49,6 +61,10 @@ export class PasswordForgotComponent implements OnInit {
       }
       return null;
     };
+  }
+
+  back(){
+    this.router.navigate(['/home']);
   }
 
 }

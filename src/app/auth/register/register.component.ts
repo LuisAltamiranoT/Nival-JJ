@@ -14,14 +14,16 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent implements OnInit {
   validate=true;
+  hide = true;
+  hide2 = true;
 
   validacionPass: boolean = false;
   mensaje_nombre = '';
   mensaje_apellido = '';
 
   registerForm = new FormGroup({
-    nombre: new FormControl('', [Validators.required, Validators.minLength(2),Validators.pattern("[a-zA-ZáéíóúüÁÉÍÓÚÜ ]{2,48}"), this.match_nombre()]),
-    apellido: new FormControl('', [Validators.required, Validators.minLength(2),Validators.pattern("[a-zA-ZáéíóúüÁÉÍÓÚÜ ]{2,48}"), this.match_apellido()]),
+    nombre: new FormControl('', [Validators.required, Validators.minLength(2),Validators.pattern("[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ ]{2,48}"), this.match_nombre()]),
+    apellido: new FormControl('', [Validators.required, Validators.minLength(2),Validators.pattern("[a-zA-ZáéíóúüÁÉÍÓÚÜñÑ ]{2,48}"), this.match_apellido()]),
     email: new FormControl('', [Validators.required, Validators.email, this.matchEmail()]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     _password: new FormControl('', [Validators.required, Validators.minLength(6), this.match('password')]),
@@ -46,6 +48,8 @@ export class RegisterComponent implements OnInit {
         this.validate=true;
         this.modalService.dismissAll();
         this.router.navigate(['/verification-email']);
+      }else{
+        this.validate=true;
       }
     } catch (error) {
       this.authService.showError('Algo salio mal');

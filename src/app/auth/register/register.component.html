@@ -30,14 +30,20 @@
             </mat-form-field>
             <mat-form-field appearance="standard" class="input-modal" hintLabel="Mínimo 6 Caracteres">
                 <mat-label>Password</mat-label>
-                <input matInput #pass [type]="'password'" spellcheck="false" autocomplete="off" formControlName="password" required>
-                <mat-icon matSuffix>lock</mat-icon>
+                <input matInput #pass [type]="hide ? 'password' : 'text'" autocomplete="off" formControlName="password" spellcheck="false" autocomplete="off" required>
+                <a mat-icon-button matSuffix (click)="hide = !hide" [attr.arial-label]="'Hide password'"
+                    [attr.arial-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </a>
                 <mat-hint align="end">{{pass.value?.length || 0}}/6</mat-hint>
             </mat-form-field>
             <mat-form-field appearance="standard" class="input-modal">
                 <mat-label>Repetir Password</mat-label>
-                <input matInput [type]="'password'" spellcheck="false" autocomplete="off" formControlName="_password" required>
-                <mat-icon matSuffix>lock</mat-icon>
+                <input matInput [type]="hide2 ? 'password' : 'text'" autocomplete="off" formControlName="_password" spellcheck="false" autocomplete="off" required>
+                <a mat-icon-button matSuffix (click)="hide2 = !hide2" [attr.arial-label]="'Hide password'"
+                    [attr.arial-pressed]="hide2">
+                    <mat-icon>{{hide2 ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </a>
                 <mat-hint *ngIf="!validacionPass" style="color: red;">Las contraseñas no coinciden</mat-hint>
             </mat-form-field>
         </div>
